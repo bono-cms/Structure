@@ -3,8 +3,9 @@
 namespace Structure\Storage\MySQL;
 
 use Cms\Storage\MySQL\AbstractMapper;
+use Structure\Storage\CollectionFieldMapperInterface;
 
-final class CollectionFieldMapper extends AbstractMapper
+final class CollectionFieldMapper extends AbstractMapper implements CollectionFieldMapperInterface
 {
     /**
      * {@inheritDoc}

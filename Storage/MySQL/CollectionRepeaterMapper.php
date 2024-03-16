@@ -3,8 +3,9 @@
 namespace Structure\Storage\MySQL;
 
 use Cms\Storage\MySQL\AbstractMapper;
+use Structure\Storage\CollectionRepeaterMapperInterface;
 
-final class CollectionRepeaterMapper extends AbstractMapper
+final class CollectionRepeaterMapper extends AbstractMapper implements CollectionRepeaterMapperInterface
 {
     /**
      * {@inheritDoc}
