@@ -23,7 +23,7 @@ structure_collections_fields
 
 structure_collections_repeater
     id
-    collection_id
+    field_id
     order
     value
     hidden
