@@ -12,6 +12,9 @@
 namespace Structure;
 
 use Cms\AbstractCmsModule;
+use Structure\Service\CollectionService;
+use Structure\Service\FieldService;
+use Structure\Service\RepeaterService;
 
 final class Module extends AbstractCmsModule
 {
@@ -20,7 +23,14 @@ final class Module extends AbstractCmsModule
      */
     public function getServiceProviders()
     {
+        $collectionMapper = $this->getMapper('\Structure\Storage\MySQL\CollectionMapper');
+        $fieldMapper = $this->getMapper('\Structure\Storage\MySQL\FieldMapper');
+        $repeaterMapper = $this->getMapper('\Structure\Storage\MySQL\RepeaterMapper');
+
         return array(
+            'collectionService' => new CollectionService($collectionMapper),
+            'fieldService' => new FieldService($fieldMapper),
+            'repeaterService' => new RepeaterService($repeaterMapper)
         );
     }
 }
