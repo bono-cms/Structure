@@ -1,2 +1,3 @@
 # Structure
-Build custom data structures and display they anywhere on your web-site or use API
+
+A powerful, yet super-simple module that lets you create dynamic data structures and use them anywhere on your website.
