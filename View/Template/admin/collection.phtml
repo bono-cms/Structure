@@ -1,0 +1,75 @@
+<?php
+
+use Cms\View\Icon;
+use Krystal\Form\Element;
+
+?>
+
+<div class="row">
+    <div class="col-lg-6">
+        <div class="card">
+            <h3 class="mb-4"><?= $this->translate('Collections'); ?></h3>
+
+            <?php $this->loadPartial('table', [
+                'caption' => 'Data structures',
+                'rows' => $collections,
+                'batch' => true,
+                'rowAttributes' => [
+                    'class' => function($row) use ($collection){
+                        return $row['id'] == $collection['id'] ? 'table-info' : null;
+                    }
+                ],
+                'columns' => [
+                    ['column' => 'id', 'label' => '#'],
+                    ['column' => 'name'],
+                    ['column' => 'order'],
+                ],
+                'actions' => [
+                    function($row){
+                        return Icon::edit(
+                            $this->url('Structure:Admin:Collection@editAction', $row['id']),
+                            $this->translate('Edit this collection')
+                        );
+                    },
+
+                    function($row){
+                        return Icon::remove(
+                            $this->url('Structure:Admin:Collection@deleteAction', $row['id']),
+                            $this->translate('Remove this collection')
+                        );
+                    }
+                ]
+            ]); ?>
+        </div>
+    </div>
+
+    <div class="col-lg-6">
+        <div class="card">
+            <form data-group="collection" autocomplete="off">
+                <h3 class="mb-4">
+                    <i class="fas fa-pencil-alt"></i> <?= $this->translate('Add new collection'); ?>
+                </h3>
+
+                <?= Element::hidden('collection[id]', $collection['id']); ?>
+
+                <div class="form-group">
+                    <label class="control-label"><?= $this->translate('Name'); ?></label>
+                    <?= Element::text('collection[name]', $collection['name'], ['class' => 'form-control']); ?>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label"><?= $this->translate('Sorting order'); ?></label>
+                    <?= Element::number('collection[order]', $collection['order'], ['class' => 'form-control', 'min' => 0]); ?>
+                </div>
+
+                <?php $this->loadPartial('actions', [
+                    'new' => !$collection['id'],
+                    'add' => [$this->url('Structure:Admin:Collection@addAction', $collection['id'])],
+                    'edit' => [$this->url('Structure:Admin:Collection@editAction', '')],
+                    'save' => 'Structure:Admin:Collection@saveAction',
+                    'cancel' => 'Structure:Admin:Collection@indexAction'
+                ]); ?>
+            </form>
+        </div>
+    </div>
+</div>
