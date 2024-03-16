@@ -2,7 +2,7 @@
 
 namespace Structure\Storage;
 
-interface CollectionRepeaterMapperInterface
+interface FieldMapperInterface
 {
     
 }
