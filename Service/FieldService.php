@@ -4,7 +4,7 @@ namespace Structure\Service;
 
 use Structure\Storage\FieldMapperInterface;
 
-final class CollectionFieldService
+final class FieldService
 {
     /**
      * Comploiant field mapper
