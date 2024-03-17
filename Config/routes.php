@@ -1,6 +1,23 @@
 <?php
 
 return [
+    // Repeater
+    '/%s/module/structure/repeater/view/(:var)' => [
+        'controller' => 'Admin:Repeater@indexAction'
+    ],
+    
+    '/%s/module/structure/repeater/delete/(:var)' => [
+        'controller' => 'Admin:Repeater@deleteAction'
+    ],
+
+    '/%s/module/structure/repeater/edit/(:var)' => [
+        'controller' => 'Admin:Repeater@editAction'
+    ],
+
+    '/%s/module/structure/repeater/save' => [
+        'controller' => 'Admin:Repeater@indexAction'
+    ],
+
     // Fields
     '/%s/module/structure/view/(:var)' => [
         'controller' => 'Admin:Field@indexAction'
