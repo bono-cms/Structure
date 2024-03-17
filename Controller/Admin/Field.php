@@ -4,7 +4,6 @@ namespace Structure\Controller\Admin;
 
 use Krystal\Stdlib\VirtualEntity;
 use Cms\Controller\Admin\AbstractController;
-use Structure\Collection\FieldTypeCollection;
 
 final class Field extends AbstractController
 {
@@ -22,12 +21,10 @@ final class Field extends AbstractController
                                        ->addOne($this->translator->translate('View fields for "%s" collection', $collection['name']));
 
         $fieldService = $this->getModuleService('fieldService');
-        $types = new FieldTypeCollection();
 
         return $this->view->render('fields', [
             'fields' => $fieldService->fetchByCollectionId($collection['id']),
-            'field' => $field,
-            'types' => $types->getAll()
+            'field' => $field
         ]);
     }
 

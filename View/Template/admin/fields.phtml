@@ -2,6 +2,9 @@
 
 use Cms\View\Icon;
 use Krystal\Form\Element;
+use Structure\Collection\FieldTypeCollection;
+
+$fieldTypeCollection = new FieldTypeCollection();
 
 ?>
 
@@ -22,6 +25,9 @@ use Krystal\Form\Element;
                 'columns' => [
                     ['column' => 'id', 'label' => '#'],
                     ['column' => 'name'],
+                    ['column' => 'type', 'translateable' => true, 'value' => function($row) use ($fieldTypeCollection){
+                        return $fieldTypeCollection->findByKey($row['type']);
+                    }],
                     ['column' => 'order'],
                 ],
                 'actions' => [
@@ -73,7 +79,7 @@ use Krystal\Form\Element;
 
                 <div class="form-group">
                     <label class="control-label"><?= $this->translate('Type'); ?></label>
-                    <?= Element::select('field[type]', $this->translateArray($types), $field['type'], ['class' => 'form-control']); ?>
+                    <?= Element::select('field[type]', $this->translateArray($fieldTypeCollection->getAll()), $field['type'], ['class' => 'form-control']); ?>
                 </div>
 
                 <div class="form-group">
