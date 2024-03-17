@@ -14,7 +14,6 @@ $fieldTypeCollection = new FieldTypeCollection();
             <h3 class="mb-4"><?= $this->translate('Fields'); ?></h3>
 
             <?php $this->loadPartial('table', [
-                'caption' => 'Data structures',
                 'rows' => $fields,
                 'rowAttributes' => [
                     'class' => function($row) use ($field){

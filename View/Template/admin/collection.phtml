@@ -11,7 +11,6 @@ use Krystal\Form\Element;
             <h3 class="mb-4"><?= $this->translate('Collections'); ?></h3>
 
             <?php $this->loadPartial('table', [
-                'caption' => 'Data structures',
                 'rows' => $collections,
                 'rowAttributes' => [
                     'class' => function($row) use ($collection){
