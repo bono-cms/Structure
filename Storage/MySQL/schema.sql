@@ -12,6 +12,7 @@ DROP TABLE IF EXISTS `bono_module_structure_collections_fields`;
 CREATE TABLE `bono_module_structure_collections_fields` (
     `id` INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
     `collection_id` INT NOT NULL COMMENT 'Attached collection ID',
+    `name` varchar(255) NOT NULL COMMENT 'Field name',
     `type` INT NOT NULL COMMENT 'Constant of field type',
     `alias` varchar(255) COMMENT 'Alias name for class property',
     `index` BOOLEAN COMMENT 'Whether to display in a grid',
