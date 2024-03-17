@@ -23,20 +23,15 @@ $fieldTypeCollection = new FieldTypeCollection();
                 'columns' => [
                     ['column' => 'id', 'label' => '#'],
                     ['column' => 'name'],
+                    ['column' => 'translateable', 'translateable' => true, 'value' => function($row){
+                        return boolval($row['translatable']) ? 'Yes' : 'No';
+                    }],
                     ['column' => 'type', 'translateable' => true, 'value' => function($row) use ($fieldTypeCollection){
                         return $fieldTypeCollection->findByKey($row['type']);
                     }],
                     ['column' => 'order'],
                 ],
                 'actions' => [
-                    function($row){
-                        return Icon::view(
-                            $this->url('Structure:Admin:Field@indexAction', $row['id']),
-                            $this->translate('View fields of this collection'),
-                            false
-                        );
-                    },
-
                     function($row){
                         return Icon::edit(
                             $this->url('Structure:Admin:Field@editAction', $row['id']),
@@ -100,7 +95,7 @@ $fieldTypeCollection = new FieldTypeCollection();
                     'add' => [$this->url('Structure:Admin:Field@addAction', $field['id'])],
                     'edit' => [$this->url('Structure:Admin:Field@editAction', '')],
                     'save' => 'Structure:Admin:Field@saveAction',
-                    'cancel' => [$this->url('Structure:Admin:Field@indexAction', $field['id'])]
+                    'cancel' => [$this->url('Structure:Admin:Field@indexAction', $field['collection_id'])]
                 ]); ?>
             </form>
         </div>
