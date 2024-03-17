@@ -73,7 +73,7 @@ use Krystal\Form\Element;
 
                 <div class="form-group">
                     <label class="control-label"><?= $this->translate('Type'); ?></label>
-                    <?= Element::text('field[type]', $field['type'], ['class' => 'form-control']); ?>
+                    <?= Element::select('field[type]', $this->translateArray($types), $field['type'], ['class' => 'form-control']); ?>
                 </div>
 
                 <div class="form-group">
