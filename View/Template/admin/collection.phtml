@@ -26,6 +26,14 @@ use Krystal\Form\Element;
                 ],
                 'actions' => [
                     function($row){
+                        return Icon::view(
+                            $this->url('Structure:Admin:Field@indexAction', $row['id']),
+                            $this->translate('View fields of this collection'),
+                            false
+                        );
+                    },
+
+                    function($row){
                         return Icon::edit(
                             $this->url('Structure:Admin:Collection@editAction', $row['id']),
                             $this->translate('Edit this collection')

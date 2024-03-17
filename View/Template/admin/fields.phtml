@@ -1,0 +1,104 @@
+<?php
+
+use Cms\View\Icon;
+use Krystal\Form\Element;
+
+?>
+
+<div class="row">
+    <div class="col-lg-6">
+        <div class="card">
+            <h3 class="mb-4"><?= $this->translate('Fields'); ?></h3>
+
+            <?php $this->loadPartial('table', [
+                'caption' => 'Data structures',
+                'rows' => $fields,
+                'batch' => false,
+                'rowAttributes' => [
+                    'class' => function($row) use ($field){
+                        return $row['id'] == $field['id'] ? 'table-info' : null;
+                    }
+                ],
+                'columns' => [
+                    ['column' => 'id', 'label' => '#'],
+                    ['column' => 'name'],
+                    ['column' => 'order'],
+                ],
+                'actions' => [
+                    function($row){
+                        return Icon::view(
+                            $this->url('Structure:Admin:Field@indexAction', $row['id']),
+                            $this->translate('View fields of this collection'),
+                            false
+                        );
+                    },
+
+                    function($row){
+                        return Icon::edit(
+                            $this->url('Structure:Admin:Field@editAction', $row['id']),
+                            $this->translate('Edit this field')
+                        );
+                    },
+
+                    function($row){
+                        return Icon::remove(
+                            $this->url('Structure:Admin:Field@deleteAction', $row['id']),
+                            $this->translate('Remove this field')
+                        );
+                    }
+                ]
+            ]); ?>
+        </div>
+    </div>
+
+    <div class="col-lg-6">
+        <div class="card">
+            <form data-group="collection" autocomplete="off">
+                <h3 class="mb-4">
+                    <i class="fas fa-pencil-alt"></i> <?= $this->translate('Add new field'); ?>
+                </h3>
+
+                <?= Element::hidden('field[id]', $field['id']); ?>
+                <?= Element::hidden('field[collection_id]', $field['collection_id']); ?>
+
+                <div class="form-group">
+                    <label class="control-label"><?= $this->translate('Name'); ?></label>
+                    <?= Element::text('field[name]', $field['name'], ['class' => 'form-control']); ?>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label"><?= $this->translate('Alias'); ?></label>
+                    <?= Element::text('field[alias]', $field['alias'], ['class' => 'form-control']); ?>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label"><?= $this->translate('Type'); ?></label>
+                    <?= Element::text('field[type]', $field['type'], ['class' => 'form-control']); ?>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label"><?= $this->translate('Hint'); ?></label>
+                    <?= Element::text('field[hint]', $field['hint'], ['class' => 'form-control']); ?>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label"><?= $this->translate('Translatable'); ?></label>
+                    <?= Element::checkbox('field[translatable]', $field['translatable']); ?>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label"><?= $this->translate('Sorting order'); ?></label>
+                    <?= Element::number('field[order]', $field['order'], ['class' => 'form-control', 'min' => 0]); ?>
+                </div>
+
+                <?php $this->loadPartial('actions', [
+                    'new' => !$field['id'],
+                    'add' => [$this->url('Structure:Admin:Field@addAction', $field['id'])],
+                    'edit' => [$this->url('Structure:Admin:Field@editAction', '')],
+                    'save' => 'Structure:Admin:Field@saveAction',
+                    'cancel' => [$this->url('Structure:Admin:Field@indexAction', $field['id'])]
+                ]); ?>
+            </form>
+        </div>
+    </div>
+</div>
