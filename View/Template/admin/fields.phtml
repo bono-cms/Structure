@@ -9,14 +9,13 @@ $fieldTypeCollection = new FieldTypeCollection();
 ?>
 
 <div class="row">
-    <div class="col-lg-6">
+    <div class="col-lg-7">
         <div class="card">
             <h3 class="mb-4"><?= $this->translate('Fields'); ?></h3>
 
             <?php $this->loadPartial('table', [
                 'caption' => 'Data structures',
                 'rows' => $fields,
-                'batch' => false,
                 'rowAttributes' => [
                     'class' => function($row) use ($field){
                         return $row['id'] == $field['id'] ? 'table-info' : null;
@@ -57,7 +56,7 @@ $fieldTypeCollection = new FieldTypeCollection();
         </div>
     </div>
 
-    <div class="col-lg-6">
+    <div class="col-lg-5">
         <div class="card">
             <form data-group="collection" autocomplete="off">
                 <h3 class="mb-4">

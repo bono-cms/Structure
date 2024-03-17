@@ -6,14 +6,13 @@ use Krystal\Form\Element;
 ?>
 
 <div class="row">
-    <div class="col-lg-6">
+    <div class="col-lg-7">
         <div class="card">
             <h3 class="mb-4"><?= $this->translate('Collections'); ?></h3>
 
             <?php $this->loadPartial('table', [
                 'caption' => 'Data structures',
                 'rows' => $collections,
-                'batch' => true,
                 'rowAttributes' => [
                     'class' => function($row) use ($collection){
                         return $row['id'] == $collection['id'] ? 'table-info' : null;
@@ -51,7 +50,7 @@ use Krystal\Form\Element;
         </div>
     </div>
 
-    <div class="col-lg-6">
+    <div class="col-lg-5">
         <div class="card">
             <form data-group="collection" autocomplete="off">
                 <h3 class="mb-4">
