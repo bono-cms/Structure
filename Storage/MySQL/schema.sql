@@ -29,11 +29,13 @@ CREATE TABLE `bono_module_structure_collections_fields` (
 DROP TABLE IF EXISTS `bono_module_structure_repeater_fields`;
 CREATE TABLE `bono_module_structure_repeater_fields` (
     `id` INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
-    `field_id` INT NOT NULL COMMENT 'Attached collection ID',
+    `collection_id` INT NOT NULL COMMENT 'Attached collection ID',
+    `field_id` INT NOT NULL COMMENT 'Attached field ID',
     `order` INT NOT NULL COMMENT 'Sorting order',
     `value` TEXT NOT NULL,
     `hidden` BOOLEAN NOT NULL COMMENT 'Whether this field is hidden',
 
-    /* Remove self on removing attached field */
+    /* Remove self on removing attached relations */
+    FOREIGN KEY (`collection_id`) REFERENCES bono_module_structure_collections(`id`) ON DELETE CASCADE,
     FOREIGN KEY (`field_id`) REFERENCES bono_module_structure_collections_fields(`id`) ON DELETE CASCADE
 ) ENGINE = InnoDB DEFAULT CHARSET = UTF8;
