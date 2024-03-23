@@ -36,6 +36,33 @@ final class RepeaterService
     }
 
     /**
+     * Create columns for the widget (Should be in ViewModel)
+     * 
+     * @param array $rows
+     * @param array
+     */
+    public static function createColumns($rows)
+    {
+        $rows = array_values($rows)[0];
+        $output = [];
+
+        foreach ($rows as $column => $value) {
+            $data = [
+                'column' => $column
+            ];
+
+            // Exception for ID column
+            if ($column == 'id') {
+                $data['label'] = '#';
+            }
+
+            $output[] = $data;
+        }
+
+        return $output;
+    }
+
+    /**
      * Fetch all by collection id
      * 
      * @param int $collectionId
