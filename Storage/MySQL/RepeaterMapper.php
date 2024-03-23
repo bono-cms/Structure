@@ -49,4 +49,20 @@ final class RepeaterMapper extends AbstractMapper implements RepeaterMapperInter
         // 2. Done with preparing data. Now simply run query to insert it
         return $this->db->insertMany(self::getTableName(), $columns, $values)->execute();
     }
+
+    /**
+     * Fetch all by collection id
+     * 
+     * @param int $id Collection id
+     * @return array
+     */
+    public function fetchAllByCollectionId($collectionId)
+    {
+        $db = $this->db->select('*')
+                       ->from(self::getTableName())
+                       ->whereEquals('collection_id', $collectionId)
+                       ->orderBy('order');
+
+        return $db->queryAll();
+    }
 }
