@@ -49,18 +49,22 @@ final class RepeaterService
 
         // Turn rows into one single row
         foreach ($rows as $row) {
-            $key = 'row';
+            $key = $row['repeater_id'];
 
             if (!isset($output[$key])) {
-                $output[$key] = [];
+                // Static keys are added here
+                $output[$key] = [
+                    'id' => $row['id']
+                ];
             }
 
+            // Dynamic keys are added here
             $output[$key] = array_merge($output[$key], [
-                $row['alias'] => $row['value']
+                $row['alias'] => $row['value'],
             ]);
         }
 
-        return isset($output['row']) ? $output['row'] : [];
+        return $output;
     }
 
     /**
