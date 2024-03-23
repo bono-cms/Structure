@@ -86,17 +86,36 @@ final class RepeaterMapper extends AbstractMapper implements RepeaterMapperInter
     }
 
     /**
-     * Fetch all by collection id
+     * Fetch all records with ther values by collection id
      * 
-     * @param int $id Collection id
+     * @param int $collectionId
      * @return array
      */
-    public function fetchAllByCollectionId($collectionId)
+    public function fetchAll($collectionId)
     {
-        $db = $this->db->select('*')
-                       ->from(self::getTableName())
-                       ->whereEquals('collection_id', $collectionId)
-                       ->orderBy('order');
+        // Columns to be selected
+        $columns = [
+            RepeaterValueMapper::column('id'),
+            RepeaterValueMapper::column('repeater_id'),
+            RepeaterValueMapper::column('field_id'),
+            RepeaterValueMapper::column('value'),
+            FieldMapper::column('name') => 'field',
+            FieldMapper::column('alias'),
+            FieldMapper::column('translatable')
+        ];
+
+        $db = $this->db->select($columns)
+                       ->from(RepeaterValueMapper::getTableName())
+                       // Repeater relation
+                       ->leftJoin(self::getTableName(), [
+                            self::column('id') => RepeaterValueMapper::getRawColumn('repeater_id')
+                       ])
+                       // Field relation
+                       ->leftJoin(FieldMapper::getTableName(), [
+                            RepeaterValueMapper::column('field_id') => FieldMapper::getRawColumn('id')
+                       ])
+                       ->whereEquals(self::column('collection_id'), $collectionId)
+                       ->orderBy(self::column('order'));
 
         return $db->queryAll();
     }
