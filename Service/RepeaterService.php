@@ -2,6 +2,7 @@
 
 namespace Structure\Service;
 
+use Krystal\Stdlib\ArrayUtils;
 use Structure\Storage\RepeaterMapperInterface;
 
 final class RepeaterService
@@ -42,7 +43,24 @@ final class RepeaterService
      */
     public function fetchAll($collectionId)
     {
-        return $this->repeaterMapper->fetchAll($collectionId);
+        $rows = $this->repeaterMapper->fetchAll($collectionId);
+
+        $output = [];
+
+        // Turn rows into one single row
+        foreach ($rows as $row) {
+            $key = 'row';
+
+            if (!isset($output[$key])) {
+                $output[$key] = [];
+            }
+
+            $output[$key] = array_merge($output[$key], [
+                $row['alias'] => $row['value']
+            ]);
+        }
+
+        return isset($output['row']) ? $output['row'] : [];
     }
 
     /**
