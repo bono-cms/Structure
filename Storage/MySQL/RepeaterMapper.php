@@ -16,6 +16,36 @@ final class RepeaterMapper extends AbstractMapper implements RepeaterMapperInter
     }
 
     /**
+     * Insert values only
+     * 
+     * @param int $repeaterId
+     * @param array $values (Field ID => Text value pairs)
+     * @return boolean Depending on success
+     */
+    private function insertValues($repeaterId, array $values)
+    {
+        // Columns to be inserted
+        $columns = [
+            'repeater_id',
+            'field_id',
+            'value'
+        ];
+
+        $rows = [];
+        
+        foreach ($values as $fieldId => $value) {
+            $rows[] = [
+                'repeater_id' => $repeaterId,
+                'field_id' => $fieldId,
+                'value' => $value
+            ];
+        }
+
+        return $this->db->insertMany(RepeaterValueMapper::getTableName(), $columns, $values)
+                        ->execute();
+    }
+
+    /**
      * Perform batch INSERT
      * 
      * @param array $input
@@ -23,31 +53,36 @@ final class RepeaterMapper extends AbstractMapper implements RepeaterMapperInter
      */
     public function batchInsert(array $input)
     {
+        $data = [
+            'collection_id' => $input['repeater']['collection_id'],
+            'order' => 0, // @TODO: From form
+            'hidden' => 0 // @TODO: From form
+        ];
+
+        // Insert new row and get its id
+        $row = $this->persistRow($data, array_keys($data));
+        $id = $row[$this->getPk()];
+
         $columns = [
             'collection_id',
-            'field_id',
             'order',
-            'value',
             'hidden'
         ];
 
         // Values to be inserted. We'll grab them from current input
-        $values = [];
+        $rows = [];
 
         // 1. Prepare values for BATCH insert query
         foreach ($input['record'] as $fieldId => $value) {
             // Append in exactly the same order as in $columns
-            $values[] = [
-                $input['repeater']['collection_id'],
+            $rows[] = [
+                $id,
                 $fieldId,
-                0, // @TODO: Grab from form
-                $value,
-                0 // @TODO: Grab from form
+                $value
             ];
         }
 
-        // 2. Done with preparing data. Now simply run query to insert it
-        return $this->db->insertMany(self::getTableName(), $columns, $values)->execute();
+        return $this->insertValues($id, $rows);
     }
 
     /**
