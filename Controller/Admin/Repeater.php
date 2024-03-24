@@ -86,9 +86,15 @@ final class Repeater extends AbstractController
     public function saveAction()
     {
         $input = $this->request->getPost();
-        $this->getModuleService('repeaterService')->save($input);
 
-        $this->flashBag->set('success', 'New record has been added successfully');
+        if (!empty($input['repeater']['id'])) {
+            $this->getModuleService('repeaterService')->update($input['repeater']['id'], $input);
+            
+        } else {
+            $this->getModuleService('repeaterService')->save($input);
+            $this->flashBag->set('success', 'New record has been added successfully');
+        }
+
         return 1;
     }
 }

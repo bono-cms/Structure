@@ -148,6 +148,28 @@ final class RepeaterService
     }
 
     /**
+     * Update values
+     * 
+     * @param int $repeaterId
+     * @param array $input New data to be updated
+     * @return boolean
+     */
+    public function update($repeaterId, array $input)
+    {
+        $rows = $this->repeaterMapper->fetchByRepeaterId($repeaterId);
+
+        // Override value with new coming values
+        foreach ($rows as &$row) {
+            $row['value'] = $input['record'][$row['field_id']];
+        }
+
+        // Finally run query to update values
+        $this->repeaterMapper->updateValues($rows);
+
+        return true;
+    }
+
+    /**
      * Saves a repeater
      * 
      * @param array $input
