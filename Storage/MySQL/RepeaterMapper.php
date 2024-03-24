@@ -86,6 +86,28 @@ final class RepeaterMapper extends AbstractMapper implements RepeaterMapperInter
     }
 
     /**
+     * Update repeater values by their Ids
+     * 
+     * @param array $values (ID => Value pair).
+     *              ID is the primary key of repeater's value.
+     *              Value is the new text
+     * @return boolean
+     */
+    public function updateValues(array $rows)
+    {
+        // Update values by their corresponding ids
+        foreach ($rows as $row) {
+            $db = $this->db->update(RepeaterValueMapper::getTableName(), [
+                'value' => $row['value']
+            ])
+            ->whereEquals(RepeaterValueMapper::column('id'), $row['id']);
+            $db->execute();
+        }
+
+        return true;
+    }
+
+    /**
      * Creates instance of shared SELECT query
      * 
      * @return \Krysta\Db\Db
@@ -142,6 +164,21 @@ final class RepeaterMapper extends AbstractMapper implements RepeaterMapperInter
         $db = $this->createSharedFetchQuery()
                    ->whereEquals(self::column('collection_id'), $collectionId)
                    ->orderBy(self::column('order'));
+
+        return $db->queryAll();
+    }
+
+    /**
+     * Fetch row data by repeater id
+     * 
+     * @param int $repeaterId
+     * @return array
+     */
+    public function fetchByRepeaterId($repeaterId)
+    {
+        $db = $this->db->select(['id', 'field_id', 'value'])
+                       ->from(RepeaterValueMapper::getTableName())
+                       ->whereEquals('repeater_id', $repeaterId);
 
         return $db->queryAll();
     }
