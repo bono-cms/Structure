@@ -5,14 +5,14 @@
  */
 
 return [
-    'caption'  => 'Strucutre',
-    'description' => 'Create any data structures and display them on your web-site',
+    'caption'  => 'Structure',
+    'description' => 'Create any data structures and display them anywhere on your web-site',
     'menu' => [
         'name'  => 'Data strucutres',
-        'icon' => 'fas fa-phone-square',
+        'icon' => 'fas fa-table',
         'items' => [
             [
-                'route' => 'Strucutre:Admin:Strucutre@indexAction',
+                'route' => 'Structure:Admin:Collection@indexAction',
                 'name' => 'Manage data structures'
             ]
         ]
