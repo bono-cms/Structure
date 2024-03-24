@@ -86,12 +86,11 @@ final class RepeaterMapper extends AbstractMapper implements RepeaterMapperInter
     }
 
     /**
-     * Fetch all records with ther values by collection id
+     * Creates instance of shared SELECT query
      * 
-     * @param int $collectionId
-     * @return array
+     * @return \Krysta\Db\Db
      */
-    public function fetchAll($collectionId)
+    private function createSharedFetchQuery()
     {
         // Columns to be selected
         $columns = [
@@ -113,9 +112,36 @@ final class RepeaterMapper extends AbstractMapper implements RepeaterMapperInter
                        // Field relation
                        ->leftJoin(FieldMapper::getTableName(), [
                             RepeaterValueMapper::column('field_id') => FieldMapper::getRawColumn('id')
-                       ])
-                       ->whereEquals(self::column('collection_id'), $collectionId)
-                       ->orderBy(self::column('order'));
+                       ]);
+
+        return $db;
+    }
+
+    /**
+     * Fetch repeater with its all values by id
+     * 
+     * @param int $repeaterId
+     * @return array
+     */
+    public function fetchById($repeaterId)
+    {
+        $db = $this->createSharedFetchQuery()
+                   ->whereEquals(RepeaterValueMapper::column('repeater_id'), $repeaterId);
+
+        return $db->queryAll();
+    }
+
+    /**
+     * Fetch all records with ther values by collection id
+     * 
+     * @param int $collectionId
+     * @return array
+     */
+    public function fetchAll($collectionId)
+    {
+        $db = $this->createSharedFetchQuery()
+                   ->whereEquals(self::column('collection_id'), $collectionId)
+                   ->orderBy(self::column('order'));
 
         return $db->queryAll();
     }
