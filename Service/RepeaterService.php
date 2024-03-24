@@ -36,6 +36,17 @@ final class RepeaterService
     }
 
     /**
+     * Deletes a record with its all relations
+     * 
+     * @param int $id
+     * @return boolean
+     */
+    public function deleteById($id)
+    {
+        return $this->repeaterMapper->deleteByPk($id);
+    }
+
+    /**
      * Fetch all by collection id
      * 
      * @param int $collectionId
