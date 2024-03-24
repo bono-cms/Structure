@@ -5,7 +5,7 @@ return [
     '/%s/module/structure/repeater/view/(:var)' => [
         'controller' => 'Admin:Repeater@indexAction'
     ],
-    
+
     '/%s/module/structure/repeater/delete/(:var)' => [
         'controller' => 'Admin:Repeater@deleteAction'
     ],
@@ -14,8 +14,12 @@ return [
         'controller' => 'Admin:Repeater@editAction'
     ],
 
+    '/%s/module/structure/repeater/add/(:var)' => [
+        'controller' => 'Admin:Repeater@addAction'
+    ],
+
     '/%s/module/structure/repeater/save' => [
-        'controller' => 'Admin:Repeater@indexAction'
+        'controller' => 'Admin:Repeater@saveAction'
     ],
 
     // Fields
