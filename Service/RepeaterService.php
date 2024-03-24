@@ -156,6 +156,10 @@ final class RepeaterService
      */
     public function update($repeaterId, array $input)
     {
+        // 1. Update repeater
+        $this->repeaterMapper->persist($input['repeater']);
+
+        // 2. Update values
         $rows = $this->repeaterMapper->fetchByRepeaterId($repeaterId);
 
         // Override value with new coming values
