@@ -12,12 +12,14 @@ final class RepeaterViewModel
      */
     public static function createColumns($rows)
     {
+        $count = count($rows);
+
         // Ignored columns
         $ignored = [
             'repeater_id'
         ];
 
-        $rows = array_values($rows)[0];
+        $rows = array_values($rows)[$count - 1]; // Grab by last index
         $output = [];
 
         foreach ($rows as $column => $value) {
