@@ -97,10 +97,9 @@ final class RepeaterMapper extends AbstractMapper implements RepeaterMapperInter
     {
         // Update values by their corresponding ids
         foreach ($rows as $row) {
-            $db = $this->db->update(RepeaterValueMapper::getTableName(), [
-                'value' => $row['value']
-            ])
-            ->whereEquals(RepeaterValueMapper::column('id'), $row['id']);
+            $db = $this->db->update(RepeaterValueMapper::getTableName(), ['value' => $row['value']])
+                           ->whereEquals(RepeaterValueMapper::column('id'), $row['id']);
+
             $db->execute();
         }
 
