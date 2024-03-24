@@ -2,6 +2,7 @@
 
 namespace Structure\Service;
 
+use Krystal\Stdlib\VirtualEntity;
 use Krystal\Stdlib\ArrayUtils;
 use Structure\Storage\RepeaterMapperInterface;
 
@@ -101,6 +102,17 @@ final class RepeaterService
             'field' => $row['field'],
             'repeaters' => $repeaters
         ];
+    }
+
+    /**
+     * Fetch repeater by its id (single row without any metas)
+     * 
+     * @param int $id Repeater id
+     * @return array
+     */
+    public function fetchById($id)
+    {
+        return $this->repeaterMapper->findByPk($id);
     }
 
     /**
