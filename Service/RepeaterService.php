@@ -168,7 +168,7 @@ final class RepeaterService
         }
 
         // Finally run query to update values
-        $this->repeaterMapper->updateValues($rows);
+        $this->repeaterMapper->updateValues($repeaterId, $rows);
 
         return true;
     }

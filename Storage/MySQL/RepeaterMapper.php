@@ -88,19 +88,31 @@ final class RepeaterMapper extends AbstractMapper implements RepeaterMapperInter
     /**
      * Update repeater values by their Ids
      * 
+     * @param int $repeaterId
      * @param array $values (ID => Value pair).
      *              ID is the primary key of repeater's value.
      *              Value is the new text
      * @return boolean
      */
-    public function updateValues(array $rows)
+    public function updateValues($repeaterId, array $rows)
     {
         // Update values by their corresponding ids
         foreach ($rows as $row) {
-            $db = $this->db->update(RepeaterValueMapper::getTableName(), ['value' => $row['value']])
-                           ->whereEquals(RepeaterValueMapper::column('id'), $row['id']);
+            // Delete previous, if available
+            if (!empty($row['id'])) {
+                $this->db->delete()
+                         ->from(RepeaterValueMapper::getTableName())
+                         ->whereEquals('id', $row['id'])
+                         ->execute();
+            }
 
-            $db->execute();
+            // Insert new
+            $this->db->insert(RepeaterValueMapper::getTableName(), [
+                'field_id' => $row['field_id'],
+                'value' => $row['value'],
+                'repeater_id' => $repeaterId
+            ])
+            ->execute();
         }
 
         return true;
@@ -175,10 +187,22 @@ final class RepeaterMapper extends AbstractMapper implements RepeaterMapperInter
      */
     public function fetchByRepeaterId($repeaterId)
     {
-        $db = $this->db->select(['id', 'field_id', 'value'])
-                       ->from(RepeaterValueMapper::getTableName())
-                       ->whereEquals('repeater_id', $repeaterId);
+        // Columns be selected
+        $columns = [
+            FieldMapper::column('id') => 'field_id',
+            RepeaterValueMapper::column('id'),
+            RepeaterValueMapper::column('repeater_id'),
+            RepeaterValueMapper::column('value')
+        ];
 
+        $db = $this->db->select($columns)
+                       ->from(FieldMapper::getTableName())
+                       // Repeater relation
+                       ->leftJoin(RepeaterValueMapper::getTableName(), [
+                            RepeaterValueMapper::column('field_id') => FieldMapper::getRawColumn('id'),
+                            RepeaterValueMapper::column('repeater_id') => $repeaterId
+                       ]);
+        
         return $db->queryAll();
     }
 }

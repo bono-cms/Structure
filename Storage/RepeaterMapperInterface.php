@@ -7,12 +7,13 @@ interface RepeaterMapperInterface
     /**
      * Update repeater values by their Ids
      * 
+     * @param int $repeaterId
      * @param array $values (ID => Value pair).
      *              ID is the primary key of repeater's value.
      *              Value is the new text
      * @return boolean
      */
-    public function updateValues(array $rows);
+    public function updateValues($repeaterId, array $rows);
 
     /**
      * Fetch repeater's values by id
