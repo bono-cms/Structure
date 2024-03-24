@@ -47,6 +47,63 @@ final class RepeaterService
     }
 
     /**
+     * Append values to fields by repeater id
+     * 
+     * @param array $fields
+     * @return array
+     */
+    public function appendValues(array $fields, $repeaterId)
+    {
+        $row = $this->fetchById($repeaterId);
+
+        // If could not find values, then simply return current $fields
+        if (empty($row)) {
+            return $fields;
+        }
+
+        foreach ($fields as &$field) {
+            $field['value'] = $row['repeaters'][$field['id']];
+        }
+
+        return $fields;
+    }
+
+    /**
+     * Fetch by ID
+     * 
+     * @param int $repeaterId
+     * @return array
+     */
+    private function fetchById($repeaterId)
+    {
+        $rows = $this->repeaterMapper->fetchById($repeaterId);
+
+        // If no record found, then immeditelly stop returning empty array
+        if (!isset($rows[0])) {
+            return [];
+        }
+
+        // Collection dynamic fields first
+        $repeaters = [];
+
+        foreach ($rows as $row) {
+            // This way we do not reset indexes
+            $repeaters = $repeaters + [
+                $row['field_id'] => $row['value']
+            ];
+        }
+
+        $row = $rows[0];
+
+        return [
+            'translatable' => $row['translatable'],
+            'alias' => $row['alias'],
+            'field' => $row['field'],
+            'repeaters' => $repeaters
+        ];
+    }
+
+    /**
      * Fetch all by collection id
      * 
      * @param int $collectionId
