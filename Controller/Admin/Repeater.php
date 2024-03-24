@@ -8,14 +8,15 @@ use Cms\Controller\Admin\AbstractController;
 final class Repeater extends AbstractController
 {
     /**
-     * Renders repeater
+     * Renders repeater by collection ID
      * 
-     * @param string $id Collection id
+     * @param string $collectionId
+     * @param string $repeaterId
      * @return string
      */
-    public function indexAction($id)
+    public function indexAction($collectionId, $repeaterId = null)
     {
-        $collection = $this->getModuleService('collectionService')->fetchById($id);
+        $collection = $this->getModuleService('collectionService')->fetchById($collectionId);
 
         if ($collection) {
             // Append breadcrumbs
@@ -23,12 +24,18 @@ final class Repeater extends AbstractController
                                            ->addOne($this->translator->translate('View fields for "%s" collection', $collection['name']));
 
             // Grab dynamic fields
-            $fields = $this->getModuleService('fieldService')->fetchByCollectionId($id);
+            $fields = $this->getModuleService('fieldService')->fetchByCollectionId($collectionId);
+
+            // Override with values, 
+            if ($repeaterId !== null) {
+                $fields = $this->getModuleService('repeaterService')->appendValues($fields, $repeaterId);
+            }
 
             return $this->view->render('repeater', [
-                'rows' => $this->getModuleService('repeaterService')->fetchAll($id),
+                'rows' => $this->getModuleService('repeaterService')->fetchAll($collectionId),
                 'fields' => $fields,
-                'id' => $id
+                'repeaterId' => $repeaterId,
+                'collectionId' => $collectionId // Collection id
             ]);
 
         } else {
@@ -40,12 +47,13 @@ final class Repeater extends AbstractController
     /**
      * Renders edit form
      * 
-     * @param string $id Repeater id
+     * @param string $collectionId
+     * @param string $repeaterId
      * @return string
      */
-    public function editAction($id)
+    public function editAction($collectionId, $repeaterId)
     {
-        
+        return $this->indexAction($collectionId, $repeaterId);
     }
 
     /**
