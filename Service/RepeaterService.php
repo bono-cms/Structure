@@ -44,7 +44,6 @@ final class RepeaterService
     public function fetchAll($collectionId)
     {
         $rows = $this->repeaterMapper->fetchAll($collectionId);
-
         $output = [];
 
         // Turn rows into one single row
@@ -54,7 +53,8 @@ final class RepeaterService
             if (!isset($output[$key])) {
                 // Static keys are added here
                 $output[$key] = [
-                    'id' => $row['id']
+                    'id' => $row['id'], // Value ID
+                    'repeater_id' => $row['repeater_id'] // Primary parent ID
                 ];
             }
 
