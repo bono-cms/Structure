@@ -55,8 +55,8 @@ final class RepeaterMapper extends AbstractMapper implements RepeaterMapperInter
     {
         $data = [
             'collection_id' => $input['repeater']['collection_id'],
-            'order' => 0, // @TODO: From form
-            'hidden' => 0 // @TODO: From form
+            'order' => $input['repeater']['order'],
+            'hidden' => $input['repeater']['hidden']
         ];
 
         // Insert new row and get its id

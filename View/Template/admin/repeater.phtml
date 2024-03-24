@@ -21,9 +21,9 @@ use Structure\View\RepeaterViewModel;
                 ],
                 'columns' => RepeaterViewModel::createColumns($rows),
                 'actions' => [
-                    function($row) use ($collectionId){
+                    function($row) use ($repeater){
                         return Icon::edit(
-                            $this->url('Structure:Admin:Repeater@editAction', $collectionId, $row['repeater_id']),
+                            $this->url('Structure:Admin:Repeater@editAction', $repeater['collection_id'], $row['repeater_id']),
                             $this->translate('Edit this record')
                         );
                     },
@@ -45,7 +45,8 @@ use Structure\View\RepeaterViewModel;
                     <i class="fas fa-pencil-alt"></i> <?= $this->translate('Add new record'); ?>
                 </h3>
 
-                <?= Element::hidden('repeater[collection_id]', $collectionId); ?>
+                <?= Element::hidden('repeater[id]', isset($repeater['id']) ? $repeater['id'] : null); ?>
+                <?= Element::hidden('repeater[collection_id]', $repeater['collection_id']); ?>
 
                 <?php foreach ($fields as $field): ?>
                 <?php
@@ -58,6 +59,18 @@ use Structure\View\RepeaterViewModel;
                     <?= Element::text($name, isset($field['value']) ? $field['value'] : null, $attributes); ?>
                 </div>
                 <?php endforeach; ?>
+
+                <!-- Static attributes -->
+                <div class="form-group">
+                    <label class="control-label"><?= $this->translate('Hidden'); ?></label>
+                    <?= Element::checkbox('repeater[hidden]', isset($repeater['hidden']) ? $repeater['hidden'] : null); ?>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label"><?= $this->translate('Sorting order'); ?></label>
+                    <?= Element::number('repeater[order]', isset($repeater['order']) ? $repeater['order'] : null, ['class' => 'form-control']); ?>
+                </div>
+                <!-- ..End of static attributes -->
 
                 <?php $this->loadPartial('actions', [
                     'new' => !$field['id'],

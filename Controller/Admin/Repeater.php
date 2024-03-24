@@ -26,16 +26,24 @@ final class Repeater extends AbstractController
             // Grab dynamic fields
             $fields = $this->getModuleService('fieldService')->fetchByCollectionId($collectionId);
 
-            // Override with values, 
+            // Override with values
             if ($repeaterId !== null) {
+                // Edit mode
                 $fields = $this->getModuleService('repeaterService')->appendValues($fields, $repeaterId);
+                // Find current repeater
+                $repeater = $this->getModuleService('repeaterService')->fetchById($repeaterId);
+            } else {
+                // Repeater doesn't exist yet. Create a mock.
+                $repeater = [
+                    'collection_id' => $collectionId
+                ];
             }
 
             return $this->view->render('repeater', [
                 'rows' => $this->getModuleService('repeaterService')->fetchAll($collectionId),
                 'fields' => $fields,
-                'repeaterId' => $repeaterId,
-                'collectionId' => $collectionId
+                'repeater' => $repeater,
+                'repeaterId' => $repeaterId
             ]);
 
         } else {
