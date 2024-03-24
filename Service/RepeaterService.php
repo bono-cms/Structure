@@ -126,7 +126,6 @@ final class RepeaterService
     public function fetchAll($collectionId)
     {
         $rows = $this->repeaterMapper->fetchAll($collectionId);
-        
         $output = [];
 
         // Turn rows into one single row
