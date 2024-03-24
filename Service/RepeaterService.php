@@ -63,7 +63,9 @@ final class RepeaterService
         }
 
         foreach ($fields as &$field) {
-            $field['value'] = $row['repeaters'][$field['id']];
+            if (isset($row['repeaters'][$field['id']])) {
+                $field['value'] = $row['repeaters'][$field['id']];
+            }
         }
 
         return $fields;
@@ -124,6 +126,7 @@ final class RepeaterService
     public function fetchAll($collectionId)
     {
         $rows = $this->repeaterMapper->fetchAll($collectionId);
+        
         $output = [];
 
         // Turn rows into one single row
