@@ -23,15 +23,15 @@ use Structure\View\RepeaterViewModel;
                 'actions' => [
                     function($row){
                         return Icon::edit(
-                            $this->url('Structure:Admin:Collection@editAction', $row['id']),
-                            $this->translate('Edit this collection')
+                            $this->url('Structure:Admin:Repeater@editAction', $row['id']),
+                            $this->translate('Edit this record')
                         );
                     },
 
                     function($row){
                         return Icon::remove(
-                            $this->url('Structure:Admin:Collection@deleteAction', $row['id']),
-                            $this->translate('Remove this collection')
+                            $this->url('Structure:Admin:Repeater@deleteAction', $row['repeater_id']),
+                            $this->translate('Delete this record')
                         );
                     }
                 ]
