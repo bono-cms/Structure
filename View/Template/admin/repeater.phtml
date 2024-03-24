@@ -15,19 +15,18 @@ use Structure\View\RepeaterViewModel;
             <?php $this->loadPartial('table', [
                 'rows' => $rows,
                 'rowAttributes' => [
-                    'class' => function($row){
-                        return null;
+                    'class' => function($row) use ($repeaterId){
+                        return $row['repeater_id'] == $repeaterId ? 'table-info' : null;
                     }
                 ],
                 'columns' => RepeaterViewModel::createColumns($rows),
                 'actions' => [
-                    function($row){
+                    function($row) use ($collectionId){
                         return Icon::edit(
-                            $this->url('Structure:Admin:Repeater@editAction', $row['id']),
+                            $this->url('Structure:Admin:Repeater@editAction', $collectionId, $row['repeater_id']),
                             $this->translate('Edit this record')
                         );
                     },
-
                     function($row){
                         return Icon::remove(
                             $this->url('Structure:Admin:Repeater@deleteAction', $row['repeater_id']),
@@ -35,7 +34,7 @@ use Structure\View\RepeaterViewModel;
                         );
                     }
                 ]
-            ]); ?>            
+            ]); ?>
         </div>
     </div>
 
@@ -46,7 +45,7 @@ use Structure\View\RepeaterViewModel;
                     <i class="fas fa-pencil-alt"></i> <?= $this->translate('Add new record'); ?>
                 </h3>
 
-                <?= Element::hidden('repeater[collection_id]', $id); ?>
+                <?= Element::hidden('repeater[collection_id]', $collectionId); ?>
 
                 <?php foreach ($fields as $field): ?>
                 <?php
@@ -56,7 +55,7 @@ use Structure\View\RepeaterViewModel;
 
                 <div class="form-group">
                     <label class="control-label"><?= $field['name']; ?></label>
-                    <?= Element::text($name, null, $attributes); ?>
+                    <?= Element::text($name, isset($field['value']) ? $field['value'] : null, $attributes); ?>
                 </div>
                 <?php endforeach; ?>
 
