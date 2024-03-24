@@ -12,6 +12,11 @@ final class RepeaterViewModel
      */
     public static function createColumns($rows)
     {
+        // Ignored columns
+        $ignored = [
+            'repeater_id'
+        ];
+
         $rows = array_values($rows)[0];
         $output = [];
 
@@ -23,6 +28,11 @@ final class RepeaterViewModel
             // Exception for ID column
             if ($column == 'id') {
                 $data['label'] = '#';
+            }
+
+            // Do we encounter ignored columns?
+            if (in_array($column, $ignored)) {
+                continue;
             }
 
             $output[] = $data;
