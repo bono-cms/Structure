@@ -98,21 +98,26 @@ final class RepeaterMapper extends AbstractMapper implements RepeaterMapperInter
     {
         // Update values by their corresponding ids
         foreach ($rows as $row) {
+            $data = [
+                'field_id' => $row['field_id'],
+                'value' => $row['value'],
+                'repeater_id' => $repeaterId
+            ];
+
             // Delete previous, if available
             if (!empty($row['id'])) {
                 $this->db->delete()
                          ->from(RepeaterValueMapper::getTableName())
                          ->whereEquals('id', $row['id'])
                          ->execute();
+
+                // Append ID, if provided
+                $data['id'] = $row['id'];
             }
 
             // Insert new
-            $this->db->insert(RepeaterValueMapper::getTableName(), [
-                'field_id' => $row['field_id'],
-                'value' => $row['value'],
-                'repeater_id' => $repeaterId
-            ])
-            ->execute();
+            $this->db->insert(RepeaterValueMapper::getTableName(), $data)
+                     ->execute();
         }
 
         return true;
@@ -201,7 +206,9 @@ final class RepeaterMapper extends AbstractMapper implements RepeaterMapperInter
                        ->leftJoin(RepeaterValueMapper::getTableName(), [
                             RepeaterValueMapper::column('field_id') => FieldMapper::getRawColumn('id'),
                             RepeaterValueMapper::column('repeater_id') => $repeaterId
-                       ]);
+                       ])
+                       ->orderBy(RepeaterValueMapper::column('id'))
+                       ->desc();
         
         return $db->queryAll();
     }
