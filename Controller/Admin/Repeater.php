@@ -15,7 +15,26 @@ final class Repeater extends AbstractController
      */
     public function indexAction($id)
     {
-        
+        $collection = $this->getModuleService('collectionService')->fetchById($id);
+
+        if ($collection) {
+            // Append breadcrumbs
+            $this->view->getBreadcrumbBag()->addOne('Structure', 'Structure:Admin:Collection@indexAction')
+                                           ->addOne($this->translator->translate('View fields for "%s" collection', $collection['name']));
+
+            // Grab dynamic fields
+            $fields = $this->getModuleService('fieldService')->fetchByCollectionId($id);
+
+            return $this->view->render('repeater', [
+                'rows' => $this->getModuleService('repeaterService')->fetchAll($id),
+                'fields' => $fields,
+                'id' => $id
+            ]);
+
+        } else {
+            // Invalid collection ID. Trigger 404
+            return false;
+        }
     }
 
     /**
@@ -47,6 +66,10 @@ final class Repeater extends AbstractController
      */
     public function saveAction()
     {
-        $input = $this->request->getPost('repeater');
+        $input = $this->request->getPost();
+        $this->getModuleService('repeaterService')->save($input);
+
+        $this->flashBag->set('success', 'New record has been added successfully');
+        return 1;
     }
 }
