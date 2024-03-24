@@ -56,7 +56,10 @@ final class Repeater extends AbstractController
      */
     public function deleteAction($id)
     {
-        
+        $this->getModuleService('repeaterService')->deleteById($id);
+        $this->flashBag->set('success', 'Selected record has been deleted successfully');
+
+        return 1;
     }
 
     /**
