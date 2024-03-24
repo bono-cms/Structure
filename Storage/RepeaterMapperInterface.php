@@ -5,12 +5,12 @@ namespace Structure\Storage;
 interface RepeaterMapperInterface
 {
     /**
-     * Fetch repeater with its all values by id
+     * Fetch repeater's values by id
      * 
      * @param int $repeaterId
      * @return array
      */
-    public function fetchById($repeaterId);
+    public function fetchValues($repeaterId);
 
     /**
      * Fetch all records with ther values by collection id

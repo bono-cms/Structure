@@ -35,7 +35,7 @@ final class Repeater extends AbstractController
                 'rows' => $this->getModuleService('repeaterService')->fetchAll($collectionId),
                 'fields' => $fields,
                 'repeaterId' => $repeaterId,
-                'collectionId' => $collectionId // Collection id
+                'collectionId' => $collectionId
             ]);
 
         } else {

@@ -54,7 +54,7 @@ final class RepeaterService
      */
     public function appendValues(array $fields, $repeaterId)
     {
-        $row = $this->fetchById($repeaterId);
+        $row = $this->fetchValues($repeaterId);
 
         // If could not find values, then simply return current $fields
         if (empty($row)) {
@@ -69,14 +69,14 @@ final class RepeaterService
     }
 
     /**
-     * Fetch by ID
+     * Fetch values by repeater id
      * 
      * @param int $repeaterId
      * @return array
      */
-    private function fetchById($repeaterId)
+    private function fetchValues($repeaterId)
     {
-        $rows = $this->repeaterMapper->fetchById($repeaterId);
+        $rows = $this->repeaterMapper->fetchValues($repeaterId);
 
         // If no record found, then immeditelly stop returning empty array
         if (!isset($rows[0])) {

@@ -118,12 +118,12 @@ final class RepeaterMapper extends AbstractMapper implements RepeaterMapperInter
     }
 
     /**
-     * Fetch repeater with its all values by id
+     * Fetch repeater's values by id
      * 
      * @param int $repeaterId
      * @return array
      */
-    public function fetchById($repeaterId)
+    public function fetchValues($repeaterId)
     {
         $db = $this->createSharedFetchQuery()
                    ->whereEquals(RepeaterValueMapper::column('repeater_id'), $repeaterId);
