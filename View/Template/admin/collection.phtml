@@ -24,10 +24,17 @@ use Krystal\Form\Element;
                 ],
                 'actions' => [
                     function($row){
-                        return Icon::view(
+                        return Icon::button(
+                            'fas fa-table',
+                            $this->url('Structure:Admin:Repeater@indexAction', $row['id']),
+                            $this->translate('View records of this collection')
+                        );
+                    },
+                    function($row){
+                        return Icon::button(
+                            'fas fa-user-edit',
                             $this->url('Structure:Admin:Field@indexAction', $row['id']),
-                            $this->translate('View fields of this collection'),
-                            false
+                            $this->translate('View fields of this collection')
                         );
                     },
 
