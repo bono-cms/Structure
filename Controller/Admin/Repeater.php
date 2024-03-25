@@ -19,6 +19,9 @@ final class Repeater extends AbstractController
         $collection = $this->getModuleService('collectionService')->fetchById($collectionId);
 
         if ($collection) {
+            // Load view plugins
+            $this->view->getPluginBag()->load($this->getWysiwygPluginName());
+
             // Append breadcrumbs
             $this->view->getBreadcrumbBag()->addOne('Structure', 'Structure:Admin:Collection@indexAction')
                                            ->addOne($this->translator->translate('View fields for "%s" collection', $collection['name']));
