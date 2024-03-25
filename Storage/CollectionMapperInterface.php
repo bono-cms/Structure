@@ -5,7 +5,7 @@ namespace Structure\Storage;
 interface CollectionMapperInterface
 {
     /**
-     * Fetch all collections
+     * Fetch all collections with field count on them
      * 
      * @return array
      */
