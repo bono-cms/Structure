@@ -28,10 +28,10 @@ final class FieldTypeCollection extends ArrayCollection
     const FIELD_DATETIME = 8;
 
     /* Lists */
-    const FIELD_SELECT = 10;
-    const FIELD_CHECKBOX = 11;
-    const FIELD_RADIO = 12;
-    const FIELD_DATALIST = 13;
+    const FIELD_SELECT = 9;
+    const FIELD_CHECKBOX = 10;
+    const FIELD_RADIO = 11;
+    const FIELD_DATALIST = 12;
 
     /**
      * {@inheritDoc}
