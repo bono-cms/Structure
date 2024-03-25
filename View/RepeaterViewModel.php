@@ -2,6 +2,8 @@
 
 namespace Structure\View;
 
+use Structure\Collection\FieldTypeCollection;
+
 final class RepeaterViewModel
 {
     /**
@@ -22,6 +24,8 @@ final class RepeaterViewModel
         $rows = array_values($rows)[$count - 1]; // Grab by last index
         $output = [];
 
+        $fieldTypeCollection = new FieldTypeCollection;
+
         foreach ($rows as $column => $value) {
             $data = [
                 'column' => $column
@@ -30,6 +34,14 @@ final class RepeaterViewModel
             // Exception for ID column
             if ($column == 'id') {
                 $data['label'] = '#';
+            }
+
+            // Exception for Type column
+            if ($column == 'type'){
+                // Grab name from collection
+                $data['value'] = function($row) use ($fieldTypeCollection){
+                    return $fieldTypeCollection->findByKey($row['type']);
+                };
             }
 
             // Do we encounter ignored columns?
