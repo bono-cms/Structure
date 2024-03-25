@@ -54,11 +54,19 @@ use Structure\View\RepeaterViewModel;
                 <?php
                     $name = sprintf('record[%s]', $field['id']);
                     $attributes = ['class' => 'form-control', 'placeholder' => $field['hint']];
+                    $value = isset($field['value']) ? $field['value'] : null;
                 ?>
 
                 <div class="form-group">
                     <label class="control-label"><?= $field['name']; ?></label>
-                    <?= Element::text($name, isset($field['value']) ? $field['value'] : null, $attributes); ?>
+
+                    <?php if ($field['type'] == FieldTypeCollection::FIELD_TEXT): ?>
+                    <?= Element::text($name, $value, $attributes); ?>
+                    <?php endif; ?>
+
+                    <?php if ($field['type'] == FieldTypeCollection::FIELD_TEXTAREA): ?>
+                    <?= Element::textarea($name, $value, $attributes); ?>
+                    <?php endif; ?>
                 </div>
                 <?php endforeach; ?>
 
