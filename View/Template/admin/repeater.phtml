@@ -61,8 +61,10 @@ use Structure\View\RepeaterViewModel;
                 ?>
 
                 <div class="form-group">
+                    <?php if ($field['type'] != FieldTypeCollection::FIELD_CHECKBOX): ?>
                     <label class="control-label"><?= $field['name']; ?></label>
-                    
+                    <?php endif; ?>
+
                     <!-- Text -->
                     <?php if ($field['type'] == FieldTypeCollection::FIELD_TEXT): ?>
                     <?= Element::text($name, $value, $attributes); ?>
@@ -104,17 +106,21 @@ use Structure\View\RepeaterViewModel;
                     <?= Element::select($name, ArrayUtils::valuefy($list), $value, $attributes); ?>
                     <?php endif; ?>
 
-                    <!-- Checkbox or radio -->
-                    <?php if ($field['type'] == FieldTypeCollection::FIELD_CHECKBOX || $field['type'] == FieldTypeCollection::FIELD_RADIO): ?>
+                    <!-- Checkbox -->
+                    <?php if ($field['type'] == FieldTypeCollection::FIELD_CHECKBOX): ?>
+                    <div class="form-check">
+                      <?= Element::checkbox($name, $value, ['class' => 'form-check-input', 'title' => $field['hint']]); ?>
+                      <label class="form-check-label">
+                        <?= $field['name']; ?>
+                      </label>
+                    </div>
+                    <?php endif; ?>
+
+                    <!-- Radio list -->
+                    <?php if ($field['type'] == FieldTypeCollection::FIELD_RADIO): ?>
                     <?php foreach ($list as $item): ?>
                     <div class="form-check">
                       <?php $id = sprintf('item-%s', md5($item)); ?>
-
-                      <!-- Checkbox -->
-                      <?php if ($field['type'] == FieldTypeCollection::FIELD_CHECKBOX): ?>
-                      <?= Element::checkbox($name, $item == $value, ['class' => 'form-check-input', 'id' => $id, 'value' => $item]); ?>
-                      <?php endif; ?>
-
                       <!-- Radio -->
                       <?php if ($field['type'] == FieldTypeCollection::FIELD_RADIO): ?>
                       <?= Element::radio($name, $item, $item == $value, ['class' => 'form-check-input', 'id' => $id, 'value' => $item]); ?>
