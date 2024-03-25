@@ -3,14 +3,15 @@ TODO LIST
 
 # Urgent
 
+* Localization support
 * Table captions are coming from alias. Fix it.
 * Proper sorting
-* Localization support
 * Filter by hidden attribute. Fetch service.
 * Dashboard module
 
 # Later
 
+* Pagination
 * Sidebar filters
 * Search module integration
 * Connect with FormBuilder
@@ -19,7 +20,6 @@ TODO LIST
 * Field options
 * API
 * Filtering and sorting
-* Pagination
 * Implement relations (One-to-one, One-to-many, Many-to-many)
 * Structure templates
 * Attach Structures to pages
@@ -27,6 +27,7 @@ TODO LIST
 
 # Next version
 
+* Add limit to maximal amount of rows per collection
 * Add - Published since & till fields
 * Multiple values (support checkboxes in fields)
 * More types of custom fields (Including dynamic ones: Date & Time, Current IP, etc)
