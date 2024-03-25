@@ -2,6 +2,8 @@
 
 use Cms\View\Icon;
 use Krystal\Form\Element;
+use Krystal\Text\TextUtils;
+use Krystal\Stdlib\ArrayUtils;
 use Structure\Collection\FieldTypeCollection;
 use Structure\View\RepeaterViewModel;
 
@@ -55,11 +57,13 @@ use Structure\View\RepeaterViewModel;
                     $name = sprintf('record[%s]', $field['id']);
                     $attributes = ['class' => 'form-control', 'placeholder' => $field['hint']];
                     $value = isset($field['value']) ? $field['value'] : null;
+                    $list = FieldTypeCollection::isList($field['type']) ? TextUtils::breakString($field['hint']) : [];
                 ?>
 
                 <div class="form-group">
                     <label class="control-label"><?= $field['name']; ?></label>
-
+                    
+                    <!-- Text -->
                     <?php if ($field['type'] == FieldTypeCollection::FIELD_TEXT): ?>
                     <?= Element::text($name, $value, $attributes); ?>
                     <?php endif; ?>
@@ -67,6 +71,67 @@ use Structure\View\RepeaterViewModel;
                     <?php if ($field['type'] == FieldTypeCollection::FIELD_TEXTAREA): ?>
                     <?= Element::textarea($name, $value, $attributes); ?>
                     <?php endif; ?>
+
+                    <?php if ($field['type'] == FieldTypeCollection::FIELD_WYSIWYG): ?>
+                    <?= Element::textarea($name, $value, ['data-wysiwyg' => 'true']); ?>
+                    <?php endif; ?>
+                    <!-- End of Text -->
+
+                    <?php if ($field['type'] == FieldTypeCollection::FIELD_NUMBER): ?>
+                    <?= Element::number($name, $value, $attributes); ?>
+                    <?php endif; ?>
+
+                    <?php if ($field['type'] == FieldTypeCollection::FIELD_EMAIL): ?>
+                    <?= Element::email($name, $value, $attributes); ?>
+                    <?php endif; ?>
+                    
+                    <!-- Date and time -->
+                    <?php if ($field['type'] == FieldTypeCollection::FIELD_DATE): ?>
+                    <?= Element::date($name, $value, $attributes); ?>
+                    <?php endif; ?>
+
+                    <?php if ($field['type'] == FieldTypeCollection::FIELD_TIME): ?>
+                    <?= Element::time($name, $value, $attributes); ?>
+                    <?php endif; ?>
+
+                    <?php if ($field['type'] == FieldTypeCollection::FIELD_DATETIME): ?>
+                    <?= Element::datetime($name, $value, $attributes); ?>
+                    <?php endif; ?>
+                    <!-- End of Date and time -->
+
+                    <!-- Lists -->
+                    <?php if ($field['type'] == FieldTypeCollection::FIELD_SELECT): ?>
+                    <?= Element::select($name, ArrayUtils::valuefy($list), $value, $attributes); ?>
+                    <?php endif; ?>
+
+                    <!-- Checkbox or radio -->
+                    <?php if ($field['type'] == FieldTypeCollection::FIELD_CHECKBOX || $field['type'] == FieldTypeCollection::FIELD_RADIO): ?>
+                    <?php foreach ($list as $item): ?>
+                    <div class="form-check">
+                      <?php $id = sprintf('item-%s', md5($item)); ?>
+
+                      <!-- Checkbox -->
+                      <?php if ($field['type'] == FieldTypeCollection::FIELD_CHECKBOX): ?>
+                      <?= Element::checkbox($name, $item == $value, ['class' => 'form-check-input', 'id' => $id, 'value' => $item]); ?>
+                      <?php endif; ?>
+
+                      <!-- Radio -->
+                      <?php if ($field['type'] == FieldTypeCollection::FIELD_RADIO): ?>
+                      <?= Element::radio($name, $item, $item == $value, ['class' => 'form-check-input', 'id' => $id, 'value' => $item]); ?>
+                      <?php endif; ?>
+
+                      <label class="form-check-label" for="<?= $id; ?>">
+                        <?= $item; ?>
+                      </label>
+                    </div>
+                    <?php endforeach; ?>
+                    <?php endif; ?>
+                    <!-- End of Checkbox and radios -->
+
+                    <?php if ($field['type'] == FieldTypeCollection::FIELD_DATALIST): ?>
+                    <?= Element::datalist($name, $value, $list, ['class' => 'form-control']); ?>
+                    <?php endif; ?>
+                    <!-- End of Lists -->
                 </div>
                 <?php endforeach; ?>
 
