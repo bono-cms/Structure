@@ -51,8 +51,8 @@ final class FieldTypeCollection extends ArrayCollection
         ],
         'Lists' => [
             self::FIELD_SELECT => 'Select',
-            self::FIELD_CHECKBOX => 'Checkbox',
-            self::FIELD_RADIO => 'Radio',
+            self::FIELD_CHECKBOX => 'Checkboxes',
+            self::FIELD_RADIO => 'Radios',
             self::FIELD_DATALIST => 'Data list'
         ]
     ];
