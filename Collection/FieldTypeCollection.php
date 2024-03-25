@@ -15,15 +15,93 @@ use Krystal\Stdlib\ArrayCollection;
 
 final class FieldTypeCollection extends ArrayCollection
 {
-    /* Shared type constants */
+    /* Text fields */
     const FIELD_TEXT = 1;
     const FIELD_TEXTAREA = 2;
+    const FIELD_WYSIWYG = 3;
+    const FIELD_NUMBER = 4;
+    const FIELD_EMAIL = 5;
+
+    /* Date and time */
+    const FIELD_DATE = 6;
+    const FIELD_TIME = 7;
+    const FIELD_DATETIME = 8;
+
+    /* Lists */
+    const FIELD_SELECT = 10;
+    const FIELD_CHECKBOX = 11;
+    const FIELD_RADIO = 12;
+    const FIELD_DATALIST = 13;
 
     /**
      * {@inheritDoc}
      */
     protected $collection = [
-        self::FIELD_TEXT => 'Text',
-        self::FIELD_TEXTAREA => 'Textarea'
+        'Text fields' => [
+            self::FIELD_TEXT => 'Text',
+            self::FIELD_TEXTAREA => 'Textarea',
+            self::FIELD_WYSIWYG => 'Rich editor (WYSIWYG)',
+            self::FIELD_NUMBER => 'Number',
+            self::FIELD_EMAIL => 'E-mail'
+        ],
+        'Date and time' => [
+            self::FIELD_DATE => 'Date',
+            self::FIELD_TIME => 'Time',
+            self::FIELD_DATETIME => 'Date and time',
+        ],
+        'Lists' => [
+            self::FIELD_SELECT => 'Select',
+            self::FIELD_CHECKBOX => 'Checkbox',
+            self::FIELD_RADIO => 'Radio',
+            self::FIELD_DATALIST => 'Data list'
+        ]
     ];
+
+    /**
+     * Whether this is text field
+     * 
+     * @param int $type
+     * @return boolean
+     */
+    public static function isText($type)
+    {
+        return in_array($type, [
+            self::FIELD_TEXT,
+            self::FIELD_TEXTAREA,
+            self::FIELD_WYSIWYG,
+            self::FIELD_NUMBER,
+            self::FIELD_EMAIL
+        ]);
+    }
+
+    /**
+     * Whether this is datetime
+     * 
+     * @param int $type
+     * @return boolean
+     */
+    public static function isDatetime($type)
+    {
+        return in_array($type, [
+            self::FIELD_DATE,
+            self::FIELD_TIME,
+            self::FIELD_DATETIME
+        ]);
+    }
+
+    /**
+     * Whether this is datetime
+     * 
+     * @param int $type
+     * @return boolean
+     */
+    public static function isList($type)
+    {
+        return in_array($type, [
+            self::FIELD_SELECT,
+            self::FIELD_CHECKBOX,
+            self::FIELD_RADIO,
+            self::FIELD_DATALIST
+        ]);
+    }
 }
