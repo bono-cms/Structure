@@ -110,7 +110,7 @@ use Structure\View\RepeaterViewModel;
                     <?php if ($field['type'] == FieldTypeCollection::FIELD_CHECKBOX): ?>
                     <div class="form-check">
                       <?= Element::checkbox($name, $value, ['class' => 'form-check-input', 'title' => $field['hint']]); ?>
-                      <label class="form-check-label">
+                      <label class="form-check-label" title="<?= $field['hint']; ?>">
                         <?= $field['name']; ?>
                       </label>
                     </div>
