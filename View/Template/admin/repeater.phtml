@@ -11,7 +11,7 @@ use Structure\View\RepeaterViewModel;
 
 <div class="row">
     <div class="col-lg-7">
-        <div class="card">
+        <div class="card sticky-top">
             <h3 class="mb-4">
                 <i class="fas fa-table"></i> <?= $this->translate('Records'); ?> <small class="text-muted">(<?= count($rows); ?>)</small>
             </h3>
@@ -43,7 +43,7 @@ use Structure\View\RepeaterViewModel;
     </div>
 
     <div class="col-lg-5">
-        <div class="card">
+        <div class="card sticky-top">
             <form data-group="collection" autocomplete="off">
                 <h3 class="mb-4">
                     <i class="fas fa-pencil-alt"></i> <?= $this->translate(!isset($repeater['id']) ? 'Add new record' : 'Update the record'); ?>
