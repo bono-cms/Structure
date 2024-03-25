@@ -29,9 +29,11 @@ final class FieldTypeCollection extends ArrayCollection
 
     /* Lists */
     const FIELD_SELECT = 9;
-    const FIELD_CHECKBOX = 10;
-    const FIELD_RADIO = 11;
-    const FIELD_DATALIST = 12;
+    const FIELD_RADIO = 10;
+    const FIELD_DATALIST = 11;
+
+    /* Other */
+    const FIELD_CHECKBOX = 12;
 
     /**
      * {@inheritDoc}
@@ -51,9 +53,11 @@ final class FieldTypeCollection extends ArrayCollection
         ],
         'Lists' => [
             self::FIELD_SELECT => 'Select',
-            self::FIELD_CHECKBOX => 'Checkboxes',
             self::FIELD_RADIO => 'Radios',
             self::FIELD_DATALIST => 'Data list'
+        ],
+        'Other' => [
+            self::FIELD_CHECKBOX => 'Checkbox',
         ]
     ];
 
@@ -99,9 +103,21 @@ final class FieldTypeCollection extends ArrayCollection
     {
         return in_array($type, [
             self::FIELD_SELECT,
-            self::FIELD_CHECKBOX,
             self::FIELD_RADIO,
             self::FIELD_DATALIST
+        ]);
+    }
+
+    /**
+     * Whether this is other type
+     * 
+     * @param int $type
+     * @return boolean
+     */
+    public static function isOther($type)
+    {
+        return in_array($type, [
+            self::FIELD_CHECKBOX
         ]);
     }
 }
