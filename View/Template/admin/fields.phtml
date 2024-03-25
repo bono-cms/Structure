@@ -54,7 +54,7 @@ $fieldTypeCollection = new FieldTypeCollection();
         <div class="card">
             <form data-group="collection" autocomplete="off">
                 <h3 class="mb-4">
-                    <i class="fas fa-pencil-alt"></i> <?= $this->translate('Add new field'); ?>
+                    <i class="fas fa-pencil-alt"></i> <?= $this->translate(!$field['id'] ? 'Add new field' : 'Edit the field'); ?>
                 </h3>
 
                 <?= Element::hidden('field[id]', $field['id']); ?>
@@ -77,7 +77,7 @@ $fieldTypeCollection = new FieldTypeCollection();
 
                 <div class="form-group">
                     <label class="control-label"><?= $this->translate('Hint'); ?></label>
-                    <?= Element::text('field[hint]', $field['hint'], ['class' => 'form-control']); ?>
+                    <?= Element::textarea('field[hint]', $field['hint'], ['class' => 'form-control', 'rows' => 4]); ?>
                 </div>
 
                 <div class="form-group">
