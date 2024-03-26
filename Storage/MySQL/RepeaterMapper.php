@@ -83,7 +83,7 @@ final class RepeaterMapper extends AbstractMapper implements RepeaterMapperInter
                        ])
                        ->orderBy(RepeaterValueMapper::column('id'))
                        ->desc();
-        
+
         return $db->queryAll();
     }
 }
