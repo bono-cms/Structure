@@ -5,25 +5,35 @@ namespace Structure\Service;
 use Krystal\Stdlib\VirtualEntity;
 use Krystal\Stdlib\ArrayUtils;
 use Structure\Storage\RepeaterMapperInterface;
+use Structure\Storage\RepeaterValueMapperInterface;
 
 final class RepeaterService
 {
     /**
-     * Field mapper interface
+     * Repeater mapper interface
      * 
      * @var \Structure\Storage\RepeaterMapperInterface
      */
     private $repeaterMapper;
 
     /**
+     * Repeater value mapper interface
+     * 
+     * @var \Structure\Storage\RepeaterValueMapperInterface
+     */
+    private $repeaterValueMapper;
+
+    /**
      * State initialization
      * 
-     * @param \Structure\Storage\RepeaterMapperInterface $collectionRepeaterMapper
+     * @param \Structure\Storage\RepeaterMapperInterface $repeaterMapper
+     * @param \Structure\Storage\RepeaterValueMapperInterface $repeaterValueMapper
      * @return void
      */
-    public function __construct(RepeaterMapperInterface $repeaterMapper)
+    public function __construct(RepeaterMapperInterface $repeaterMapper, RepeaterValueMapperInterface $repeaterValueMapper)
     {
         $this->repeaterMapper = $repeaterMapper;
+        $this->repeaterValueMapper = $repeaterValueMapper;
     }
 
     /**
@@ -51,6 +61,7 @@ final class RepeaterService
      * Append values to fields by repeater id
      * 
      * @param array $fields
+     * @param int $repeaterId
      * @return array
      */
     public function appendValues(array $fields, $repeaterId)
@@ -79,7 +90,7 @@ final class RepeaterService
      */
     private function fetchValues($repeaterId)
     {
-        $rows = $this->repeaterMapper->fetchValues($repeaterId);
+        $rows = $this->repeaterValueMapper->fetchValues($repeaterId);
 
         // If no record found, then immeditelly stop returning empty array
         if (!isset($rows[0])) {
@@ -125,7 +136,7 @@ final class RepeaterService
      */
     public function fetchAll($collectionId)
     {
-        $rows = $this->repeaterMapper->fetchAll($collectionId);
+        $rows = $this->repeaterValueMapper->fetchAll($collectionId);
         $output = [];
 
         // Turn rows into one single row
@@ -170,7 +181,7 @@ final class RepeaterService
         }
 
         // Finally run query to update values
-        $this->repeaterMapper->updateValues($repeaterId, $rows);
+        $this->repeaterValueMapper->updateValues($repeaterId, $rows);
 
         return true;
     }
@@ -183,6 +194,7 @@ final class RepeaterService
      */
     public function save(array $input)
     {
-        return $this->repeaterMapper->batchInsert($input);
+        $params = $this->repeaterMapper->batchInsert($input);
+        return $this->repeaterValueMapper->insertValues($params['id'], $params['rows']);
     }
 }

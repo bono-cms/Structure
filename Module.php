@@ -26,11 +26,12 @@ final class Module extends AbstractCmsModule
         $collectionMapper = $this->getMapper('\Structure\Storage\MySQL\CollectionMapper');
         $fieldMapper = $this->getMapper('\Structure\Storage\MySQL\FieldMapper');
         $repeaterMapper = $this->getMapper('\Structure\Storage\MySQL\RepeaterMapper');
+        $valueMapper = $this->getMapper('\Structure\Storage\MySQL\RepeaterValueMapper');
 
         return array(
             'collectionService' => new CollectionService($collectionMapper),
             'fieldService' => new FieldService($fieldMapper),
-            'repeaterService' => new RepeaterService($repeaterMapper)
+            'repeaterService' => new RepeaterService($repeaterMapper, $valueMapper)
         );
     }
 }
