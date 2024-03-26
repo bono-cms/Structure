@@ -26,6 +26,10 @@ final class Repeater extends AbstractController
             $this->view->getBreadcrumbBag()->addOne('Structure', 'Structure:Admin:Collection@indexAction')
                                            ->addOne($this->translator->translate('View fields for "%s" collection', $collection['name']));
 
+            // Append folder with partials
+            $this->view->getPartialBag()
+                       ->addPartialDir($this->view->createThemePath($this->moduleName, 'partials'));
+
             // Grab dynamic fields
             $fields = $this->getModuleService('fieldService')->fetchByCollectionId($collectionId);
 

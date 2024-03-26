@@ -1,0 +1,86 @@
+<?php
+
+use Krystal\Form\Element;
+use Structure\Collection\FieldTypeCollection;
+
+?>
+
+<div class="form-group">
+    <?php if ($type != FieldTypeCollection::FIELD_CHECKBOX): ?>
+    <label class="control-label"><?= $label; ?></label>
+    <?php endif; ?>
+
+    <!-- Text -->
+    <?php if ($type == FieldTypeCollection::FIELD_TEXT): ?>
+    <?= Element::text($name, $value, $attributes); ?>
+    <?php endif; ?>
+
+    <?php if ($type == FieldTypeCollection::FIELD_TEXTAREA): ?>
+    <?= Element::textarea($name, $value, $attributes); ?>
+    <?php endif; ?>
+
+    <?php if ($type == FieldTypeCollection::FIELD_WYSIWYG): ?>
+    <?= Element::textarea($name, $value, ['data-wysiwyg' => 'true']); ?>
+    <?php endif; ?>
+    <!-- End of Text -->
+
+    <?php if ($type == FieldTypeCollection::FIELD_NUMBER): ?>
+    <?= Element::number($name, $value, $attributes); ?>
+    <?php endif; ?>
+
+    <?php if ($type == FieldTypeCollection::FIELD_EMAIL): ?>
+    <?= Element::email($name, $value, $attributes); ?>
+    <?php endif; ?>
+
+    <!-- Date and time -->
+    <?php if ($type == FieldTypeCollection::FIELD_DATE): ?>
+    <?= Element::date($name, $value, $attributes); ?>
+    <?php endif; ?>
+
+    <?php if ($type == FieldTypeCollection::FIELD_TIME): ?>
+    <?= Element::time($name, $value, $attributes); ?>
+    <?php endif; ?>
+
+    <?php if ($type == FieldTypeCollection::FIELD_DATETIME): ?>
+    <?= Element::datetime($name, $value, $attributes); ?>
+    <?php endif; ?>
+    <!-- End of Date and time -->
+
+    <!-- Lists -->
+    <?php if ($type == FieldTypeCollection::FIELD_SELECT): ?>
+    <?= Element::select($name, ArrayUtils::valuefy($list), $value, $attributes); ?>
+    <?php endif; ?>
+
+    <!-- Checkbox -->
+    <?php if ($type == FieldTypeCollection::FIELD_CHECKBOX): ?>
+    <div class="form-check">
+      <?= Element::checkbox($name, $value, ['class' => 'form-check-input', 'title' => $hint]); ?>
+      <label class="form-check-label" title="<?= $hint; ?>">
+        <?= $label; ?>
+      </label>
+    </div>
+    <?php endif; ?>
+
+    <!-- Radio list -->
+    <?php if ($type == FieldTypeCollection::FIELD_RADIO): ?>
+    <?php foreach ($list as $item): ?>
+    <div class="form-check">
+      <?php $id = sprintf('item-%s', md5($item)); ?>
+      <!-- Radio -->
+      <?php if ($type == FieldTypeCollection::FIELD_RADIO): ?>
+      <?= Element::radio($name, $item, $item == $value, ['class' => 'form-check-input', 'id' => $id, 'value' => $item]); ?>
+      <?php endif; ?>
+
+      <label class="form-check-label" for="<?= $id; ?>">
+        <?= $item; ?>
+      </label>
+    </div>
+    <?php endforeach; ?>
+    <?php endif; ?>
+    <!-- End of Checkbox and radios -->
+
+    <?php if ($type == FieldTypeCollection::FIELD_DATALIST): ?>
+    <?= Element::datalist($name, $value, $list, ['class' => 'form-control']); ?>
+    <?php endif; ?>
+    <!-- End of Lists -->
+</div>
