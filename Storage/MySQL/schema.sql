@@ -49,3 +49,13 @@ CREATE TABLE `bono_module_structure_repeater_fields_values` (
     FOREIGN KEY (`field_id`) REFERENCES bono_module_structure_collections_fields(`id`) ON DELETE CASCADE,
     FOREIGN KEY (`repeater_id`) REFERENCES bono_module_structure_repeater_fields(`id`) ON DELETE CASCADE
 ) ENGINE = InnoDB DEFAULT CHARSET = UTF8;
+
+/* Field repeater (Record values translations) */
+DROP TABLE IF EXISTS `bono_module_structure_fields_values_translations`;
+CREATE TABLE `bono_module_structure_fields_values_translations` (
+    `id` INT NOT NULL COMMENT 'Value ID',
+    `lang_id` INT NOT NULL COMMENT 'Attached language ID',
+    `value` TEXT NOT NULL COMMENT 'Translated value',
+
+    FOREIGN KEY (id) REFERENCES bono_module_structure_repeater_fields_values(id) ON DELETE CASCADE
+) ENGINE = InnoDB DEFAULT CHARSET = UTF8;
