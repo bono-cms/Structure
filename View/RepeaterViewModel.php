@@ -12,8 +12,12 @@ final class RepeaterViewModel
      * @param array $rows
      * @param array
      */
-    public static function createColumns($rows)
+    public static function createColumns(array $rows)
     {
+        if (empty($rows)) {
+            return $rows;
+        }
+
         $count = count($rows);
 
         // Ignored columns
