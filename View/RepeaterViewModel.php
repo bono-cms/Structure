@@ -41,7 +41,7 @@ final class RepeaterViewModel
             }
 
             // Exception for Type column
-            if ($column == 'type'){
+            if ($column == 'type') {
                 // Grab name from collection
                 $data['value'] = function($row) use ($fieldTypeCollection){
                     return $fieldTypeCollection->findByKey($row['type']);

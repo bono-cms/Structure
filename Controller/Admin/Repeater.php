@@ -37,7 +37,6 @@ final class Repeater extends AbstractController
             if ($repeaterId !== null) {
                 // Edit mode
                 $fields = $this->getModuleService('repeaterService')->appendValues($fields, $repeaterId);
-                
                 // Find current repeater
                 $repeater = $this->getModuleService('repeaterService')->fetchById($repeaterId);
             } else {
