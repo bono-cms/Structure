@@ -16,46 +16,24 @@ final class RepeaterMapper extends AbstractMapper implements RepeaterMapperInter
     }
 
     /**
-     * Perform batch INSERT
+     * Inserts a repeater record
      * 
      * @param array $input
-     * @return array
+     * @return int Last id
      */
-    public function batchInsert(array $input)
+    public function insert(array $input)
     {
         $data = [
-            'collection_id' => $input['repeater']['collection_id'],
-            'order' => $input['repeater']['order'],
-            'hidden' => $input['repeater']['hidden']
+            'collection_id' => $input['collection_id'],
+            'order' => $input['order'],
+            'hidden' => $input['hidden']
         ];
 
-        // Insert new row and get its id
-        $row = $this->persistRow($data, array_keys($data));
-        $id = $row[$this->getPk()];
+        // Insert and get last id
+        $this->db->insert(self::getTableName(), $data)
+                 ->execute();
 
-        $columns = [
-            'collection_id',
-            'order',
-            'hidden'
-        ];
-
-        // Values to be inserted. We'll grab them from current input
-        $rows = [];
-
-        // 1. Prepare values for BATCH insert query
-        foreach ($input['record'] as $fieldId => $value) {
-            // Append in exactly the same order as in $columns
-            $rows[] = [
-                $id,
-                $fieldId,
-                $value
-            ];
-        }
-
-        return [
-            'id' => $id,
-            'rows' => $rows
-        ];
+        return $this->getMaxId();
     }
 
     /**
