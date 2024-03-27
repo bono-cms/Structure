@@ -37,6 +37,7 @@ final class Repeater extends AbstractController
             if ($repeaterId !== null) {
                 // Edit mode
                 $fields = $this->getModuleService('repeaterService')->appendValues($fields, $repeaterId);
+                
                 // Find current repeater
                 $repeater = $this->getModuleService('repeaterService')->fetchById($repeaterId);
             } else {
@@ -101,7 +102,7 @@ final class Repeater extends AbstractController
             $this->getModuleService('repeaterService')->save($input);
             $message = 'New record has been added successfully';
         }
-        
+
         $this->flashBag->set('success', $message);
         return 1;
     }
