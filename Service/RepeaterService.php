@@ -66,55 +66,39 @@ final class RepeaterService
      */
     public function appendValues(array $fields, $repeaterId)
     {
-        $row = $this->fetchValues($repeaterId);
+        $rows = $this->repeaterValueMapper->fetchValues($repeaterId);
 
         // If could not find values, then simply return current $fields
-        if (empty($row)) {
+        if (empty($rows)) {
             return $fields;
         }
 
+        // Internal function. Make languages as a hash list.
+        $hashLanguages = function(array $rows){
+            $output = [];
+
+            foreach ($rows as $row) {
+                $output[$row['lang_id']] = $row['value']; 
+            }
+
+            return $output;
+        };
+
         foreach ($fields as &$field) {
-            if (isset($row['repeaters'][$field['id']])) {
-                $field['value'] = $row['repeaters'][$field['id']];
+            foreach ($rows as $row) {
+                // Catch current field
+                if ($field['id'] == $row['field_id']) {
+                    $field['value'] = $row['value'];
+
+                    // Append translations, if required
+                    if (isset($field['translatable']) && $field['translatable'] == 1) {
+                        $field['translations'] = $hashLanguages($this->repeaterValueMapper->fetchTranslations($row['id']));
+                    }
+                }
             }
         }
 
         return $fields;
-    }
-
-    /**
-     * Fetch values by repeater id
-     * 
-     * @param int $repeaterId
-     * @return array
-     */
-    private function fetchValues($repeaterId)
-    {
-        $rows = $this->repeaterValueMapper->fetchValues($repeaterId);
-
-        // If no record found, then immeditelly stop returning empty array
-        if (!isset($rows[0])) {
-            return [];
-        }
-
-        // Collection dynamic fields first
-        $repeaters = [];
-
-        foreach ($rows as $row) {
-            // This way we do not reset indexes
-            $repeaters = $repeaters + [
-                $row['field_id'] => $row['value']
-            ];
-        }
-
-        $row = $rows[0];
-
-        return [
-            'translatable' => $row['translatable'],
-            'alias' => $row['alias'],
-            'field' => $row['field'],
-            'repeaters' => $repeaters
-        ];
     }
 
     /**
@@ -189,12 +173,49 @@ final class RepeaterService
     /**
      * Saves a repeater
      * 
-     * @param array $input
+     * @param array $input Raw input data
      * @return boolean
      */
     public function save(array $input)
     {
-        $params = $this->repeaterMapper->batchInsert($input);
-        return $this->repeaterValueMapper->insertValues($params['id'], $params['rows']);
+        // Get repeater ID
+        $repeaterId = $this->repeaterMapper->insert($input['repeater']);
+
+        // Translatable scenario
+        if (isset($input['translatable'])) {
+            // IDs of translatable fields
+            foreach ($input['translatable'] as $fieldId) {
+                // Append empty value
+                $input['record'] = $input['record'] + [
+                    $fieldId => ''
+                ];
+            }
+
+            // Oterate over translatable fields only
+            foreach ($input['translatable'] as $fieldId) {
+                $entity = [
+                    'repeater_id' => $repeaterId,
+                    'field_id' => $fieldId,
+                    'value' => '' // Dummy value
+                ];
+
+                // Save entity
+                $this->repeaterValueMapper->saveEntity($entity, $input['translation']);
+            }
+        } else {
+            // Non-translatable scenario
+            foreach ($input['record'] as $fieldId => $value) {
+                $entity = [
+                    'repeater_id' => $repeaterId,
+                    'field_id' => $fieldId,
+                    'value' => $value
+                ];
+
+                // Save entity
+                $this->repeaterValueMapper->saveEntity($entity);
+            }
+        }
+
+        return true;
     }
 }
