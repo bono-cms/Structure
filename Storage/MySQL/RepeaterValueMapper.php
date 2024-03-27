@@ -56,6 +56,27 @@ final class RepeaterValueMapper extends AbstractMapper implements RepeaterValueM
     }
 
     /**
+     * Fetch translations available translations
+     * 
+     * @param int $repeaterId
+     * @return array
+     */
+    public function fetchTranslations($repeaterId)
+    {
+        // Columns to be selected
+        $columns = [
+            'lang_id',
+            'value'
+        ];
+
+        $db = $this->db->select($columns)
+                       ->from(RepeaterValueTranslationMapper::getTableName())
+                       ->whereEquals('id', $repeaterId);
+
+        return $db->queryAll();
+    }
+
+    /**
      * Fetch repeater's values by id
      * 
      * @param int $repeaterId
