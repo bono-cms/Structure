@@ -49,7 +49,8 @@ final class RepeaterMapper extends AbstractMapper implements RepeaterMapperInter
             FieldMapper::column('id') => 'field_id',
             RepeaterValueMapper::column('id'),
             RepeaterValueMapper::column('repeater_id'),
-            RepeaterValueMapper::column('value')
+            RepeaterValueMapper::column('value'),
+            FieldMapper::column('translatable')
         ];
 
         $db = $this->db->select($columns)
