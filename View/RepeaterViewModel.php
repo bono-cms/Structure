@@ -7,6 +7,19 @@ use Structure\Collection\FieldTypeCollection;
 final class RepeaterViewModel
 {
     /**
+     * Creates a group name for translation input
+     * 
+     * @param string $key Group key
+     * @param string $id Entity id
+     * @param string $languageId
+     * @return string
+     */
+    public static function createTranslatenNs($key, $id, $languageId)
+    {
+        return sprintf('translation[%s][%s][%s]', $id, $languageId, $key);
+    }
+
+    /**
      * Create columns for the widget
      * 
      * @param array $rows

@@ -61,12 +61,12 @@ use Structure\View\RepeaterViewModel;
                 <!-- Translatable field -->
                 <?php foreach ($languages as $language): ?>
 
-                <?= Element::hidden(sprintf('translation[%s][id]', $language->getId()), $field['id']); ?>
-                <?= Element::hidden(sprintf('translation[%s][lang_id]', $language->getId()), $language->getId()); ?>
+                <?= Element::hidden(RepeaterViewModel::createTranslatenNs('id', $field['id'], $language->getId()), $field['id']); ?>
+                <?= Element::hidden(RepeaterViewModel::createTranslatenNs('lang_id', $field['id'], $language->getId()), $language->getId()); ?>
 
                 <?php $this->loadPartial('structure-field', [
                     'type' => $field['type'],
-                    'name' => sprintf('translation[%s][value]', $language->getId(), $field['id']),
+                    'name' => RepeaterViewModel::createTranslatenNs('value', $field['id'], $language->getId()),
                     'label' => $field['name'] . ' / ' . $language->getName(),
                     'value' => isset($field['translations']) ? $field['translations'][$language->getId()] : null,
                     'hint' => $field['hint'],
