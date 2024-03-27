@@ -77,6 +77,26 @@ final class RepeaterValueMapper extends AbstractMapper implements RepeaterValueM
     }
 
     /**
+     * Fetch primary keys by field and repeater ids
+     * 
+     * @parma int $fieldId
+     * @param int $repeaterId
+     * @return array
+     */
+    public function fetchPrimaryKeys($fieldId, $repeaterId)
+    {
+        $db = $this->db->select(RepeaterValueTranslationMapper::column('id'), true)
+                       ->from(RepeaterValueTranslationMapper::getTableName())
+                       ->innerJoin(RepeaterValueMapper::getTableName(), [
+                            RepeaterValueMapper::column('id') => RepeaterValueTranslationMapper::getRawColumn('id')
+                       ])
+                       ->whereEquals(RepeaterValueMapper::column('field_id'), $fieldId)
+                       ->andWhereEquals(RepeaterValueMapper::column('repeater_id'), $repeaterId);
+
+        return $db->queryAll('id');
+    }
+
+    /**
      * Fetch repeater's values by id
      * 
      * @param int $repeaterId
@@ -136,38 +156,36 @@ final class RepeaterValueMapper extends AbstractMapper implements RepeaterValueM
     }
 
     /**
+     * Updates a single translation
+     * 
+     * @param int $id Row id
+     * @param int $langId
+     * @param string $value
+     * @return boolean
+     */
+    public function updateValueTranslation($id, $langId, $value)
+    {
+        $db = $this->db->update(RepeaterValueTranslationMapper::getTableName(), ['value' => $value])
+                       ->whereEquals('id', $id)
+                       ->andWhereEquals('lang_id', $langId);
+
+        return $db->execute();
+    }
+
+    /**
      * Update repeater values by their Ids
      * 
      * @param int $repeaterId
-     * @param array $values (ID => Value pair).
-     *              ID is the primary key of repeater's value.
-     *              Value is the new text
+     * @param array $rows
      * @return boolean
      */
     public function updateValues($repeaterId, array $rows)
     {
-        // Update values by their corresponding ids
         foreach ($rows as $row) {
-            $data = [
-                'field_id' => $row['field_id'],
-                'value' => $row['value'],
-                'repeater_id' => $repeaterId
-            ];
-
-            // Delete previous, if available
-            if (!empty($row['id'])) {
-                $this->db->delete()
-                         ->from(RepeaterValueMapper::getTableName())
-                         ->whereEquals('id', $row['id'])
-                         ->execute();
-
-                // Append ID, if provided
-                $data['id'] = $row['id'];
-            }
-
-            // Insert new
-            $this->db->insert(RepeaterValueMapper::getTableName(), $data)
-                     ->execute();
+            $db = $this->db->update(RepeaterValueMapper::getTableName(), ['value' => $row['value']])
+                           ->whereEquals('field_id', $row['field_id'])
+                           ->andWhereEquals('repeater_id', $repeaterId);
+            $db->execute();
         }
 
         return true;

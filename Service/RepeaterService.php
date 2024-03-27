@@ -161,7 +161,20 @@ final class RepeaterService
 
         // Override value with new coming values
         foreach ($rows as &$row) {
-            $row['value'] = $input['record'][$row['field_id']];
+            if (isset($input['record'][$row['field_id']])) {
+                $row['value'] = $input['record'][$row['field_id']];
+            }
+
+            // Update translations
+            if ($row['translatable'] == 1) {
+                $ids = $this->repeaterValueMapper->fetchPrimaryKeys($row['field_id'], $row['repeater_id']);
+
+                foreach ($ids as $id) {
+                    foreach ($input['translation'][$row['field_id']] as $langId => $data) {
+                        $this->repeaterValueMapper->updateValueTranslation($id, $langId, $data['value']);
+                    }
+                }
+            }
         }
 
         // Finally run query to update values
