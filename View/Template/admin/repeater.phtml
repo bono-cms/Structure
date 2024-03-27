@@ -54,10 +54,6 @@ use Structure\View\RepeaterViewModel;
 
                 <?php foreach ($fields as $field): ?>
                 <?php if ($field['translatable'] == 1): ?>
-
-                <!-- Mark current field as translatable -->
-                <?= Element::hidden('translatable[]', $field['id']); ?>
-
                 <!-- Translatable field -->
                 <?php foreach ($languages as $language): ?>
 

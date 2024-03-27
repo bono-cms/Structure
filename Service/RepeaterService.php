@@ -181,29 +181,29 @@ final class RepeaterService
         // Get repeater ID
         $repeaterId = $this->repeaterMapper->insert($input['repeater']);
 
-        // Translatable scenario
-        if (isset($input['translatable'])) {
-            // IDs of translatable fields
-            foreach ($input['translatable'] as $fieldId) {
-                // Append empty value
-                $input['record'] = $input['record'] + [
-                    $fieldId => ''
-                ];
+        // Translatable scenario (if there's at least one translatable field)
+        if (isset($input['translation'])) {
+            foreach (array_keys($input['translation']) as $fieldId) {
+                $input['record'][$fieldId] = '';  
             }
 
-            // Oterate over translatable fields only
-            foreach ($input['translatable'] as $fieldId) {
+            // Save records
+            foreach ($input['record'] as $fieldId => $value) {
                 $entity = [
                     'repeater_id' => $repeaterId,
                     'field_id' => $fieldId,
-                    'value' => '' // Dummy value
+                    'value' => $value
                 ];
 
+                // Get translations for current field, if available
+                $translations = isset($input['translation'][$fieldId]) ? $input['translation'][$fieldId] : [];
+
                 // Save entity
-                $this->repeaterValueMapper->saveEntity($entity, $input['translation']);
+                $this->repeaterValueMapper->saveEntity($entity, $translations);
             }
+
         } else {
-            // Non-translatable scenario
+            // Non-translatable scenario (when no Translatable fields at all)
             foreach ($input['record'] as $fieldId => $value) {
                 $entity = [
                     'repeater_id' => $repeaterId,
