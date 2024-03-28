@@ -19,9 +19,19 @@ interface RepeaterValueMapperInterface
      * Fetch translations available translations
      * 
      * @param int $repeaterId
+     * @param int $langId Optional language ID filter
+     * @return array|string
+     */
+    public function fetchTranslations($repeaterId, $langId = null);
+    
+    /**
+     * Fetch primary keys by field and repeater ids
+     * 
+     * @parma int $fieldId
+     * @param int $repeaterId
      * @return array
      */
-    public function fetchTranslations($repeaterId);
+    public function fetchPrimaryKeys($fieldId, $repeaterId);
 
     /**
      * Fetch repeater's values by id
