@@ -70,4 +70,19 @@ final class FileInput
             return false;
         }
     }
+
+    /**
+     * Purge many files
+     * 
+     * @param array $paths
+     * @return boolean
+     */
+    public function purgeMany(array $paths)
+    {
+        foreach ($paths as $path) {
+            $this->purge($path);
+        }
+
+        return true;
+    }
 }
