@@ -116,9 +116,10 @@ final class RepeaterService
      * Fetch all by collection id
      * 
      * @param int $collectionId
+     * @param int $langId If provided, all translatable fields will return values with current language
      * @return array
      */
-    public function fetchAll($collectionId)
+    public function fetchAll($collectionId, $langId = null)
     {
         $rows = $this->repeaterValueMapper->fetchAll($collectionId);
         $output = [];
@@ -133,6 +134,16 @@ final class RepeaterService
                     'id' => $row['id'], // Value ID
                     'repeater_id' => $row['repeater_id'] // Primary parent ID
                 ];
+            }
+
+            // If we have translatable field
+            if ($langId !== null && $row['translatable'] == 1) {
+                /**
+                 * @TODO: This can be optimized, if we fetch all translations at once outside of this iteration
+                 * And then here we compare against available translation data.
+                 * So that we'll avoid quering a database each time a mathc occurs.
+                 */
+                $row['value'] = $this->repeaterValueMapper->fetchTranslations($row['id'], $langId);
             }
 
             // Dynamic keys are added here
