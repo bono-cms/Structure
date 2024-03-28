@@ -95,13 +95,17 @@ final class Repeater extends AbstractController
      */
     public function saveAction()
     {
-        $input = $this->request->getPost();
+        // All request data
+        $input = $this->request->getAll();
 
-        if (!empty($input['repeater']['id'])) {
-            $this->getModuleService('repeaterService')->update($input['repeater']['id'], $input);
+        $data = $input['data'];
+        $files = isset($input['files']) ? $input['files'] : []; // Grab files, if found
+
+        if (!empty($data['repeater']['id'])) {
+            $this->getModuleService('repeaterService')->update($data['repeater']['id'], $data, $files);
             $message = 'Current record has been updated successfully';
         } else {
-            $this->getModuleService('repeaterService')->save($input);
+            $this->getModuleService('repeaterService')->save($data, $files);
             $message = 'New record has been added successfully';
         }
 

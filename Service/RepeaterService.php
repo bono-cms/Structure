@@ -24,16 +24,25 @@ final class RepeaterService
     private $repeaterValueMapper;
 
     /**
+     * File input service
+     * 
+     * @var \Structure\Service\FileInput
+     */
+    private $fileInput;
+
+    /**
      * State initialization
      * 
      * @param \Structure\Storage\RepeaterMapperInterface $repeaterMapper
      * @param \Structure\Storage\RepeaterValueMapperInterface $repeaterValueMapper
+     * @param \Structure\Service\FileInput $fileInput
      * @return void
      */
-    public function __construct(RepeaterMapperInterface $repeaterMapper, RepeaterValueMapperInterface $repeaterValueMapper)
+    public function __construct(RepeaterMapperInterface $repeaterMapper, RepeaterValueMapperInterface $repeaterValueMapper, FileInput $fileInput)
     {
         $this->repeaterMapper = $repeaterMapper;
         $this->repeaterValueMapper = $repeaterValueMapper;
+        $this->fileInput = $fileInput;
     }
 
     /**
@@ -149,15 +158,19 @@ final class RepeaterService
      * 
      * @param int $repeaterId
      * @param array $input New data to be updated
+     * @param array $files Optional files
      * @return boolean
      */
-    public function update($repeaterId, array $input)
+    public function update($repeaterId, array $input, array $files)
     {
         // 1. Update repeater
         $this->repeaterMapper->persist($input['repeater']);
 
         // 2. Update values
         $rows = $this->repeaterMapper->fetchByRepeaterId($repeaterId);
+
+        // Update input with files, if available
+        $input = $this->processUploads($repeaterId, $input, $files, true);
 
         // Override value with new coming values
         foreach ($rows as &$row) {
@@ -187,12 +200,16 @@ final class RepeaterService
      * Saves a repeater
      * 
      * @param array $input Raw input data
+     * @param array $files Optional files
      * @return boolean
      */
-    public function save(array $input)
+    public function save(array $input, array $files)
     {
         // Get repeater ID
         $repeaterId = $this->repeaterMapper->insert($input['repeater']);
+
+        // Update input with files, if available
+        $input = $this->processUploads($repeaterId, $input, $files, false);
 
         // Translatable scenario (if there's at least one translatable field)
         if (isset($input['translation'])) {
@@ -214,7 +231,6 @@ final class RepeaterService
                 // Save entity
                 $this->repeaterValueMapper->saveEntity($entity, $translations);
             }
-
         } else {
             // Non-translatable scenario (when no Translatable fields at all)
             foreach ($input['record'] as $fieldId => $value) {
@@ -231,5 +247,47 @@ final class RepeaterService
 
         return true;
     }
+    
+    /**
+     * Process file upload inputs
+     * 
+     * @param int $repeaterId Target repeater field
+     * @param array $data Raw input data coming from request
+     * @param array $files An array of file instances
+     * @return arary Updated data input
+     */
+    private function processUploads($repeaterId, array $data, array $files, $purge)
+    {
+        // Do we have an uploaded file for any translatable field?
+        if (isset($files['translation'])) {
+            foreach ($files['translation'] as $fieldId => $languages) {
+                foreach ($languages as $langId => $file) {
+                    $value =& $data['translation'][$fieldId][$langId]['value']; // Attach by reference
+                    // Do we need to remove previous file?
+                    if ($purge) {
+                        $this->fileInput->purge($value);
+                    }
+
+                    // Upload a file and override by base its path
+                    $value = $this->fileInput->upload($repeaterId, $fieldId, $file['value']);
+                }
+            }
+        }
+
+        // Do we have an uploaded file for any non-translatable field?
         if (isset($files['record'])) {
+            foreach ($files['record'] as $fieldId => $file) {
+                $value =& $data['record'][$fieldId]; // Attach by reference
+                // Do we need to remove previous file?
+                if ($purge) {
+                    $this->fileInput->purge($value);
+                }
+
+                // Upload a file and override by base its path
+                $value = $this->fileInput->upload($repeaterId, $fieldId, $file);
+            }
+        }
+
+        return $data;
+    }
 }
