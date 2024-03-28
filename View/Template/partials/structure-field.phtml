@@ -65,13 +65,13 @@ use Structure\Collection\FieldTypeCollection;
     <?php if ($type == FieldTypeCollection::FIELD_RADIO): ?>
     <?php foreach ($list as $item): ?>
     <div class="form-check">
-      <?php $id = sprintf('item-%s', md5($item)); ?>
+      <?php $uniqid = sprintf('item-%s', md5($item)); ?>
       <!-- Radio -->
       <?php if ($type == FieldTypeCollection::FIELD_RADIO): ?>
-      <?= Element::radio($name, $item, $item == $value, ['class' => 'form-check-input', 'id' => $id, 'value' => $item]); ?>
+      <?= Element::radio($name, $item, $item == $value, ['class' => 'form-check-input', 'id' => $uniqid, 'value' => $item]); ?>
       <?php endif; ?>
 
-      <label class="form-check-label" for="<?= $id; ?>">
+      <label class="form-check-label" for="<?= $uniqid; ?>">
         <?= $item; ?>
       </label>
     </div>
@@ -93,5 +93,15 @@ use Structure\Collection\FieldTypeCollection;
 
     <?= Element::hidden($name, $value); ?>
     <?= Element::file($name, $value, ['class' => 'form-control', 'title' => $hint]); ?>
+
+    <?php if (!empty($value)): ?>
+    <div class="form-check mt-2">
+      <?= Element::checkbox($delete, false, ['class' => 'form-check-input', 'value' => $id], false); ?>
+      <label class="form-check-label">
+        <?= $this->show('Delete this file'); ?>
+      </label>
+    </div>
+    <?php endif; ?>
+
     <?php endif; ?>
 </div>

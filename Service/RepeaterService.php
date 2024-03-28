@@ -258,6 +258,30 @@ final class RepeaterService
      */
     private function processUploads($repeaterId, array $data, array $files, $purge)
     {
+        // Do we have explicit file-related fields to delete their values?
+        if (isset($data['delete'])) {
+            $paths = []; // Paths to be deleted
+
+            // Non-translatable fields
+            if (isset($data['delete']['record'])) {
+                foreach ($data['delete']['record'] as $fieldId) {
+                    $paths[] = $data['record'][$fieldId];
+                    $data['record'][$fieldId] = ''; // Erase value
+                }
+            }
+
+            // Translatable fields
+            if (isset($data['delete']['translation'])) {
+                foreach($data['delete']['translation'] as $langId => $fieldId) {
+                    $paths[] = $data['translation'][$fieldId][$langId]['value'];
+                    $data['translation'][$fieldId][$langId]['value'] = ''; // Erase value
+                }
+            }
+
+            // Purge many paths
+            $this->fileInput->purgeMany($paths);
+        }
+
         // Do we have an uploaded file for any translatable field?
         if (isset($files['translation'])) {
             foreach ($files['translation'] as $fieldId => $languages) {

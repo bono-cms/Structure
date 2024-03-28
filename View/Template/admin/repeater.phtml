@@ -61,8 +61,10 @@ use Structure\View\RepeaterViewModel;
                 <?= Element::hidden(RepeaterViewModel::createTranslatenNs('lang_id', $field['id'], $language->getId()), $language->getId()); ?>
 
                 <?php $this->loadPartial('structure-field', [
+                    'id' => $field['id'],
                     'type' => $field['type'],
                     'name' => RepeaterViewModel::createTranslatenNs('value', $field['id'], $language->getId()),
+                    'delete' => RepeaterViewModel::createDeleteTranslateNs($language->getId()),
                     'label' => $field['name'] . ' / ' . $language->getName(),
                     'value' => isset($field['translations']) ? $field['translations'][$language->getId()] : null,
                     'hint' => $field['hint'],
@@ -76,8 +78,10 @@ use Structure\View\RepeaterViewModel;
 
                 <?php else: ?>
                 <?php $this->loadPartial('structure-field', [
+                    'id' => $field['id'],
                     'type' => $field['type'],
                     'name' => sprintf('record[%s]', $field['id']),
+                    'delete' => RepeaterViewModel::createDeleteNs(),
                     'label' => $field['name'],
                     'value' => isset($field['value']) ? $field['value'] : null,
                     'hint' => $field['hint'],
