@@ -7,6 +7,26 @@ use Structure\Collection\FieldTypeCollection;
 final class RepeaterViewModel
 {
     /**
+     * Generate name for delete input
+     * 
+     * @return string
+     */
+    public static function createDeleteNs()
+    {
+        return 'delete[record][]';
+    }
+
+    /**
+     * Generate name for delete translatable input
+     * 
+     * @return string
+     */
+    public static function createDeleteTranslateNs($langId)
+    {
+        return sprintf('delete[translation][%s]', $langId);
+    }
+
+    /**
      * Creates a group name for translation input
      * 
      * @param string $key Group key
