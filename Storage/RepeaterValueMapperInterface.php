@@ -16,6 +16,33 @@ interface RepeaterValueMapperInterface
     public function updateValues($repeaterId, array $rows);
 
     /**
+     * Fetch by collection id
+     * 
+     * @param int $collectionId
+     * @param array $types
+     * @return array
+     */
+    public function fetchByCollectionId($collectionId, array $types);
+
+    /**
+     * Fetch by repeater id
+     * 
+     * @param int $repeaterId
+     * @param array $types
+     * @return array
+     */
+    public function fetchByRepeaterId($repeaterId, array $types);
+    
+    /**
+     * Fetch by field id
+     * 
+     * @param int $fieldId
+     * @param array $types
+     * @return array
+     */
+    public function fetchByFieldId($fieldId, array $types);
+
+    /**
      * Fetch translations available translations
      * 
      * @param int $repeaterId

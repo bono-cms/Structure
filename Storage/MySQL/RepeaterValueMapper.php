@@ -56,6 +56,70 @@ final class RepeaterValueMapper extends AbstractMapper implements RepeaterValueM
     }
 
     /**
+     * Fetch ids by type constant
+     * 
+     * @param string $column
+     * @param string $value
+     * @param array $types Array of constants
+     * @return array
+     */
+    private function fetchByType($column, $value, array $types)
+    {
+        $columns = [
+            self::column('id'),
+            self::column('value')
+        ];
+
+        $db = $this->db->select($columns)
+                       ->from(self::getTableName())
+                       // Repeater relation
+                       ->innerJoin(FieldMapper::getTableName(), [
+                            FieldMapper::column('id') => self::getRawColumn('field_id')
+                       ])
+                       ->whereEquals($column, $value)
+                       ->andWhereNotEquals(self::column('value'), '')
+                       ->andWhereIn(FieldMapper::column('type'), $types);
+
+        return $db->queryAll();
+    }
+
+    /**
+     * Fetch by collection id
+     * 
+     * @param int $collectionId
+     * @param array $types
+     * @return array
+     */
+    public function fetchByCollectionId($collectionId, array $types)
+    {
+        return $this->fetchByType(FieldMapper::column('collection_id'), $collectionId, $types);
+    }
+
+    /**
+     * Fetch by repeater id
+     * 
+     * @param int $repeaterId
+     * @param array $types
+     * @return array
+     */
+    public function fetchByRepeaterId($repeaterId, array $types)
+    {
+        return $this->fetchByType(self::column('repeater_id'), $repeaterId, $types);
+    }
+
+    /**
+     * Fetch by field id
+     * 
+     * @param int $fieldId
+     * @param array $types
+     * @return array
+     */
+    public function fetchByFieldId($fieldId, array $types)
+    {
+        return $this->fetchByType(self::column('field_id'), $fieldId, $types);
+    }
+
+    /**
      * Fetch translations available translations
      * 
      * @param int $repeaterId
