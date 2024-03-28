@@ -73,17 +73,6 @@ final class RepeaterService
             return $fields;
         }
 
-        // Internal function. Make languages as a hash list.
-        $hashLanguages = function(array $rows){
-            $output = [];
-
-            foreach ($rows as $row) {
-                $output[$row['lang_id']] = $row['value']; 
-            }
-
-            return $output;
-        };
-
         foreach ($fields as &$field) {
             foreach ($rows as $row) {
                 // Catch current field
@@ -92,12 +81,12 @@ final class RepeaterService
 
                     // Append translations, if required
                     if (isset($field['translatable']) && $field['translatable'] == 1) {
-                        $field['translations'] = $hashLanguages($this->repeaterValueMapper->fetchTranslations($row['id']));
+                        $field['translations'] = ArrayUtils::arrayList($this->repeaterValueMapper->fetchTranslations($row['id']), 'lang_id', 'value');
                     }
                 }
             }
         }
-
+        
         return $fields;
     }
 
