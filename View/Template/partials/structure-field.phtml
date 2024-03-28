@@ -86,7 +86,12 @@ use Structure\Collection\FieldTypeCollection;
 
     <!-- File -->
     <?php if ($type == FieldTypeCollection::FIELD_FILE): ?>
+
+    <?php if (!empty($value)): ?>
+    <a class="d-block text-muted mb-2" href="<?= $value; ?>" target="_blank"><?= $this->translate('View current file'); ?></a>
+    <?php endif; ?>
+
     <?= Element::hidden($name, $value); ?>
-    <?= Element::file($name, $value, ['class' => 'form-control']); ?>
+    <?= Element::file($name, $value, ['class' => 'form-control', 'title' => $hint]); ?>
     <?php endif; ?>
 </div>
