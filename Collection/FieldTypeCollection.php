@@ -35,6 +35,9 @@ final class FieldTypeCollection extends ArrayCollection
     /* Other */
     const FIELD_CHECKBOX = 12;
 
+    /* Files */
+    const FIELD_FILE = 13;
+
     /**
      * {@inheritDoc}
      */
@@ -58,6 +61,9 @@ final class FieldTypeCollection extends ArrayCollection
         ],
         'Other' => [
             self::FIELD_CHECKBOX => 'Checkbox',
+        ],
+        'Files' => [
+            self::FIELD_FILE => 'File'
         ]
     ];
 
@@ -118,6 +124,19 @@ final class FieldTypeCollection extends ArrayCollection
     {
         return in_array($type, [
             self::FIELD_CHECKBOX
+        ]);
+    }
+
+    /**
+     * Whether this is static field
+     * 
+     * @param int $type
+     * @return boolean
+     */
+    public static function isFile($type)
+    {
+        return in_array($type, [
+            self::FIELD_FILE
         ]);
     }
 }
