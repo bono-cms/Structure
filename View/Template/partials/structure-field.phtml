@@ -83,4 +83,10 @@ use Structure\Collection\FieldTypeCollection;
     <?= Element::datalist($name, $value, $list, ['class' => 'form-control']); ?>
     <?php endif; ?>
     <!-- End of Lists -->
+
+    <!-- File -->
+    <?php if ($type == FieldTypeCollection::FIELD_FILE): ?>
+    <?= Element::hidden($name, $value); ?>
+    <?= Element::file($name, $value, ['class' => 'form-control']); ?>
+    <?php endif; ?>
 </div>
