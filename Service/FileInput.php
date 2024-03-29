@@ -60,44 +60,39 @@ final class FileInput
      */
     public function purgeDir($repeaterId)
     {
-        $destination = $this->rootDir . self::PARAM_UPLOAD_PATH . '/' . $repeaterId;
+        $ids = is_array($repeaterId) ? $repeaterId : [$repeaterId];
 
-        if (is_dir($destination)) {
-            return FileManager::rmdir($destination);
-        } else {
-            return false;
+        foreach ($ids as $id) {
+            $destination = $this->rootDir . self::PARAM_UPLOAD_PATH . '/' . $id;
+
+            if (is_dir($destination)) {
+                FileManager::rmdir($destination);
+            }
         }
+
+        return true;
     }
 
     /**
      * Delete file if one exists
      * 
-     * @param string $path Relative path to the file
+     * @param string|array $target Relative path to the file
      * @return boolean
      */
-    public function purge($path)
+    public function purge($target)
     {
-        if (empty($path) || !is_file($this->rootDir . $path)) {
-            return false;
-        }
+        $paths = is_array($target) ? $target : [$target];
 
-        try {
-            return FileManager::rmfile($this->rootDir . $path);
-        } catch (RuntimeException $e) {
-            return false;
-        }
-    }
-
-    /**
-     * Purge many files
-     * 
-     * @param array $paths
-     * @return boolean
-     */
-    public function purgeMany(array $paths)
-    {
         foreach ($paths as $path) {
-            $this->purge($path);
+            if (empty($path) || !is_file($this->rootDir . $path)) {
+                continue;
+            }
+
+            try {
+                FileManager::rmfile($this->rootDir . $path);
+            } catch (RuntimeException $e) {
+                
+            }
         }
 
         return true;
