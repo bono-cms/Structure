@@ -63,7 +63,8 @@ interface RepeaterValueMapperInterface
      * Fetch all records with ther values by collection id
      * 
      * @param int $collectionId
+     * @param boolean $sort Whether to sort by order. If true, sorted by order, otherwise by last id
      * @return array
      */
-    public function fetchAll($collectionId);
+    public function fetchAll($collectionId, $sort);
 }

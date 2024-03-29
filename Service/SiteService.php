@@ -44,6 +44,6 @@ final class SiteService
             $langId = $this->langId;
         }
 
-        return $this->repeaterService->fetchAll($id, $langId, true);
+        return $this->repeaterService->fetchAll($id, $langId, true, true);
     }
 }

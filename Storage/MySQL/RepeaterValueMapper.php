@@ -2,6 +2,7 @@
 
 namespace Structure\Storage\MySQL;
 
+use Krystal\Db\Sql\RawSqlFragment;
 use Structure\Storage\RepeaterValueMapperInterface;
 use Cms\Storage\MySQL\AbstractMapper;
 
@@ -21,38 +22,6 @@ final class RepeaterValueMapper extends AbstractMapper implements RepeaterValueM
     public static function getTranslationTable()
     {
         return RepeaterValueTranslationMapper::getTableName();
-    }
-
-    /**
-     * Creates instance of shared SELECT query
-     * 
-     * @return \Krysta\Db\Db
-     */
-    private function createSharedQuery()
-    {
-        // Columns to be selected
-        $columns = [
-            RepeaterValueMapper::column('id'),
-            RepeaterValueMapper::column('repeater_id'),
-            RepeaterValueMapper::column('field_id'),
-            RepeaterValueMapper::column('value'),
-            FieldMapper::column('name') => 'field',
-            FieldMapper::column('alias'),
-            FieldMapper::column('translatable')
-        ];
-
-        $db = $this->db->select($columns)
-                       ->from(RepeaterValueMapper::getTableName())
-                       // Repeater relation
-                       ->leftJoin(RepeaterMapper::getTableName(), [
-                            RepeaterMapper::column('id') => RepeaterValueMapper::getRawColumn('repeater_id')
-                       ])
-                       // Field relation
-                       ->leftJoin(FieldMapper::getTableName(), [
-                            RepeaterValueMapper::column('field_id') => FieldMapper::getRawColumn('id')
-                       ]);
-
-        return $db;
     }
 
     /**
@@ -150,6 +119,38 @@ final class RepeaterValueMapper extends AbstractMapper implements RepeaterValueM
     }
 
     /**
+     * Creates instance of shared SELECT query
+     * 
+     * @return \Krysta\Db\Db
+     */
+    private function createSharedQuery()
+    {
+        // Columns to be selected
+        $columns = [
+            RepeaterValueMapper::column('id'),
+            RepeaterValueMapper::column('repeater_id'),
+            RepeaterValueMapper::column('field_id'),
+            RepeaterValueMapper::column('value'),
+            FieldMapper::column('name') => 'field',
+            FieldMapper::column('alias'),
+            FieldMapper::column('translatable')
+        ];
+
+        $db = $this->db->select($columns)
+                       ->from(RepeaterValueMapper::getTableName())
+                       // Repeater relation
+                       ->leftJoin(RepeaterMapper::getTableName(), [
+                            RepeaterMapper::column('id') => RepeaterValueMapper::getRawColumn('repeater_id')
+                       ])
+                       // Field relation
+                       ->leftJoin(FieldMapper::getTableName(), [
+                            RepeaterValueMapper::column('field_id') => FieldMapper::getRawColumn('id')
+                       ]);
+
+        return $db;
+    }
+
+    /**
      * Fetch repeater's values by id
      * 
      * @param int $repeaterId
@@ -167,13 +168,22 @@ final class RepeaterValueMapper extends AbstractMapper implements RepeaterValueM
      * Fetch all records with ther values by collection id
      * 
      * @param int $collectionId
+     * @param boolean $sort Whether to sort by order. If true, sorted by order, otherwise by last id
      * @return array
      */
-    public function fetchAll($collectionId)
+    public function fetchAll($collectionId, $sort)
     {
         $db = $this->createSharedQuery()
-                   ->whereEquals(RepeaterMapper::column('collection_id'), $collectionId)
-                   ->orderBy(RepeaterMapper::column('order'));
+                   ->whereEquals(RepeaterMapper::column('collection_id'), $collectionId);
+
+        if ($sort == true) {
+            $db->orderBy(new RawSqlFragment(
+                    sprintf('%s, CASE WHEN %s = 0 THEN %s END DESC', RepeaterMapper::column('order'), RepeaterMapper::column('order'), self::column('id'))
+                ));
+        } else {
+            $db->orderBy(self::column('id'))
+               ->desc();
+        }
 
         return $db->queryAll();
     }
