@@ -14,6 +14,7 @@ namespace Structure;
 use Cms\AbstractCmsModule;
 use Structure\Service\CollectionService;
 use Structure\Service\FieldService;
+use Structure\Service\SiteService;
 use Structure\Service\RepeaterService;
 use Structure\Service\FileInput;
 
@@ -24,17 +25,22 @@ final class Module extends AbstractCmsModule
      */
     public function getServiceProviders()
     {
-        $fileInput = new FileInput($this->appConfig->getRootDir());
-
+        // Build data mappers
         $collectionMapper = $this->getMapper('\Structure\Storage\MySQL\CollectionMapper');
         $fieldMapper = $this->getMapper('\Structure\Storage\MySQL\FieldMapper');
         $repeaterMapper = $this->getMapper('\Structure\Storage\MySQL\RepeaterMapper');
         $valueMapper = $this->getMapper('\Structure\Storage\MySQL\RepeaterValueMapper');
 
-        return array(
+        $languageManager = $this->getCmsModule()->getService('languageManager');
+
+        $fileInput = new FileInput($this->appConfig->getRootDir());
+        $repeaterService = new RepeaterService($repeaterMapper, $valueMapper, $fileInput);
+
+        return [
+            'siteService' => new SiteService($repeaterService, $languageManager->getCurrentId()),
             'collectionService' => new CollectionService($collectionMapper),
             'fieldService' => new FieldService($fieldMapper),
-            'repeaterService' => new RepeaterService($repeaterMapper, $valueMapper, $fileInput)
-        );
+            'repeaterService' => $repeaterService
+        ];
     }
 }
