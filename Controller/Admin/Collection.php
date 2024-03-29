@@ -78,9 +78,13 @@ final class Collection extends AbstractController
      */
     public function deleteAction($id)
     {
-        if ($this->getModuleService('collectionService')->deleteByPk($id)) {
-            $this->flashBag->set('success', 'Selected collection has been removed successfully');
-            return 1;
-        }
+        // Delete filest first
+        $this->getModuleService('repeaterService')->deleteFilesByCollectionId($id);
+
+        // Delete collection last
+        $this->getModuleService('collectionService')->deleteByPk($id);
+
+        $this->flashBag->set('success', 'Selected collection has been removed successfully');
+        return 1;
     }
 }
