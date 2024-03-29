@@ -3,14 +3,16 @@ TODO LIST
 
 # Urgent
 
-* Localization support
+* Fix file path view in Grid
 * Table captions are coming from alias. Fix it.
 * Proper sorting
 * Filter by hidden attribute. Fetch service.
 * Dashboard module
+* Automatically optimize images to AVIF/WEBP
 
 # Later
 
+* Validation & Unique alias name check
 * Pagination
 * Sidebar filters
 * Search module integration
