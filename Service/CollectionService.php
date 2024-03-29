@@ -70,10 +70,11 @@ final class CollectionService
     /**
      * Fetch all collections
      * 
+     * @param boolean $sort Whether to sort by order. If true, sorted by order, otherwise by last id
      * @return array
      */
-    public function fetchAll()
+    public function fetchAll($sort)
     {
-        return $this->collectionMapper->fetchAll();
+        return $this->collectionMapper->fetchAll($sort);
     }
 }

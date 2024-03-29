@@ -34,7 +34,7 @@ final class Collection extends AbstractController
 
         return $this->view->render('collection', [
             'collection' => $collection,
-            'collections' => $collectionService->fetchAll()
+            'collections' => $collectionService->fetchAll(false)
         ]);
     }
 

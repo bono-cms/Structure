@@ -2,6 +2,7 @@
 
 namespace Structure\Storage\MySQL;
 
+use Krystal\Db\Sql\RawSqlFragment;
 use Cms\Storage\MySQL\AbstractMapper;
 use Structure\Storage\CollectionMapperInterface;
 
@@ -18,9 +19,10 @@ final class CollectionMapper extends AbstractMapper implements CollectionMapperI
     /**
      * Fetch all collections with field count on them
      * 
+     * @param boolean $sort Whether to sort by order. If true, sorted by order, otherwise by last id
      * @return array
      */
-    public function fetchAll()
+    public function fetchAll($sort)
     {
         // Columns to be selected
         $columns = [
@@ -34,10 +36,18 @@ final class CollectionMapper extends AbstractMapper implements CollectionMapperI
                        ->from(self::getTableName())
                        // Field relation
                        ->leftJoin(FieldMapper::getTableName(), [
-                            FieldMapper::column('collection_id') => self::getRawColumn($this->getPk())
+                            FieldMapper::column('collection_id') => self::getRawColumn('id')
                        ])
-                       ->groupBy($columns)
-                       ->orderBy(self::column($this->getPk()));
+                       ->groupBy($columns);
+
+        if ($sort == true) {
+            $db->orderBy(new RawSqlFragment(
+                    sprintf('%s, CASE WHEN %s = 0 THEN %s END DESC', self::column('order'), self::column('order'), self::column('id'))
+                ));
+        } else {
+            $db->orderBy(self::column('id'))
+               ->desc();
+        }
 
         return $db->queryAll();
     }
