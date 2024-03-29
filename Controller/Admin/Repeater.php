@@ -39,8 +39,10 @@ final class Repeater extends AbstractController
                 $fields = $this->getModuleService('repeaterService')->appendValues($fields, $repeaterId);
                 // Find current repeater
                 $repeater = $this->getModuleService('repeaterService')->fetchById($repeaterId);
-            } else {
-                // Repeater doesn't exist yet. Create a mock.
+            }
+
+            // Repeater doesn't exist yet. Create a mock.
+            if (!$repeater) {
                 $repeater = [
                     'collection_id' => $collectionId
                 ];
@@ -82,9 +84,12 @@ final class Repeater extends AbstractController
      */
     public function deleteAction($id)
     {
-        $this->getModuleService('repeaterService')->deleteById($id);
-        $this->flashBag->set('success', 'Selected record has been deleted successfully');
+        $repeaterService = $this->getModuleService('repeaterService');
 
+        $repeaterService->deleteFilesByRepeaterId($id);
+        $repeaterService->deleteById($id);
+
+        $this->flashBag->set('success', 'Selected record has been deleted successfully');
         return 1;
     }
 
