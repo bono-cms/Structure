@@ -3,14 +3,13 @@ TODO LIST
 
 # Urgent
 
-* Proper sorting
-* Filter by hidden attribute
-* Fetch service
+* Fix Edit button in records
 * Dashboard module
 * Automatically optimize images to AVIF/WEBP
 
 # Later
 
+* Whether to display in grid - implement
 * Form validation & Unique alias name check
 * Pagination
 * Sidebar filters
@@ -20,7 +19,7 @@ TODO LIST
 * Layout shifts
 * Field options
 * API
-* Filtering and sorting
+* Filtering and sorting (Collections can have different sorting methods by ID, datetime, Alphabet)
 * Implement relations (One-to-one, One-to-many, Many-to-many)
 * Structure templates
 * Attach Structures to pages
