@@ -41,6 +41,7 @@ use Structure\View\RepeaterViewModel;
         </div>
     </div>
 
+    <?php if (!empty($fields)): ?>
     <div class="col-lg-5">
         <div class="card sticky-top">
             <form data-group="collection" autocomplete="off">
@@ -115,4 +116,5 @@ use Structure\View\RepeaterViewModel;
             </form>
         </div>
     </div>
+    <?php endif; ?>
 </div>
