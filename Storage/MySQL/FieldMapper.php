@@ -2,6 +2,7 @@
 
 namespace Structure\Storage\MySQL;
 
+use Krystal\Db\Sql\RawSqlFragment;
 use Cms\Storage\MySQL\AbstractMapper;
 use Structure\Storage\FieldMapperInterface;
 
@@ -26,8 +27,9 @@ final class FieldMapper extends AbstractMapper implements FieldMapperInterface
         $db = $this->db->select('*')
                        ->from(self::getTableName())
                        ->whereEquals('collection_id', $collectionId)
-                       ->orderBy($this->getPk())
-                       ->desc();
+                       ->orderBy(new RawSqlFragment(
+                            '`order`, CASE WHEN `order` = 0 THEN `id` END DESC'
+                       ));
 
         return $db->queryAll();
     }
