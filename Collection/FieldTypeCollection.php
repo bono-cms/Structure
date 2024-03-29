@@ -37,6 +37,7 @@ final class FieldTypeCollection extends ArrayCollection
 
     /* Files */
     const FIELD_FILE = 13;
+    const FIELD_IMAGE = 14;
 
     /**
      * {@inheritDoc}
@@ -63,9 +64,34 @@ final class FieldTypeCollection extends ArrayCollection
             self::FIELD_CHECKBOX => 'Checkbox',
         ],
         'Files' => [
-            self::FIELD_FILE => 'File'
+            self::FIELD_FILE => 'File',
+            self::FIELD_IMAGE => 'Image'
         ]
     ];
+
+    /**
+     * Accept map for file input
+     * 
+     * @var array
+     */
+    protected static $accept = [
+        self::FIELD_IMAGE => 'image/apng, image/avif, image/gif, image/jpeg, image/png, image/svg+xml, image/webp'
+    ];
+
+    /**
+     * Returns accept type by field constant
+     * 
+     * @param int $type Filed type constant
+     * @return mixed
+     */
+    public static function getAccept($type)
+    {
+        if (isset(self::$accept[$type])) {
+            return self::$accept[$type];
+        } else {
+            return null;
+        }
+    }
 
     /**
      * Whether this is text field
@@ -136,7 +162,8 @@ final class FieldTypeCollection extends ArrayCollection
     public static function isFile($type)
     {
         return in_array($type, [
-            self::FIELD_FILE
+            self::FIELD_FILE,
+            self::FIELD_IMAGE
         ]);
     }
 }
