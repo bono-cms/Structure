@@ -65,12 +65,7 @@ final class RepeaterValueMapper extends AbstractMapper implements RepeaterValueM
      */
     private function fetchByType($column, $value, array $types)
     {
-        $columns = [
-            self::column('id'),
-            self::column('value')
-        ];
-
-        $db = $this->db->select($columns)
+        $db = $this->db->select(self::column('repeater_id'))
                        ->from(self::getTableName())
                        // Repeater relation
                        ->innerJoin(FieldMapper::getTableName(), [
@@ -80,7 +75,7 @@ final class RepeaterValueMapper extends AbstractMapper implements RepeaterValueM
                        ->andWhereNotEquals(self::column('value'), '')
                        ->andWhereIn(FieldMapper::column('type'), $types);
 
-        return $db->queryAll();
+        return $db->queryAll('repeater_id');
     }
 
     /**
@@ -93,18 +88,6 @@ final class RepeaterValueMapper extends AbstractMapper implements RepeaterValueM
     public function fetchByCollectionId($collectionId, array $types)
     {
         return $this->fetchByType(FieldMapper::column('collection_id'), $collectionId, $types);
-    }
-
-    /**
-     * Fetch by repeater id
-     * 
-     * @param int $repeaterId
-     * @param array $types
-     * @return array
-     */
-    public function fetchByRepeaterId($repeaterId, array $types)
-    {
-        return $this->fetchByType(self::column('repeater_id'), $repeaterId, $types);
     }
 
     /**
