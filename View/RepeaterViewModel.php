@@ -58,10 +58,17 @@ final class RepeaterViewModel
             ];
 
             // Is this a file type collection?
-            if ($field['type'] == FieldTypeCollection::FIELD_FILE) {
+            if (FieldTypeCollection::isFile($field['type'])) {
                 $column['value'] = function($row) use ($field){
-                    if (isset($row[$field['alias']])){
-                        return Element::link('View file', $row[$field['alias']], ['target' => '_blank']);
+                    if (isset($row[$field['alias']])) {
+                        $value = $row[$field['alias']];
+                        // Image case
+                        if ($field['type'] == FieldTypeCollection::FIELD_IMAGE){
+                            return Element::image($value, ['class' => 'img-fluid']);
+                        }
+
+                        // By default
+                        return Element::link('View file', $value, ['target' => '_blank']);
                     } else {
                         return null;
                     }

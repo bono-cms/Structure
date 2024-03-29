@@ -85,14 +85,14 @@ use Structure\Collection\FieldTypeCollection;
     <!-- End of Lists -->
 
     <!-- File -->
-    <?php if ($type == FieldTypeCollection::FIELD_FILE): ?>
+    <?php if (FieldTypeCollection::isFile($type)): ?>
 
     <?php if (!empty($value)): ?>
     <a class="d-block text-muted mb-2" href="<?= $value; ?>" target="_blank"><?= $this->translate('View current file'); ?></a>
     <?php endif; ?>
 
     <?= Element::hidden($name, $value); ?>
-    <?= Element::file($name, $value, ['class' => 'form-control', 'title' => $hint]); ?>
+    <?= Element::file($name, FieldTypeCollection::getAccept($type), ['class' => 'form-control', 'title' => $hint]); ?>
 
     <?php if (!empty($value)): ?>
     <div class="form-check mt-2">
