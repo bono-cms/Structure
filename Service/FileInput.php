@@ -53,6 +53,23 @@ final class FileInput
     }
 
     /**
+     * Purges a directory
+     * 
+     * @param int $repeaterId
+     * @return boolean Depending on success
+     */
+    public function purgeDir($repeaterId)
+    {
+        $destination = $this->rootDir . self::PARAM_UPLOAD_PATH . '/' . $repeaterId;
+
+        if (is_dir($destination)) {
+            return FileManager::rmdir($destination);
+        } else {
+            return false;
+        }
+    }
+
+    /**
      * Delete file if one exists
      * 
      * @param string $path Relative path to the file
