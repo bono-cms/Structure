@@ -45,9 +45,10 @@ final class RepeaterViewModel
      * 
      * @param array $fields Available fields
      * @param array $rows Rows
+     * @param string $hint
      * @param array
      */
-    public static function createColumns(array $fields, array $rows)
+    public static function createColumns(array $fields, array $rows, $hint)
     {
         $output = [];
 
@@ -59,7 +60,7 @@ final class RepeaterViewModel
 
             // Is this a file type collection?
             if (FieldTypeCollection::isFile($field['type'])) {
-                $column['value'] = function($row) use ($field){
+                $column['value'] = function($row) use ($field, $hint){
                     if (isset($row[$field['alias']])) {
                         $value = $row[$field['alias']];
                         // Image case
@@ -68,7 +69,7 @@ final class RepeaterViewModel
                         }
 
                         // By default
-                        return Element::link('View file', $value, ['target' => '_blank']);
+                        return Element::link($hint, $value, ['target' => '_blank']);
                     } else {
                         return null;
                     }
