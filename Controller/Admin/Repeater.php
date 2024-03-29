@@ -42,7 +42,7 @@ final class Repeater extends AbstractController
             }
 
             // Repeater doesn't exist yet. Create a mock.
-            if (!$repeater) {
+            if (!isset($repeater) || !$repeater) {
                 $repeater = [
                     'collection_id' => $collectionId
                 ];
