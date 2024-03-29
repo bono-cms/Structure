@@ -25,15 +25,6 @@ interface RepeaterValueMapperInterface
     public function fetchByCollectionId($collectionId, array $types);
 
     /**
-     * Fetch by repeater id
-     * 
-     * @param int $repeaterId
-     * @param array $types
-     * @return array
-     */
-    public function fetchByRepeaterId($repeaterId, array $types);
-    
-    /**
      * Fetch by field id
      * 
      * @param int $fieldId
