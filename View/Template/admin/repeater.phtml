@@ -23,7 +23,7 @@ use Structure\View\RepeaterViewModel;
                         return $row['repeater_id'] == $repeaterId ? 'table-info' : null;
                     }
                 ],
-                'columns' => RepeaterViewModel::createColumns($rows),
+                'columns' => RepeaterViewModel::createColumns($fields, $rows),
                 'actions' => [
                     function($row) use ($repeater){
                         return Icon::edit(

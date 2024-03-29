@@ -2,6 +2,7 @@
 
 namespace Structure\View;
 
+use Krystal\Form\Element;
 use Structure\Collection\FieldTypeCollection;
 
 final class RepeaterViewModel
@@ -42,51 +43,32 @@ final class RepeaterViewModel
     /**
      * Create columns for the widget
      * 
-     * @param array $rows
+     * @param array $fields Available fields
+     * @param array $rows Rows
      * @param array
      */
-    public static function createColumns(array $rows)
+    public static function createColumns(array $fields, array $rows)
     {
-        if (empty($rows)) {
-            return $rows;
-        }
-
-        $count = count($rows);
-
-        // Ignored columns
-        $ignored = [
-            'repeater_id'
-        ];
-
-        $rows = array_values($rows)[$count - 1]; // Grab by last index
         $output = [];
 
-        $fieldTypeCollection = new FieldTypeCollection;
-
-        foreach ($rows as $column => $value) {
-            $data = [
-                'column' => $column
+        foreach ($fields as $field) {
+            $column = [
+                'column' => $field['alias'],
+                'label' => $field['name']
             ];
 
-            // Exception for ID column
-            if ($column == 'id') {
-                $data['label'] = '#';
-            }
-
-            // Exception for Type column
-            if ($column == 'type') {
-                // Grab name from collection
-                $data['value'] = function($row) use ($fieldTypeCollection){
-                    return $fieldTypeCollection->findByKey($row['type']);
+            // Is this a file type collection?
+            if ($field['type'] == FieldTypeCollection::FIELD_FILE) {
+                $column['value'] = function($row) use ($field){
+                    if (isset($row[$field['alias']])){
+                        return Element::link('View file', $row[$field['alias']], ['target' => '_blank']);
+                    } else {
+                        return null;
+                    }
                 };
             }
 
-            // Do we encounter ignored columns?
-            if (in_array($column, $ignored)) {
-                continue;
-            }
-
-            $output[] = $data;
+            $output[] = $column;
         }
 
         return $output;
