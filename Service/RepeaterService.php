@@ -4,6 +4,7 @@ namespace Structure\Service;
 
 use Krystal\Stdlib\VirtualEntity;
 use Krystal\Stdlib\ArrayUtils;
+use Structure\Collection\FieldTypeCollection;
 use Structure\Storage\RepeaterMapperInterface;
 use Structure\Storage\RepeaterValueMapperInterface;
 
@@ -56,9 +57,35 @@ final class RepeaterService
     }
 
     /**
+     * Delete files by collection id
+     * 
+     * @param int $id Collection id
+     * @return boolean
+     */
+    public function deleteFilesByCollectionId($id)
+    {
+        $rows = $this->repeaterValueMapper->fetchByCollectionId($id, [
+            FieldTypeCollection::FIELD_FILE
+        ]);
+
+        return $this->fileInput->purgeDir($rows);
+    }
+
+    /**
+     * Delete files by repeater id
+     * 
+     * @param int $id Repeater id
+     * @return boolean
+     */
+    public function deleteFilesByRepeaterId($id)
+    {
+        return $this->fileInput->purgeDir($id);
+    }
+
+    /**
      * Deletes a record with its all relations
      * 
-     * @param int $id
+     * @param int $id Repeater id
      * @return boolean
      */
     public function deleteById($id)
@@ -95,7 +122,7 @@ final class RepeaterService
                 }
             }
         }
-        
+
         return $fields;
     }
 
@@ -146,7 +173,7 @@ final class RepeaterService
 
             // Dynamic keys are added here
             $output[$key] = array_merge($output[$key], [
-                $row['alias'] => $row['value'],
+                $row['alias'] => $row['value']
             ]);
         }
 
@@ -279,7 +306,7 @@ final class RepeaterService
             }
 
             // Purge many paths
-            $this->fileInput->purgeMany($paths);
+            $this->fileInput->purge($paths);
         }
 
         // Do we have an uploaded file for any translatable field?
