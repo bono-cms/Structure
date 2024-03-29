@@ -66,7 +66,6 @@ final class Field extends AbstractController
         }
     }
 
-
     /**
      * Saves a field
      * 
@@ -96,6 +95,9 @@ final class Field extends AbstractController
      */
     public function deleteAction($id)
     {
+        // Delete filest first
+        $this->getModuleService('repeaterService')->deleteFilesByFieldId($id);
+
         $this->getModuleService('fieldService')->deleteById($id);
         $this->flashBag->set('success', 'Selected field has been deleted successfully');
 

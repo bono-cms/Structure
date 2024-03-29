@@ -57,6 +57,21 @@ final class RepeaterService
     }
 
     /**
+     * Delete files by field id
+     * 
+     * @param int $id Field id
+     * @return boolean
+     */
+    public function deleteFilesByFieldId($id)
+    {
+        $rows = $this->repeaterValueMapper->fetchByFieldId($id, [
+            FieldTypeCollection::FIELD_FILE
+        ]);
+
+        return $this->fileInput->purgeDir($rows);
+    }
+
+    /**
      * Delete files by collection id
      * 
      * @param int $id Collection id
@@ -268,7 +283,7 @@ final class RepeaterService
                 ];
 
                 // Save entity
-                $this->repeaterValueMapper->saveEntity($entity);
+                $this->repeaterValueMapper->saveEntity($entity, []);
             }
         }
 
