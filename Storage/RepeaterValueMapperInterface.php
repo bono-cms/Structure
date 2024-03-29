@@ -64,7 +64,8 @@ interface RepeaterValueMapperInterface
      * 
      * @param int $collectionId
      * @param boolean $sort Whether to sort by order. If true, sorted by order, otherwise by last id
+     * @param boolean $published Whether to fetch only published ones
      * @return array
      */
-    public function fetchAll($collectionId, $sort);
+    public function fetchAll($collectionId, $sort, $published);
 }

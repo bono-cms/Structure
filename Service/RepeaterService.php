@@ -159,11 +159,12 @@ final class RepeaterService
      * @param int $langId If provided, all translatable fields will return values with current language
      * @param boolean $reset Whether to return an indexed array
      * @param boolean $sort Whether to sort by order. If true, sorted by order, otherwise by last id
+     * @param boolean $published Whether to fetch only published ones
      * @return array
      */
-    public function fetchAll($collectionId, $langId = null, $reset = false, $sort = false)
+    public function fetchAll($collectionId, $langId = null, $reset = false, $sort = false, $published = false)
     {
-        $rows = $this->repeaterValueMapper->fetchAll($collectionId, $sort);
+        $rows = $this->repeaterValueMapper->fetchAll($collectionId, $sort, $published);
         $output = [];
 
         // Turn rows into one single row
