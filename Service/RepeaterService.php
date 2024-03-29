@@ -157,9 +157,10 @@ final class RepeaterService
      * 
      * @param int $collectionId
      * @param int $langId If provided, all translatable fields will return values with current language
+     * @param boolean $reset Whether to return an indexed array
      * @return array
      */
-    public function fetchAll($collectionId, $langId = null)
+    public function fetchAll($collectionId, $langId = null, $reset = false)
     {
         $rows = $this->repeaterValueMapper->fetchAll($collectionId);
         $output = [];
@@ -168,12 +169,15 @@ final class RepeaterService
         foreach ($rows as $row) {
             $key = $row['repeater_id'];
 
+            // Static keys are added here
             if (!isset($output[$key])) {
-                // Static keys are added here
                 $output[$key] = [
-                    'id' => $row['id'], // Value ID
-                    'repeater_id' => $row['repeater_id'] // Primary parent ID
+                    'id' => $row['id'] // Value ID
                 ];
+
+                if ($reset === false) {
+                    $output[$key]['repeater_id'] = $row['repeater_id']; // Primary parent ID
+                }
             }
 
             // If we have translatable field
@@ -190,6 +194,11 @@ final class RepeaterService
             $output[$key] = array_merge($output[$key], [
                 $row['alias'] => $row['value']
             ]);
+        }
+
+        // Do we need to reset array indexes?
+        if ($reset === true) {
+            $output = array_values($output);
         }
 
         return $output;
