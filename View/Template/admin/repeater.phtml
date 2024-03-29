@@ -96,8 +96,8 @@ use Structure\View\RepeaterViewModel;
 
                 <!-- Static attributes -->
                 <div class="form-group">
-                    <label class="control-label"><?= $this->translate('Hidden'); ?></label>
-                    <?= Element::checkbox('repeater[hidden]', isset($repeater['hidden']) ? $repeater['hidden'] : null); ?>
+                    <label class="control-label"><?= $this->translate('Published'); ?></label>
+                    <?= Element::checkbox('repeater[published]', isset($repeater['published']) ? $repeater['published'] : true); ?>
                 </div>
 
                 <div class="form-group">
