@@ -44,7 +44,7 @@ use Structure\View\RepeaterViewModel;
     <?php if (!empty($fields)): ?>
     <div class="col-lg-5">
         <div class="card sticky-top">
-            <form data-group="collection" autocomplete="off">
+            <form data-group="collection" autocomplete="off" novalidate>
                 <h3 class="mb-4">
                     <i class="fas fa-pencil-alt"></i> <?= $this->translate(!isset($repeater['id']) ? 'Add new record' : 'Update the record'); ?>
                 </h3>
@@ -107,9 +107,9 @@ use Structure\View\RepeaterViewModel;
                 <!-- ..End of static attributes -->
 
                 <?php $this->loadPartial('actions', [
-                    'new' => !$field['id'],
-                    'add' => [$this->url('Structure:Admin:Repeater@addAction', $field['id'])],
-                    'edit' => [$this->url('Structure:Admin:Repeater@editAction', '')],
+                    'new' => !isset($repeater['id']),
+                    'add' => [$this->url('Structure:Admin:Repeater@editAction', $field['collection_id'], '')],
+                    'edit' => [$this->url('Structure:Admin:Repeater@editAction', $field['collection_id'], '')],
                     'save' => 'Structure:Admin:Repeater@saveAction',
                     'cancel' => [$this->url('Structure:Admin:Repeater@indexAction', $field['collection_id'])]
                 ]); ?>

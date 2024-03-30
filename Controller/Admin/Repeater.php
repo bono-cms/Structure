@@ -106,15 +106,20 @@ final class Repeater extends AbstractController
         $data = $input['data'];
         $files = isset($input['files']) ? $input['files'] : []; // Grab files, if found
 
-        if (!empty($data['repeater']['id'])) {
-            $this->getModuleService('repeaterService')->update($data['repeater']['id'], $data, $files);
-            $message = 'Current record has been updated successfully';
-        } else {
-            $this->getModuleService('repeaterService')->save($data, $files);
-            $message = 'New record has been added successfully';
-        }
+        // Repeater service
+        $repeaterService = $this->getModuleService('repeaterService');
 
-        $this->flashBag->set('success', $message);
-        return 1;
+        // Update
+        if (!empty($data['repeater']['id'])) {
+            $repeaterService->update($data['repeater']['id'], $data, $files);
+            $this->flashBag->set('success', 'Current record has been updated successfully');
+            return 1;
+        } else {
+            // Create
+            $this->getModuleService('repeaterService')->save($data, $files);
+            $this->flashBag->set('success', 'New record has been added successfully');
+
+            return $repeaterService->getLastId();
+        }
     }
 }
