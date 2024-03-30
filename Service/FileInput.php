@@ -4,6 +4,7 @@ namespace Structure\Service;
 
 use Krystal\Http\FileTransfer\FileUploader;
 use Krystal\Filesystem\FileManager;
+use Krystal\Image\Tool\Optimizer;
 
 final class FileInput
 {
@@ -39,14 +40,20 @@ final class FileInput
     public function upload($repeaterId, $fieldId, $file)
     {
         // Target destination
-        $destination = sprintf('%s/%s/%s/', $this->rootDir . self::PARAM_UPLOAD_PATH, $repeaterId, $fieldId);
+        $destination = sprintf('%s/%s/%s/', $this->rootDir . self::PARAM_UPLOAD_PATH, $repeaterId, $fieldId); // Destination folder
         $path = self::PARAM_UPLOAD_PATH . '/' . $repeaterId . '/' . $fieldId . '/' . $file->getUniqueName();
 
         // Upload current file
         $uploader = new FileUploader();
 
         if ($uploader->upload($destination, [$file])) {
-            return $path;
+            $optimizer = Optimizer::optimize($this->rootDir . $path); // Optimize image, if possible
+
+            if ($optimizer === false) { // If failed, do nothing
+                return $path; // But return current path
+            } else {
+                return FileManager::replaceExtension($path, $optimizer['extension']);
+            }
         } else {
             return false;
         }

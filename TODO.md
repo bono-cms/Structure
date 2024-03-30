@@ -1,10 +1,6 @@
 TODO LIST
 =========
 
-# Urgent
-
-* Automatically optimize images to AVIF/WEBP
-
 # Later
 
 * Form validation & Unique alias name check
