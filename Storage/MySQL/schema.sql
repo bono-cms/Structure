@@ -4,7 +4,8 @@ DROP TABLE IF EXISTS `bono_module_structure_collections`;
 CREATE TABLE `bono_module_structure_collections` (
     `id` INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
     `name` varchar(254) NOT NULL COMMENT 'Collection name',
-    `order` INT NOT NULL COMMENT 'Sorting order'
+    `order` INT NOT NULL COMMENT 'Sorting order',
+    `layout` TINYINT NOT NULL COMMENT 'Layout constant'
 ) ENGINE = InnoDB DEFAULT CHARSET = UTF8;
 
 /* Collection fields */
