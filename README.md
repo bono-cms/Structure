@@ -9,11 +9,11 @@ Go ahead and create a new collection. Then add custom fields inside that collect
 
     <div class="row">
     	<?php foreach ($structure->getCollection(1) as $user): ?>
-    	<div class="col-lg-3">
-    		<img src="<?= $user['photo']; ?>" >
-    		<p><?= $user['name']; ?></p>
-         </div>
-         <?php endforeach; ?>
+        <div class="col-lg-3">
+           <img src="<?= $user['photo']; ?>" >
+           <p><?= $user['name']; ?></p>
+        </div>
+        <?php endforeach; ?>
     </div>
 
 The method `$structure->getCollection(1)` takes an ID of collection as an argument and returns an array of collection's data.
