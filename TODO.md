@@ -1,14 +1,10 @@
 TODO LIST
 =========
 
-# Later
-
 * Form validation & Unique alias name check
 * Sidebar filters
 * Search module integration
 * Connect with FormBuilder
-* Think of better naming
-* Layout shifts
 * Field options
 * Filtering and sorting (Collections can have different sorting methods by ID, datetime, Alphabet)
 * Implement relations (One-to-one, One-to-many, Many-to-many)
@@ -23,3 +19,6 @@ TODO LIST
 * Add - Published since & till fields
 * Multiple values (support checkboxes in fields)
 * More types of custom fields (Including dynamic ones: Date & Time, Current IP, etc)
+* Add cache layer
+* Think of better naming
+* API to support CRUD
