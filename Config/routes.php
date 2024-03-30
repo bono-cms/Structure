@@ -14,10 +14,6 @@ return [
         'controller' => 'Admin:Repeater@editAction'
     ],
 
-    '/%s/module/structure/repeater/add/(:var)' => [
-        'controller' => 'Admin:Repeater@addAction'
-    ],
-
     '/%s/module/structure/repeater/save' => [
         'controller' => 'Admin:Repeater@saveAction'
     ],
