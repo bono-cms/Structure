@@ -77,6 +77,15 @@ final class RepeaterViewModel
                 };
             }
 
+            // Is there a checkbox?
+            if ($field['type'] == FieldTypeCollection::FIELD_CHECKBOX) {
+                $column['translateable'] = true;
+                $column['value'] = function($row) use ($field) {
+                    $value = $row[$field['alias']];
+                    return $value == 1 ? 'Yes' : 'No';
+                };
+            }
+
             $output[] = $column;
         }
 
