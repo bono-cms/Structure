@@ -1,6 +1,11 @@
 <?php
 
 return [
+    // API
+    '/module/structure/index' => [
+        'controller' => 'API@indexAction'
+    ],
+
     '/%s/module/structure/dashboard' => [
         'controller' => 'Admin:Dashboard@indexAction'
     ],

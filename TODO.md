@@ -14,7 +14,6 @@ TODO LIST
 * Think of better naming
 * Layout shifts
 * Field options
-* API
 * Filtering and sorting (Collections can have different sorting methods by ID, datetime, Alphabet)
 * Implement relations (One-to-one, One-to-many, Many-to-many)
 * Attach Structures to pages
