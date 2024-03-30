@@ -55,7 +55,8 @@ final class RepeaterViewModel
         foreach ($fields as $field) {
             $column = [
                 'column' => $field['alias'],
-                'label' => $field['name']
+                'label' => $field['name'],
+                'hidden' => !$field['gridable']
             ];
 
             // Is this a file type collection?
