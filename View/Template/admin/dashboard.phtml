@@ -10,10 +10,11 @@
                 <span class="d-block mb-2">
                     <i class="module-icon fas fa-edit"></i>
                 </span>
-
                 <h4><?= $collection['name']; ?></h4>
-                <p><?= $collection['count']; ?> <?= $this->translate('fields'); ?></p>
 
+                <p>
+                    <small><strong><?= $collection['count']; ?></strong> <?= $this->translate('fields'); ?>, ID = <strong><?= $collection['id']; ?></strong></small>
+                </p>
                 <p>
                     <a href="<?= $this->url('Structure:Admin:Repeater@indexAction', $collection['id']); ?>"><i class="fas fa-pencil-alt"></i> <?= $this->translate('Add or edit records'); ?></a>
                 </p>
