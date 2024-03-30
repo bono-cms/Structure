@@ -17,7 +17,7 @@ final class Field extends AbstractController
     private function renderForm(array $collection, $field)
     {
         // Append breadcrumbs
-        $this->view->getBreadcrumbBag()->addOne('Structure', 'Structure:Admin:Collection@indexAction')
+        $this->view->getBreadcrumbBag()->addOne('Structure', 'Structure:Admin:Dashboard@indexAction')
                                        ->addOne($this->translator->translate('View fields for "%s" collection', $collection['name']));
 
         $fieldService = $this->getModuleService('fieldService');

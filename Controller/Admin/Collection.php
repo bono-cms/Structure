@@ -18,7 +18,7 @@ final class Collection extends AbstractController
         $collectionService = $this->getModuleService('collectionService');
 
         // Append breadcrumbs
-        $this->view->getBreadcrumbBag()->addOne('Structure', 'Structure:Admin:Collection@indexAction')
+        $this->view->getBreadcrumbBag()->addOne('Structure', 'Structure:Admin:Dashboard@indexAction')
                                        ->addOne('View collections');
 
         if ($id === null) {

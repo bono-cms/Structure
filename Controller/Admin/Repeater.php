@@ -23,7 +23,7 @@ final class Repeater extends AbstractController
             $this->view->getPluginBag()->load($this->getWysiwygPluginName());
 
             // Append breadcrumbs
-            $this->view->getBreadcrumbBag()->addOne('Structure', 'Structure:Admin:Collection@indexAction')
+            $this->view->getBreadcrumbBag()->addOne('Structure', 'Structure:Admin:Dashboard@indexAction')
                                            ->addOne($this->translator->translate('View fields for "%s" collection', $collection['name']));
 
             // Append folder with partials
