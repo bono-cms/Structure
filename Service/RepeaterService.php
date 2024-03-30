@@ -160,13 +160,11 @@ final class RepeaterService
      * @param boolean $reset Whether to return an indexed array
      * @param boolean $sort Whether to sort by order. If true, sorted by order, otherwise by last id
      * @param boolean $published Whether to fetch only published ones
-     * @param int $page Current page number
-     * @param int $limit Limit of records to be shown per page
      * @return array
      */
-    public function fetchAll($collectionId, $langId = null, $reset = false, $sort = false, $published = false, $page = null, $limit = null)
+    public function fetchAll($collectionId, $langId = null, $reset = false, $sort = false, $published = false)
     {
-        $rows = $this->repeaterValueMapper->fetchAll($collectionId, $sort, $published, $page, $limit);
+        $rows = $this->repeaterValueMapper->fetchAll($collectionId, $sort, $published);
         $output = [];
 
         // Turn rows into one single row

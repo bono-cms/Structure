@@ -170,11 +170,9 @@ final class RepeaterValueMapper extends AbstractMapper implements RepeaterValueM
      * @param int $collectionId
      * @param boolean $sort Whether to sort by order. If true, sorted by order, otherwise by last id
      * @param boolean $published Whether to fetch only published ones
-     * @param int $page Current page number
-     * @param int $limit Limit of records to be shown per page
      * @return array
      */
-    public function fetchAll($collectionId, $sort, $published, $page = null, $limit = null)
+    public function fetchAll($collectionId, $sort, $published)
     {
         $db = $this->createSharedQuery()
                    ->whereEquals(RepeaterMapper::column('collection_id'), $collectionId);
@@ -190,16 +188,6 @@ final class RepeaterValueMapper extends AbstractMapper implements RepeaterValueM
         } else {
             $db->orderBy(self::column('id'))
                ->desc();
-        }
-
-        // Case: When only limit required
-        if ($page === null && $limit !== null) {
-            $db->limit($limit);
-        }
-
-        // Case: Enable pagination, when $page and $limit are both provided
-        if ($page !== null && $limit !== null) {
-            $db->paginate($page, $limit);
         }
 
         return $db->queryAll();
