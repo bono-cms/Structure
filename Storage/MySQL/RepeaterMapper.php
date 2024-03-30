@@ -26,7 +26,7 @@ final class RepeaterMapper extends AbstractMapper implements RepeaterMapperInter
         $data = [
             'collection_id' => $input['collection_id'],
             'order' => $input['order'],
-            'hidden' => $input['hidden']
+            'published' => $input['published']
         ];
 
         // Insert and get last id
