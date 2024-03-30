@@ -6,7 +6,7 @@ return [
         'controller' => 'API@indexAction'
     ],
 
-    '/%s/module/structure/dashboard' => [
+    '/%s/module/structure' => [
         'controller' => 'Admin:Dashboard@indexAction'
     ],
     // Repeater
