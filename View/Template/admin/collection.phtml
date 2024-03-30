@@ -8,7 +8,9 @@ use Krystal\Form\Element;
 <div class="row">
     <div class="col-lg-7">
         <div class="card">
-            <h3 class="mb-4"><?= $this->translate('Collections'); ?> <small class="text-muted">(<?= count($collections); ?>)</small></h3>
+            <h3 class="mb-4">
+                <i class="fas fa-sticky-note"></i> <?= $this->translate('Collections'); ?> <small class="text-muted">(<?= count($collections); ?>)</small>
+            </h3>
 
             <?php $this->loadPartial('table', [
                 'rows' => $collections,

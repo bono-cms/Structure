@@ -11,7 +11,9 @@ $fieldTypeCollection = new FieldTypeCollection();
 <div class="row">
     <div class="col-lg-7">
         <div class="card">
-            <h3 class="mb-4"><?= $this->translate('Fields'); ?> <small class="text-muted">(<?= count($fields); ?>)</small></h3>
+            <h3 class="mb-4">
+                <i class="far fa-clone"></i> <?= $this->translate('Fields'); ?> <small class="text-muted">(<?= count($fields); ?>)</small>
+            </h3>
 
             <?php $this->loadPartial('table', [
                 'rows' => $fields,
