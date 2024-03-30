@@ -8,7 +8,7 @@ A powerful, yet super-simple module that lets you create dynamic data structures
 Go ahead and create a new collection. Then add custom fields inside that collection. Then anywhere on your website call it like this:
 
     <div class="row">
-    	<?php foreach ($structure->getCollection(1) as $user): ?>
+        <?php foreach ($structure->getCollection(1) as $user): ?>
         <div class="col-lg-3">
            <img src="<?= $user['photo']; ?>" >
            <p><?= $user['name']; ?></p>
