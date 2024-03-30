@@ -28,7 +28,8 @@ final class CollectionMapper extends AbstractMapper implements CollectionMapperI
         $columns = [
             self::column($this->getPk()),
             self::column('name'),
-            self::column('order')
+            self::column('order'),
+            self::column('layout')
         ];
 
         $db = $this->db->select($columns)
