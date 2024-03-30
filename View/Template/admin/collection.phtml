@@ -8,7 +8,7 @@ use Krystal\Form\Element;
 <div class="row">
     <div class="col-lg-7">
         <div class="card">
-            <h3 class="mb-4"><?= $this->translate('Collections'); ?></h3>
+            <h3 class="mb-4"><?= $this->translate('Collections'); ?> <small class="text-muted">(<?= count($collections); ?>)</small></h3>
 
             <?php $this->loadPartial('table', [
                 'rows' => $collections,
@@ -49,7 +49,7 @@ use Krystal\Form\Element;
                     function($row){
                         return Icon::remove(
                             $this->url('Structure:Admin:Collection@deleteAction', $row['id']),
-                            $this->translate('Remove this collection')
+                            $this->translate('Delete this collection')
                         );
                     }
                 ]
@@ -78,7 +78,7 @@ use Krystal\Form\Element;
 
                 <?php $this->loadPartial('actions', [
                     'new' => !$collection['id'],
-                    'add' => [$this->url('Structure:Admin:Collection@addAction', $collection['id'])],
+                    'add' => 'Structure:Admin:Collection@indexAction',
                     'edit' => [$this->url('Structure:Admin:Collection@editAction', '')],
                     'save' => 'Structure:Admin:Collection@saveAction',
                     'cancel' => 'Structure:Admin:Collection@indexAction'

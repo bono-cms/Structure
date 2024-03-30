@@ -51,10 +51,10 @@ final class Collection extends AbstractController
         $collectionService->save($input);
 
         if ($input['id']) {
-            $this->flashBag->set('success', 'The element has been updated successfully');
+            $this->flashBag->set('success', 'The collection has been updated successfully');
             return 1;
         } else {
-            $this->flashBag->set('success', 'The element has been created successfully');
+            $this->flashBag->set('success', 'The collection has been created successfully');
             return $collectionService->getLastId();
         }
     }
@@ -84,7 +84,7 @@ final class Collection extends AbstractController
         // Delete collection last
         $this->getModuleService('collectionService')->deleteByPk($id);
 
-        $this->flashBag->set('success', 'Selected collection has been removed successfully');
+        $this->flashBag->set('success', 'Selected collection has been deleted successfully');
         return 1;
     }
 }
