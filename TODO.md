@@ -3,15 +3,13 @@ TODO LIST
 
 # Urgent
 
-* Fix Edit button in records
+* Pagination
 * Dashboard module
 * Automatically optimize images to AVIF/WEBP
 
 # Later
 
-* Whether to display in grid - implement
 * Form validation & Unique alias name check
-* Pagination
 * Sidebar filters
 * Search module integration
 * Connect with FormBuilder
@@ -21,12 +19,12 @@ TODO LIST
 * API
 * Filtering and sorting (Collections can have different sorting methods by ID, datetime, Alphabet)
 * Implement relations (One-to-one, One-to-many, Many-to-many)
-* Structure templates
 * Attach Structures to pages
 * Usage with View Widgets
 
 # Next version
 
+* Structure templates
 * Add limit to maximal amount of rows per collection
 * Add - Published since & till fields
 * Multiple values (support checkboxes in fields)
