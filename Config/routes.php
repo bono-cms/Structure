@@ -44,7 +44,7 @@ return [
     ],
 
     // Collections
-    '/%s/module/structure' => [
+    '/%s/module/structure/collection' => [
         'controller' => 'Admin:Collection@indexAction'
     ],
 
