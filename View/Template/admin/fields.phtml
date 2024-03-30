@@ -88,6 +88,11 @@ $fieldTypeCollection = new FieldTypeCollection();
                 </div>
 
                 <div class="form-group">
+                    <label class="control-label"><?= $this->translate('Display in the grid'); ?></label>
+                    <?= Element::checkbox('field[gridable]', $field['id'] ? $field['gridable'] : true); ?>
+                </div>
+
+                <div class="form-group">
                     <label class="control-label"><?= $this->translate('Sorting order'); ?></label>
                     <?= Element::number('field[order]', $field['order'], ['class' => 'form-control', 'min' => 0]); ?>
                 </div>
