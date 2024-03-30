@@ -52,6 +52,7 @@ final class Repeater extends AbstractController
             $langId = $this->getService('Cms', 'languageManager')->getCurrentId();
 
             return $this->view->render('repeater', [
+                'collection' => $collection,
                 'rows' => $this->getModuleService('repeaterService')->fetchAll($collectionId, $langId),
                 'fields' => $fields,
                 'repeater' => $repeater,

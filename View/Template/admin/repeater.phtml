@@ -5,11 +5,14 @@ use Krystal\Form\Element;
 use Krystal\Text\TextUtils;
 use Structure\Collection\FieldTypeCollection;
 use Structure\View\RepeaterViewModel;
+use Structure\View\CollectionViewModel;
+
+$columns = CollectionViewModel::getColumns($collection['layout'], $fields);
 
 ?>
 
 <div class="row">
-    <div class="col-lg-7">
+    <div class="<?= $columns['first']; ?>">
         <div class="card sticky-top">
             <h3 class="mb-4">
                 <i class="fas fa-table"></i> <?= $this->translate('Records'); ?> <small class="text-muted">(<?= count($rows); ?>)</small>
@@ -42,7 +45,7 @@ use Structure\View\RepeaterViewModel;
     </div>
 
     <?php if (!empty($fields)): ?>
-    <div class="col-lg-5">
+    <div class="<?= $columns['second']; ?>">
         <div class="card sticky-top">
             <form data-group="collection" autocomplete="off" novalidate>
                 <h3 class="mb-4">
