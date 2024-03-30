@@ -15,7 +15,7 @@ CREATE TABLE `bono_module_structure_collections_fields` (
     `name` varchar(255) NOT NULL COMMENT 'Field name',
     `type` INT NOT NULL COMMENT 'Constant of field type',
     `alias` varchar(255) COMMENT 'Alias name for class property',
-    `index` BOOLEAN COMMENT 'Whether to display in a grid',
+    `gridable` BOOLEAN COMMENT 'Whether to display in a grid',
     `order` INT NOT NULL COMMENT 'Sorting order',
     `translatable` BOOLEAN NOT NULL COMMENT 'Whether this field is translatable',
     `hint` TEXT NOT NULL COMMENT 'Hint for UI',
