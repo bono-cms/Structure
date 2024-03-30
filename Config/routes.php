@@ -1,6 +1,9 @@
 <?php
 
 return [
+    '/%s/module/structure/dashboard' => [
+        'controller' => 'Admin:Dashboard@indexAction'
+    ],
     // Repeater
     '/%s/module/structure/repeater/view/(:var)' => [
         'controller' => 'Admin:Repeater@indexAction'
