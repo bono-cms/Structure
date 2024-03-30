@@ -12,7 +12,7 @@ return [
         'icon' => 'fas fa-table',
         'items' => [
             [
-                'route' => 'Structure:Admin:Collection@indexAction',
+                'route' => 'Structure:Admin:Dashboard@indexAction',
                 'name' => 'Manage data structures'
             ]
         ]
