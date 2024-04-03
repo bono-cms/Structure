@@ -66,7 +66,7 @@ $layouts = (new LayoutCollection)->getAll();
         <div class="card">
             <form data-group="collection" autocomplete="off">
                 <h3 class="mb-4">
-                    <i class="fas fa-pencil-alt"></i> <?= $this->translate('Add new collection'); ?>
+                    <i class="fas fa-pencil-alt"></i> <?= $this->translate(!empty($collection['id']) ? 'Edit collection' : 'Add new collection'); ?>
                 </h3>
 
                 <?= Element::hidden('collection[id]', $collection['id']); ?>
