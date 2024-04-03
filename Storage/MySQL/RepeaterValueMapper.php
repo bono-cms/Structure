@@ -189,7 +189,7 @@ final class RepeaterValueMapper extends AbstractMapper implements RepeaterValueM
             $db->orderBy(self::column('id'))
                ->desc();
         }
-
+        
         return $db->queryAll();
     }
 
