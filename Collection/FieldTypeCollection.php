@@ -12,6 +12,7 @@
 namespace Structure\Collection;
 
 use Krystal\Stdlib\ArrayCollection;
+use Krystal\Filesystem\FileManager;
 
 final class FieldTypeCollection extends ArrayCollection
 {
@@ -164,6 +165,25 @@ final class FieldTypeCollection extends ArrayCollection
         return in_array($type, [
             self::FIELD_FILE,
             self::FIELD_IMAGE
+        ]);
+    }
+
+    /**
+     * Whether a path to a file looks like an image
+     * 
+     * @param string $path
+     * @return boolean
+     */
+    public static function imageLike($file)
+    {
+        return FileManager::hasExtension($file, [
+            'jpg',
+            'jpeg',
+            'gif',
+            'png',
+            'svg',
+            'avif',
+            'webp'
         ]);
     }
 }
