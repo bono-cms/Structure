@@ -38,11 +38,12 @@ final class FieldService
      * Fetch all fields by collection id
      * 
      * @param int $collectionId
+     * @param boolean $sort Whether to perform sorting by order
      * @return array
      */
-    public function fetchByCollectionId($collectionId)
+    public function fetchByCollectionId($collectionId, $sort)
     {
-        return $this->fieldMapper->fetchByCollectionId($collectionId);
+        return $this->fieldMapper->fetchByCollectionId($collectionId, $sort);
     }
 
     /**

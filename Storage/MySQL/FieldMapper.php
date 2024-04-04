@@ -20,16 +20,23 @@ final class FieldMapper extends AbstractMapper implements FieldMapperInterface
      * Fetch all fields by collection id
      * 
      * @param int $collectionId
+     * @param boolean $sort Whether to perform sorting by order
      * @return array
      */
-    public function fetchByCollectionId($collectionId)
+    public function fetchByCollectionId($collectionId, $sort)
     {
         $db = $this->db->select('*')
                        ->from(self::getTableName())
-                       ->whereEquals('collection_id', $collectionId)
-                       ->orderBy(new RawSqlFragment(
-                            '`order`, CASE WHEN `order` = 0 THEN `id` END DESC'
-                       ));
+                       ->whereEquals('collection_id', $collectionId);
+
+        if ($sort == true) {
+            $db->orderBy(new RawSqlFragment(
+                '`order`, CASE WHEN `order` = 0 THEN `id` END DESC'
+            ));
+        } else {
+            $db->orderBy('id')
+               ->desc();
+        }
 
         return $db->queryAll();
     }
