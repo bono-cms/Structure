@@ -109,7 +109,7 @@ $fieldTypeCollection = new FieldTypeCollection();
 
                 <?php $this->loadPartial('actions', [
                     'new' => !$field['id'],
-                    'add' => [$this->url('Structure:Admin:Field@addAction', $field['id'])],
+                    'add' => [$this->url('Structure:Admin:Field@indexAction', $field['id'])],
                     'edit' => [$this->url('Structure:Admin:Field@editAction', '')],
                     'save' => 'Structure:Admin:Field@saveAction',
                     'cancel' => [$this->url('Structure:Admin:Field@indexAction', $field['collection_id'])]
