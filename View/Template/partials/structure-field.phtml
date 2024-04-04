@@ -54,8 +54,9 @@ use Structure\Collection\FieldTypeCollection;
     <!-- Checkbox -->
     <?php if ($type == FieldTypeCollection::FIELD_CHECKBOX): ?>
     <div class="form-check">
-      <?= Element::checkbox($name, $value, ['class' => 'form-check-input', 'title' => $hint]); ?>
-      <label class="form-check-label" title="<?= $hint; ?>">
+      <?php $uniqid = sprintf('checkbox-%s', md5($name)); ?>
+      <?= Element::checkbox($name, $value, ['class' => 'form-check-input', 'title' => $hint, 'id' => $uniqid]); ?>
+      <label class="form-check-label" title="<?= $hint; ?>" for="<?= $uniqid; ?>">
         <?= $label; ?>
       </label>
     </div>
