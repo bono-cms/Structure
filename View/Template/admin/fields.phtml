@@ -83,13 +83,23 @@ $fieldTypeCollection = new FieldTypeCollection();
                 </div>
 
                 <div class="form-group">
-                    <label class="control-label"><?= $this->translate('Translatable'); ?></label>
-                    <?= Element::checkbox('field[translatable]', $field['translatable']); ?>
+                    <div class="form-check">
+                        <?= Element::checkbox('field[translatable]', $field['translatable'], ['class' => 'form-check-input']); ?>
+
+                        <label class="form-check-label">
+                            <?= $this->translate('Translatable'); ?>
+                        </label>
+                    </div>
                 </div>
 
                 <div class="form-group">
-                    <label class="control-label"><?= $this->translate('Display in the grid'); ?></label>
-                    <?= Element::checkbox('field[gridable]', $field['id'] ? $field['gridable'] : true); ?>
+                    <div class="form-check">
+                        <?= Element::checkbox('field[gridable]', $field['gridable'], ['class' => 'form-check-input']); ?>
+
+                        <label class="form-check-label">
+                            <?= $this->translate('Display in the grid'); ?>
+                        </label>
+                    </div>
                 </div>
 
                 <div class="form-group">
