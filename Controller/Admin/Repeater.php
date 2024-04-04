@@ -31,7 +31,7 @@ final class Repeater extends AbstractController
                        ->addPartialDir($this->view->createThemePath($this->moduleName, 'partials'));
 
             // Grab dynamic fields
-            $fields = $this->getModuleService('fieldService')->fetchByCollectionId($collectionId);
+            $fields = $this->getModuleService('fieldService')->fetchByCollectionId($collectionId, true);
 
             // Override with values
             if ($repeaterId !== null) {

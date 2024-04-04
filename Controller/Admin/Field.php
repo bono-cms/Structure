@@ -23,7 +23,7 @@ final class Field extends AbstractController
         $fieldService = $this->getModuleService('fieldService');
 
         return $this->view->render('fields', [
-            'fields' => $fieldService->fetchByCollectionId($collection['id']),
+            'fields' => $fieldService->fetchByCollectionId($collection['id'], false),
             'field' => $field
         ]);
     }
