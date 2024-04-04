@@ -31,9 +31,11 @@ final class CollectionViewModel
         }
 
         if ($layout == LayoutCollection::LAYOUT_AUTO) {
+            $stop = 5; // Column count to stop
+
             // Is there any WYSIWYG editors?
-            foreach ($fields as $field) {
-                if ($field['type'] == FieldTypeCollection::FIELD_WYSIWYG) {
+            foreach ($fields as $index => $field) {
+                if ($field['type'] == FieldTypeCollection::FIELD_WYSIWYG || $index + 1 == $stop) {
                     return [
                         'first' => 'col-lg-12',
                         'second' => 'col-lg-12'
