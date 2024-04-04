@@ -100,8 +100,8 @@ $columns = CollectionViewModel::getColumns($collection['layout'], $fields);
                 <!-- Static attributes -->
                 <div class="form-group">
                     <div class="form-check">
-                        <?= Element::checkbox('repeater[published]', isset($repeater['published']) ? $repeater['published'] : true, ['class' => 'form-check-input']); ?>
-                        <label class="form-check-label">
+                        <?= Element::checkbox('repeater[published]', isset($repeater['published']) ? $repeater['published'] : true, ['class' => 'form-check-input', 'id' => 'input-published']); ?>
+                        <label class="form-check-label" for="input-published">
                             <?= $this->translate('Published'); ?>
                         </label>
                     </div>

@@ -84,9 +84,9 @@ $fieldTypeCollection = new FieldTypeCollection();
 
                 <div class="form-group">
                     <div class="form-check">
-                        <?= Element::checkbox('field[translatable]', $field['translatable'], ['class' => 'form-check-input']); ?>
+                        <?= Element::checkbox('field[translatable]', $field['translatable'], ['class' => 'form-check-input', 'id' => 'input-translatable']); ?>
 
-                        <label class="form-check-label">
+                        <label class="form-check-label" for="input-translatable">
                             <?= $this->translate('Translatable'); ?>
                         </label>
                     </div>
@@ -94,9 +94,9 @@ $fieldTypeCollection = new FieldTypeCollection();
 
                 <div class="form-group">
                     <div class="form-check">
-                        <?= Element::checkbox('field[gridable]', $field['gridable'], ['class' => 'form-check-input']); ?>
+                        <?= Element::checkbox('field[gridable]', $field['gridable'], ['class' => 'form-check-input', 'id' => 'input-gridable']); ?>
 
-                        <label class="form-check-label">
+                        <label class="form-check-label" for="input-gridable">
                             <?= $this->translate('Display in the grid'); ?>
                         </label>
                     </div>
