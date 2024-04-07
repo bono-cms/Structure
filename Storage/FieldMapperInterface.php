@@ -12,4 +12,20 @@ interface FieldMapperInterface
      * @return array
      */
     public function fetchByCollectionId($collectionId, $sort);
+
+    /**
+     * Checks whether name is already taken
+     * 
+     * @param string $target
+     * @return boolean
+     */
+    public function nameExists($target);
+
+    /**
+     * Checks whether alias is already taken
+     * 
+     * @param string $target
+     * @return boolean
+     */
+    public function aliasExists($target);
 }

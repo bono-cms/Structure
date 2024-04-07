@@ -40,4 +40,26 @@ final class FieldMapper extends AbstractMapper implements FieldMapperInterface
 
         return $db->queryAll();
     }
+
+    /**
+     * Checks whether name is already taken
+     * 
+     * @param string $target
+     * @return boolean
+     */
+    public function nameExists($target)
+    {
+        return $this->valueExists('name', $target);
+    }
+
+    /**
+     * Checks whether alias is already taken
+     * 
+     * @param string $target
+     * @return boolean
+     */
+    public function aliasExists($target)
+    {
+        return $this->valueExists('alias', $target);
+    }
 }

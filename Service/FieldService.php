@@ -58,6 +58,28 @@ final class FieldService
     }
 
     /**
+     * Checks whether name is already taken
+     * 
+     * @param string $target
+     * @return boolean
+     */
+    public function nameExists($target)
+    {
+        return $this->fieldMapper->nameExists($target);
+    }
+
+    /**
+     * Checks whether alias is already taken
+     * 
+     * @param string $target
+     * @return boolean
+     */
+    public function aliasExists($target)
+    {
+        return $this->fieldMapper->aliasExists($target);
+    }
+
+    /**
      * Deletes a field by its id
      * 
      * @param int $id
