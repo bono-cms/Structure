@@ -91,7 +91,9 @@ use Structure\Collection\FieldTypeCollection;
     <?php if (!empty($value)): ?>
 
     <?php if (FieldTypeCollection::imageLike($value)): ?>
-    <img class="img-fluid mb-2" src="<?= $value; ?>" />
+    <p class="mb-2">
+        <img class="img-fluid" src="<?= $value; ?>" />
+    </p>
     <?php else: ?>
     <a class="d-block text-muted mb-2" href="<?= $value; ?>" target="_blank"><?= $this->translate('View current file'); ?></a>
     <?php endif; ?>
