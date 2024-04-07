@@ -5,6 +5,15 @@ namespace Structure\Storage;
 interface RepeaterValueMapperInterface
 {
     /**
+     * Inserts empty row
+     * 
+     * @param int $repeaterId
+     * @param int $fieldId
+     * @return boolean
+     */
+    public function insertEmpty($repeaterId, $fieldId);
+
+    /**
      * Update repeater values by their Ids
      * 
      * @param int $repeaterId
@@ -45,11 +54,11 @@ interface RepeaterValueMapperInterface
     /**
      * Fetch primary keys by field and repeater ids
      * 
-     * @parma int $fieldId
      * @param int $repeaterId
+     * @parma int $fieldId
      * @return array
      */
-    public function fetchPrimaryKeys($fieldId, $repeaterId);
+    public function fetchPrimaryKeys($repeaterId, $fieldId);
 
     /**
      * Fetch repeater's values by id

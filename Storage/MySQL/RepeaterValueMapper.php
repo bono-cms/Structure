@@ -101,19 +101,16 @@ final class RepeaterValueMapper extends AbstractMapper implements RepeaterValueM
     /**
      * Fetch primary keys by field and repeater ids
      * 
-     * @parma int $fieldId
      * @param int $repeaterId
+     * @parma int $fieldId
      * @return array
      */
-    public function fetchPrimaryKeys($fieldId, $repeaterId)
+    public function fetchPrimaryKeys($repeaterId, $fieldId)
     {
-        $db = $this->db->select(RepeaterValueTranslationMapper::column('id'), true)
-                       ->from(RepeaterValueTranslationMapper::getTableName())
-                       ->innerJoin(RepeaterValueMapper::getTableName(), [
-                            RepeaterValueMapper::column('id') => RepeaterValueTranslationMapper::getRawColumn('id')
-                       ])
-                       ->whereEquals(RepeaterValueMapper::column('field_id'), $fieldId)
-                       ->andWhereEquals(RepeaterValueMapper::column('repeater_id'), $repeaterId);
+        $db = $this->db->select('id', true)
+                       ->from(self::getTableName())
+                       ->whereEquals('field_id', $fieldId)
+                       ->andWhereEquals('repeater_id', $repeaterId);
 
         return $db->queryAll('id');
     }
@@ -189,7 +186,7 @@ final class RepeaterValueMapper extends AbstractMapper implements RepeaterValueM
             $db->orderBy(self::column('id'))
                ->desc();
         }
-        
+
         return $db->queryAll();
     }
 
@@ -224,18 +221,66 @@ final class RepeaterValueMapper extends AbstractMapper implements RepeaterValueM
     }
 
     /**
+     * Inserts empty row
+     * 
+     * @param int $repeaterId
+     * @param int $fieldId
+     * @return boolean
+     */
+    public function insertEmpty($repeaterId, $fieldId)
+    {
+        $db = $this->db->insert(self::getTableName(), [
+            'repeater_id' => $repeaterId,
+            'field_id' => $fieldId
+        ]);
+
+        return $db->execute();
+    }
+
+    /**
+     * Checks whether row exists by its column values
+     * 
+     * @param string $table
+     * @param array $constraints
+     * @return boolean
+     */
+    private function rowExists($table, array $constraints)
+    {
+        $db = $this->db->select()
+                       ->count('id')
+                       ->from($table)
+                       ->whereEquals('1', '1');
+
+        foreach ($constraints as $column => $value) {
+            $db->andWhereEquals($column, $value);
+        }
+
+        return (bool) $db->queryScalar();
+    }
+
+    /**
      * Updates a single translation
      * 
-     * @param int $id Row id
+     * @param int $id Repeater id
      * @param int $langId
      * @param string $value
      * @return boolean
      */
     public function updateValueTranslation($id, $langId, $value)
     {
-        $db = $this->db->update(RepeaterValueTranslationMapper::getTableName(), ['value' => $value])
-                       ->whereEquals('id', $id)
-                       ->andWhereEquals('lang_id', $langId);
+        if ($this->rowExists(RepeaterValueTranslationMapper::getTableName(), ['id' => $id, 'lang_id' => $langId])) {
+            // Update one, if exists
+            $db = $this->db->update(RepeaterValueTranslationMapper::getTableName(), ['value' => $value])
+                           ->whereEquals('id', $id)
+                           ->andWhereEquals('lang_id', $langId);
+        } else {
+            // Otherwise, insert new one
+            $db = $this->db->insert(RepeaterValueTranslationMapper::getTableName(), [
+                'id' => $id,
+                'lang_id' => $langId,
+                'value' => $value
+            ]);
+        }
 
         return $db->execute();
     }
@@ -250,10 +295,21 @@ final class RepeaterValueMapper extends AbstractMapper implements RepeaterValueM
     public function updateValues($repeaterId, array $rows)
     {
         foreach ($rows as $row) {
-            $db = $this->db->update(RepeaterValueMapper::getTableName(), ['value' => $row['value']])
-                           ->whereEquals('field_id', $row['field_id'])
-                           ->andWhereEquals('repeater_id', $repeaterId);
-            $db->execute();
+            if ($this->rowExists(RepeaterValueMapper::getTableName(), ['field_id' => $row['field_id'], 'repeater_id' => $repeaterId])) {
+                $db = $this->db->update(RepeaterValueMapper::getTableName(), ['value' => $row['value']])
+                               ->whereEquals('field_id', $row['field_id'])
+                               ->andWhereEquals('repeater_id', $repeaterId);
+                $db->execute();
+
+            } else {
+                $db = $this->db->insert(RepeaterValueMapper::getTableName(), [
+                    'field_id' => $row['field_id'],
+                    'repeater_id' => $repeaterId,
+                    'value' => $row['value'] ? $row['value'] : ''
+                ]);
+
+                $db->execute();
+            }
         }
 
         return true;

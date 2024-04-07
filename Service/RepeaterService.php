@@ -233,8 +233,18 @@ final class RepeaterService
 
             // Update translations
             if ($row['translatable'] == 1) {
-                $ids = $this->repeaterValueMapper->fetchPrimaryKeys($row['field_id'], $row['repeater_id']);
+                $ids = $this->repeaterValueMapper->fetchPrimaryKeys($row['repeater_id'], $row['field_id']);
+                /**
+                 * Scenario: When a new translatable field has been added, but this repeater has not yet a relation with that field.
+                 * In this case, no value exists and it will result with disability to update a value.
+                 * To workaround this, we'll create an empty row and get its last id and then append to a stack
+                 */
+                if (!$ids) {
+                    $this->repeaterValueMapper->insertEmpty($repeaterId, $row['field_id']);
+                    $ids[] = $this->repeaterValueMapper->getMaxId(); // Created it, now just grab last ID
+                }
 
+                // Process with updated now
                 foreach ($ids as $id) {
                     foreach ($input['translation'][$row['field_id']] as $langId => $data) {
                         $this->repeaterValueMapper->updateValueTranslation($id, $langId, $data['value']);
