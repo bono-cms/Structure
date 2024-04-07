@@ -39,6 +39,7 @@ final class FieldTypeCollection extends ArrayCollection
     /* Files */
     const FIELD_FILE = 13;
     const FIELD_IMAGE = 14;
+    const FIELD_PDF = 15;
 
     /**
      * {@inheritDoc}
@@ -66,7 +67,8 @@ final class FieldTypeCollection extends ArrayCollection
         ],
         'Files' => [
             self::FIELD_FILE => 'File',
-            self::FIELD_IMAGE => 'Image'
+            self::FIELD_IMAGE => 'Image',
+            self::FIELD_PDF => 'PDF document'
         ]
     ];
 
@@ -76,7 +78,8 @@ final class FieldTypeCollection extends ArrayCollection
      * @var array
      */
     protected static $accept = [
-        self::FIELD_IMAGE => 'image/apng, image/avif, image/gif, image/jpeg, image/png, image/svg+xml, image/webp'
+        self::FIELD_IMAGE => 'image/apng, image/avif, image/gif, image/jpeg, image/png, image/svg+xml, image/webp',
+        self::FIELD_PDF => '.pdf'
     ];
 
     /**
@@ -164,7 +167,8 @@ final class FieldTypeCollection extends ArrayCollection
     {
         return in_array($type, [
             self::FIELD_FILE,
-            self::FIELD_IMAGE
+            self::FIELD_IMAGE,
+            self::FIELD_PDF
         ]);
     }
 
