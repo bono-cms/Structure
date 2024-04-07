@@ -2,7 +2,6 @@ TODO LIST
 =========
 
 * Update documentation
-* Form validation & Unique alias name check
 * Sidebar filters
 * Search module integration
 * Connect with FormBuilder

@@ -2,6 +2,7 @@
 
 namespace Structure\Controller\Admin;
 
+use Krystal\Validate\Pattern;
 use Krystal\Stdlib\VirtualEntity;
 use Cms\Controller\Admin\AbstractController;
 
@@ -74,8 +75,40 @@ final class Field extends AbstractController
     public function saveAction()
     {
         $input = $this->request->getPost('field');
-
         $fieldService = $this->getModuleService('fieldService');
+
+        // Construct form validator
+        $formValidator = $this->createValidator([
+            'input' => [
+                'source' => $input,
+                'definition' => [
+                    'name' => [
+                        'required' => true,
+                        'rules' => [
+                            'Unique' => [
+                                'value' => $fieldService->nameExists($input['name']) && !$input['id'],
+                                'message' => 'This name is already taken'
+                            ]
+                        ]
+                    ],
+                    'alias' => [
+                        'required' => true,
+                        'rules' => [
+                            'Unique' => [
+                                'value' => $fieldService->aliasExists($input['alias']) && !$input['id'],
+                                'message' => 'This alias is already taken'
+                            ]
+                        ]
+                    ]
+                ]
+            ]
+        ]);
+
+        // Stop, if form invalid
+        if (!$formValidator->isValid()) {
+            return $formValidator->getErrors();
+        }
+
         $fieldService->save($input);
 
         if ($input['id']) {
