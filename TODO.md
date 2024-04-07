@@ -1,6 +1,7 @@
 TODO LIST
 =========
 
+* Update documentation
 * Form validation & Unique alias name check
 * Sidebar filters
 * Search module integration
@@ -10,6 +11,7 @@ TODO LIST
 * Implement relations (One-to-one, One-to-many, Many-to-many)
 * Attach Structures to pages
 * Usage with View Widgets
+* Test files & Translations
 
 # Next version
 
