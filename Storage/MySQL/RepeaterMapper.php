@@ -56,7 +56,7 @@ final class RepeaterMapper extends AbstractMapper implements RepeaterMapperInter
         $db = $this->db->select($columns)
                        ->from(FieldMapper::getTableName())
                        // Repeater relation
-                       ->leftJoin(RepeaterValueMapper::getTableName(), [
+                       ->innerJoin(RepeaterValueMapper::getTableName(), [
                             RepeaterValueMapper::column('field_id') => FieldMapper::getRawColumn('id'),
                             RepeaterValueMapper::column('repeater_id') => $repeaterId
                        ])
