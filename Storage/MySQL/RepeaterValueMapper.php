@@ -268,7 +268,12 @@ final class RepeaterValueMapper extends AbstractMapper implements RepeaterValueM
      */
     public function updateValueTranslation($id, $langId, $value)
     {
-        if ($this->rowExists(RepeaterValueTranslationMapper::getTableName(), ['id' => $id, 'lang_id' => $langId])) {
+        $exists = $this->rowExists(RepeaterValueTranslationMapper::getTableName(), [
+            'id' => $id,
+            'lang_id' => $langId
+        ]);
+
+        if ($exists) {
             // Update one, if exists
             $db = $this->db->update(RepeaterValueTranslationMapper::getTableName(), ['value' => $value])
                            ->whereEquals('id', $id)
@@ -295,7 +300,12 @@ final class RepeaterValueMapper extends AbstractMapper implements RepeaterValueM
     public function updateValues($repeaterId, array $rows)
     {
         foreach ($rows as $row) {
-            if ($this->rowExists(RepeaterValueMapper::getTableName(), ['field_id' => $row['field_id'], 'repeater_id' => $repeaterId])) {
+            $exists = $this->rowExists(RepeaterValueMapper::getTableName(), [
+                'field_id' => $row['field_id'],
+                'repeater_id' => $repeaterId]
+            );
+            
+            if ($exists) {
                 $db = $this->db->update(RepeaterValueMapper::getTableName(), ['value' => $row['value']])
                                ->whereEquals('field_id', $row['field_id'])
                                ->andWhereEquals('repeater_id', $repeaterId);
