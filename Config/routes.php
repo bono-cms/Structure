@@ -10,7 +10,7 @@ return [
         'controller' => 'Admin:Dashboard@indexAction'
     ],
     // Repeater
-    '/%s/module/structure/repeater/view/(:var)' => [
+    '/%s/module/structure/repeater/view/(:var)/' => [
         'controller' => 'Admin:Repeater@indexAction'
     ],
 
