@@ -192,6 +192,26 @@ final class RepeaterValueMapper extends AbstractMapper implements RepeaterValueM
     }
 
     /**
+     * Count repeaters by collection id (required for pagination)
+     * 
+     * @param int $collectionId
+     * @return int
+     */
+    private function countRepeaters($collectionId)
+    {
+        $db = $this->db->select()
+                       ->count('DISTINCT ' . RepeaterValueMapper::column('repeater_id'), 'count')
+                       ->from(RepeaterValueMapper::getTableName())
+                       // Collection relation
+                       ->innerJoin(FieldMapper::getTableName(), [
+                            FieldMapper::column('id') => RepeaterValueMapper::getRawColumn('field_id')
+                       ])
+                       ->whereEquals(FieldMapper::column('collection_id'), $collectionId);
+
+        return (int) $db->queryScalar();
+    }
+
+    /**
      * Fetch paginated resutls
      * 
      * This method invokes nested queries and aggregate functions, which make it slow
