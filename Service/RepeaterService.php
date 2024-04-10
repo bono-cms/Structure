@@ -166,14 +166,19 @@ final class RepeaterService
      * Fetch paginated resutls
      * 
      * @param int $collectionId
+     * @param int $langId If provided, all translatable fields will return values with current language
      * @param boolean $published Whether to filter only by published ones
      * @param int $page Current page number
      * @param int $itemsPerPage Items per page to be returned
      * @return array
      */
-    public function fetchPaginated($collectionId, $published = false, $page = null, $itemsPerPage = null)
+    public function fetchPaginated($collectionId, $langId, $published = false, $page = null, $itemsPerPage = null)
     {
         $rows = $this->repeaterValueMapper->fetchPaginated($collectionId, $published, $page, $itemsPerPage);
+
+        foreach ($rows as &$row) {
+            // Append translation here
+        }
 
         return $rows;
     }
@@ -213,7 +218,7 @@ final class RepeaterService
                 /**
                  * @TODO: This can be optimized, if we fetch all translations at once outside of this iteration
                  * And then here we compare against available translation data.
-                 * So that we'll avoid quering a database each time a mathc occurs.
+                 * So that we'll avoid quering a database each time a match occurs.
                  */
                 $row['value'] = $this->repeaterValueMapper->fetchTranslations($row['id'], $langId);
             }
