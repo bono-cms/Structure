@@ -219,10 +219,19 @@ final class RepeaterValueMapper extends AbstractMapper implements RepeaterValueM
      * 
      * @param int $collectionId
      * @param boolean $published Whether to filter only by published ones
+     * @param int $page Current page number
+     * @param int $itemsPerPage Items per page to be returned
      * @return array
      */
-    public function fetchPaginated($collectionId, $published)
+    public function fetchPaginated($collectionId, $published, $page = null, $itemsPerPage = null)
     {
+        $count = $this->countRepeaters($collectionId);
+
+        // Do not process, if no records found
+        if ($count === 0) {
+            return [];
+        }
+
         /**
          * Main wrapper query
          * 
@@ -238,7 +247,6 @@ final class RepeaterValueMapper extends AbstractMapper implements RepeaterValueM
                ->append($nestedQuery)
                ->closeBracket()
                ->append('t');
-               # Pagination and LIMIT goes here
 
             // Are filters by alias -> value required?
             if (!empty($filters)) {
@@ -353,6 +361,16 @@ final class RepeaterValueMapper extends AbstractMapper implements RepeaterValueM
 
         // Now run it
         $db = $this->db->raw($query);
+
+        // Do we only need to limit?
+        if ($page === null && $itemsPerPage !== null){
+            $db->limit($itemsPerPage);
+        }
+
+        // Or we need to apply pagination?
+        if ($page !== null && $itemsPerPage !== null) {
+            $db->paginateRaw($count, $page, $itemsPerPage);
+        }
 
         return $db->queryAll();
     }
