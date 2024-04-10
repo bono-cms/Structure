@@ -16,16 +16,18 @@ interface FieldMapperInterface
     /**
      * Checks whether name is already taken
      * 
-     * @param string $target
+     * @param int $collectionId
+     * @param string $name
      * @return boolean
      */
-    public function nameExists($target);
+    public function nameExists($collectionId, $name);
 
     /**
      * Checks whether alias is already taken
      * 
-     * @param string $target
+     * @param int $collectionId
+     * @param string $alias
      * @return boolean
      */
-    public function aliasExists($target);
+    public function aliasExists($collectionId, $alias);
 }

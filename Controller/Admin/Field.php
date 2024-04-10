@@ -86,7 +86,7 @@ final class Field extends AbstractController
                         'required' => true,
                         'rules' => [
                             'Unique' => [
-                                'value' => $fieldService->nameExists($input['name']) && !$input['id'],
+                                'value' => $fieldService->nameExists($input['collection_id'], $input['name']) && !$input['id'],
                                 'message' => 'This name is already taken'
                             ]
                         ]
@@ -95,7 +95,7 @@ final class Field extends AbstractController
                         'required' => true,
                         'rules' => [
                             'Unique' => [
-                                'value' => $fieldService->aliasExists($input['alias']) && !$input['id'],
+                                'value' => $fieldService->aliasExists($input['collection_id'], $input['alias']) && !$input['id'],
                                 'message' => 'This alias is already taken'
                             ]
                         ]

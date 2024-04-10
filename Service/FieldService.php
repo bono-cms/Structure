@@ -60,23 +60,25 @@ final class FieldService
     /**
      * Checks whether name is already taken
      * 
-     * @param string $target
+     * @param int $collectionId
+     * @param string $name
      * @return boolean
      */
-    public function nameExists($target)
+    public function nameExists($collectionId, $name)
     {
-        return $this->fieldMapper->nameExists($target);
+        return $this->fieldMapper->nameExists($collectionId, $name);
     }
 
     /**
      * Checks whether alias is already taken
      * 
-     * @param string $target
+     * @param int $collectionId
+     * @param string $alias
      * @return boolean
      */
-    public function aliasExists($target)
+    public function aliasExists($collectionId, $alias)
     {
-        return $this->fieldMapper->aliasExists($target);
+        return $this->fieldMapper->aliasExists($collectionId, $alias);
     }
 
     /**
