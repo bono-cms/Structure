@@ -21,5 +21,5 @@ TODO LIST
 * Multiple values (support checkboxes in fields)
 * More types of custom fields (Including dynamic ones: Date & Time, Current IP, etc)
 * Add cache layer
-* Think of better naming
+* Think of better naming for tables
 * API to support CRUD
