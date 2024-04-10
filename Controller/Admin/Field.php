@@ -97,6 +97,10 @@ final class Field extends AbstractController
                             'Unique' => [
                                 'value' => $fieldService->aliasExists($input['collection_id'], $input['alias']) && !$input['id'],
                                 'message' => 'This alias is already taken'
+                            ],
+                            'NotEquals' => [
+                                'value' => 'id',
+                                'message' => 'An alias can not contain reserved keyword `id`'
                             ]
                         ]
                     ]
