@@ -153,6 +153,32 @@ final class RepeaterService
     }
 
     /**
+     * Returns pagination instance
+     * 
+     * @return \Krystal\Paginate\Paginator
+     */
+    public function getPaginator()
+    {
+        return $this->repeaterValueMapper->getPaginator();
+    }
+
+    /**
+     * Fetch paginated resutls
+     * 
+     * @param int $collectionId
+     * @param boolean $published Whether to filter only by published ones
+     * @param int $page Current page number
+     * @param int $itemsPerPage Items per page to be returned
+     * @return array
+     */
+    public function fetchPaginated($collectionId, $published = true, $page = null, $itemsPerPage = null)
+    {
+        $rows = $this->repeaterValueMapper->fetchPaginated($collectionId, $published, $page, $itemsPerPage);
+
+        return $rows;
+    }
+
+    /**
      * Fetch all by collection id
      * 
      * @param int $collectionId
