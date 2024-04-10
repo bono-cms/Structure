@@ -2,6 +2,7 @@
 
 namespace Structure\Storage\MySQL;
 
+use Krystal\Db\Sql\QueryBuilder;
 use Krystal\Db\Sql\RawSqlFragment;
 use Structure\Storage\RepeaterValueMapperInterface;
 use Cms\Storage\MySQL\AbstractMapper;
@@ -186,6 +187,152 @@ final class RepeaterValueMapper extends AbstractMapper implements RepeaterValueM
             $db->orderBy(self::column('id'))
                ->desc();
         }
+
+        return $db->queryAll();
+    }
+
+    /**
+     * Fetch paginated resutls
+     * 
+     * This method invokes nested queries and aggregate functions, which make it slow
+     * Should be only used for larger data-sets
+     * 
+     * @param int $collectionId
+     * @param boolean $published Whether to filter only by published ones
+     * @return array
+     */
+    public function fetchPaginated($collectionId, $published)
+    {
+        /**
+         * Main wrapper query
+         * 
+         * @param string $nestedQuery Nested query to be appended
+         * @param array $filters Alias -> value pair. Only non-translatable ones
+         * @return string
+         */
+        $wrapQuery = function($nestedQuery, array $filters = []){
+            $qb = new QueryBuilder();
+            $qb->select('*')
+               ->from()
+               ->openBracket()
+               ->append($nestedQuery)
+               ->closeBracket()
+               ->append('t');
+               # Pagination and LIMIT goes here
+
+            // Are filters by alias -> value required?
+            if (!empty($filters)) {
+                $qb->whereEquals('1', '1');
+
+                foreach ($filters as $alias => $value) {
+                    $qb->andWhereEquals($alias, $value);
+                }
+            }
+
+            return $qb->getQueryString();
+        };
+
+        /**
+         * Query use to fetch dynamic column names for grouping and ordering a result-set
+         * 
+         * @param string $nestedQuery Nested query to be appended
+         * @param array $fields
+         * @return string
+         */
+        $aggregateQuery = function($nestedQuery, array $fields = []){
+            $qb = new QueryBuilder();
+            $qb->select('repeater_id');
+
+            // Dynamic values as column names
+            foreach ($fields as $field) {
+                $qb->max(new RawSqlFragment(sprintf(
+                    "case when alias = '%s' then value else null end", $field['alias']
+                )))->append($field['alias']);
+            }
+
+            $qb->from()
+               ->openBracket()
+               ->append($nestedQuery)
+               ->closeBracket()
+               ->append('s')
+               ->groupBy(['repeater_id', 'rn'])
+               ->orderBy('repeater_id')
+               ->desc();
+
+            return $qb->getQueryString();
+        };
+
+        /**
+         * Main query that actually selects data
+         * 
+         * @return string
+         */
+        $selectQuery = function() use ($published, $collectionId){
+            // Internal sub-query to aggregate rows
+            $countQuery = function(){
+                $qb = new QueryBuilder();
+                $qb->select()
+                   ->count('id')
+                   ->from(RepeaterValueMapper::getTableName())
+                   ->append(' reference ') # Alias
+                   ->where('reference.field_id', '=', 'fv.field_id')
+                   ->andWhere('reference.id', '<', 'fv.id');
+
+                return $qb->getQueryString();
+            };
+
+            $qb = new QueryBuilder();
+            $qb->select([
+                'fields.name',
+                'fields.order',
+                'fv.repeater_id',
+                'fv.value',
+                'fields.alias',
+                sprintf('(%s) rn', $countQuery())
+            ])->from(RepeaterValueMapper::getTableName())
+              ->append(' fv')
+              ->innerJoin(FieldMapper::getTableName() . ' fields', [
+                'fields.id' => 'fv.field_id'
+              ]);
+              
+              $constraints = [
+                'repeater.id' => 'fv.repeater_id',
+                'repeater.collection_id' => $collectionId
+              ];
+
+            // Do we need to filter by published only rows?
+            if ($published) {
+                $constraints['repeater.published'] = 1;
+            }
+
+            // Apply constraints
+            $qb->innerJoin(RepeaterMapper::getTableName() . ' repeater', $constraints);
+
+            /* Filters by translatable go here */
+
+            return $qb->getQueryString();
+        };
+
+        // Select fields by current collection ID
+        $fields = $this->db->select(['alias', 'translatable'])
+                           ->from(FieldMapper::getTableName())
+                           ->whereEquals('collection_id', $collectionId)
+                           ->queryAll();
+
+        // Stop immediatelly, if no fields
+        if (empty($fields)) {
+            return [];
+        }
+
+        // Finally, construct a final query
+        $query = $wrapQuery(
+            $aggregateQuery(
+                $selectQuery(), $fields
+            )
+        );
+
+        // Now run it
+        $db = $this->db->raw($query);
 
         return $db->queryAll();
     }
