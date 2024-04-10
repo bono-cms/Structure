@@ -14,7 +14,6 @@ TODO LIST
 
 # Next version
 
-* Pagination (Rewrite JOINs with sub-queries, otherwise it won't work)
 * Structure templates
 * Add limit to maximal amount of rows per collection
 * Add - Published since & till fields
