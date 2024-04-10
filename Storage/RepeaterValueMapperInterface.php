@@ -43,6 +43,15 @@ interface RepeaterValueMapperInterface
     public function fetchByFieldId($fieldId, array $types);
 
     /**
+     * Fetch all translations by collection id filtering by language id
+     * 
+     * @param int $collectionId
+     * @param int $langId Language id filter
+     * @return array
+     */
+    public function fetchAllTranslations($collectionId, $langId);
+
+    /**
      * Fetch translations available translations
      * 
      * @param int $repeaterId

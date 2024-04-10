@@ -73,6 +73,37 @@ final class RepeaterValueMapper extends AbstractMapper implements RepeaterValueM
     }
 
     /**
+     * Fetch all translations by collection id filtering by language id
+     * 
+     * @param int $collectionId
+     * @param int $langId Language id filter
+     * @return array
+     */
+    public function fetchAllTranslations($collectionId, $langId)
+    {
+        $columns = [
+            FieldMapper::column('alias'),
+            RepeaterValueTranslationMapper::column('value')
+        ];
+
+        $db = $this->db->select($columns)
+                       ->from(RepeaterValueTranslationMapper::getTableName())
+                       // Repeater relations
+                       ->innerJoin(RepeaterValueMapper::getTableName(), [
+                        RepeaterValueMapper::column('id') => RepeaterValueTranslationMapper::getRawColumn('id')
+                       ])
+                       // Field relation
+                       ->innerJoin(FieldMapper::getTableName(), [
+                        FieldMapper::column('id') => RepeaterValueMapper::getRawColumn('field_id')
+                       ])
+                       // Constraints
+                       ->whereEquals(RepeaterValueTranslationMapper::column('lang_id'), $langId)
+                       ->andWhereEquals(FieldMapper::column('collection_id'), $collectionId);
+
+        return $db->queryAll();
+    }
+
+    /**
      * Fetch translations available translations
      * 
      * @param int $repeaterId
