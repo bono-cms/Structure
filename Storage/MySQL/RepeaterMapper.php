@@ -44,6 +44,8 @@ final class RepeaterMapper extends AbstractMapper implements RepeaterMapperInter
      */
     public function fetchByRepeaterId($repeaterId)
     {
+        $repeaterId = (int) $repeaterId;
+
         // Columns be selected
         $columns = [
             FieldMapper::column('id') => 'field_id',
@@ -56,9 +58,14 @@ final class RepeaterMapper extends AbstractMapper implements RepeaterMapperInter
         $db = $this->db->select($columns)
                        ->from(FieldMapper::getTableName())
                        // Repeater relation
-                       ->innerJoin(RepeaterValueMapper::getTableName(), [
+                       ->leftJoin(RepeaterValueMapper::getTableName(), [
                             RepeaterValueMapper::column('field_id') => FieldMapper::getRawColumn('id'),
                             RepeaterValueMapper::column('repeater_id') => $repeaterId
+                       ])
+                       // Filter by collection
+                       ->innerJoin(RepeaterMapper::getTableName(), [
+                            RepeaterMapper::column('collection_id') => FieldMapper::getRawColumn('collection_id'),
+                            RepeaterMapper::column('id') => $repeaterId
                        ])
                        ->orderBy(RepeaterValueMapper::column('id'))
                        ->desc();
