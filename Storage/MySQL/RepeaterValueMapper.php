@@ -269,7 +269,9 @@ final class RepeaterValueMapper extends AbstractMapper implements RepeaterValueM
          */
         $aggregateQuery = function($nestedQuery, array $fields = []){
             $qb = new QueryBuilder();
-            $qb->select('repeater_id');
+            $qb->select([
+                'repeater_id'
+            ]);
 
             // Dynamic values as column names
             foreach ($fields as $field) {
@@ -311,8 +313,6 @@ final class RepeaterValueMapper extends AbstractMapper implements RepeaterValueM
 
             $qb = new QueryBuilder();
             $qb->select([
-                'fields.name',
-                'fields.order',
                 'fv.repeater_id',
                 'fv.value',
                 'fields.alias',
