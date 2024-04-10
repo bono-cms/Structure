@@ -27,7 +27,7 @@ return [
     ],
 
     // Fields
-    '/%s/module/structure/view/(:var)' => [
+    '/%s/module/structure/fields/view/(:var)' => [
         'controller' => 'Admin:Field@indexAction'
     ],
 
