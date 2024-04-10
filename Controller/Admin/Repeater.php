@@ -8,6 +8,41 @@ use Cms\Controller\Admin\AbstractController;
 final class Repeater extends AbstractController
 {
     /**
+     * Per page count. if NULL, then disabled
+     * 
+     * @var int
+     */
+    private $perPageCount = 10;
+
+    /**
+     * Find repeaters depending on per page count
+     * 
+     * @param int $collectionId
+     * @return array
+     */
+    private function findRepeaters($collectionId)
+    {
+        // Current page number
+        $page = (int) $this->request->getQuery('page', 1);
+
+        // Get current language ID
+        $langId = $this->getService('Cms', 'languageManager')->getCurrentId();
+
+        $repeaterService = $this->getModuleService('repeaterService');
+
+        if ($this->perPageCount !== null) {
+            return [
+                'rows' => $repeaterService->fetchPaginated($collectionId, $langId, false, $page, $this->perPageCount),
+                'paginator' => $repeaterService->getPaginator()
+            ];
+        } else {
+            return [
+                'rows' => $repeaterService->fetchAll($collectionId, $langId)
+            ];
+        }
+    }
+
+    /**
      * Renders repeater by collection ID
      * 
      * @param string $collectionId
@@ -19,6 +54,8 @@ final class Repeater extends AbstractController
         $collection = $this->getModuleService('collectionService')->fetchById($collectionId);
 
         if ($collection) {
+            $repeaterService = $this->getModuleService('repeaterService');
+            
             // Load view plugins
             $this->view->getPluginBag()->load($this->getWysiwygPluginName());
 
@@ -36,9 +73,9 @@ final class Repeater extends AbstractController
             // Override with values
             if ($repeaterId !== null) {
                 // Edit mode
-                $fields = $this->getModuleService('repeaterService')->appendValues($fields, $repeaterId);
+                $fields = $repeaterService->appendValues($fields, $repeaterId);
                 // Find current repeater
-                $repeater = $this->getModuleService('repeaterService')->fetchById($repeaterId);
+                $repeater = $repeaterService->fetchById($repeaterId);
             }
 
             // Repeater doesn't exist yet. Create a mock.
@@ -48,16 +85,12 @@ final class Repeater extends AbstractController
                 ];
             }
 
-            // Get current language ID
-            $langId = $this->getService('Cms', 'languageManager')->getCurrentId();
-
-            return $this->view->render('repeater', [
+            return $this->view->render('repeater', array_merge($this->findRepeaters($collectionId), [
                 'collection' => $collection,
-                'rows' => $this->getModuleService('repeaterService')->fetchAll($collectionId, $langId),
                 'fields' => $fields,
                 'repeater' => $repeater,
                 'repeaterId' => $repeaterId
-            ]);
+            ]));
 
         } else {
             // Invalid collection ID. Trigger 404
