@@ -171,7 +171,7 @@ final class RepeaterService
      * @param int $itemsPerPage Items per page to be returned
      * @return array
      */
-    public function fetchPaginated($collectionId, $published = true, $page = null, $itemsPerPage = null)
+    public function fetchPaginated($collectionId, $published = false, $page = null, $itemsPerPage = null)
     {
         $rows = $this->repeaterValueMapper->fetchPaginated($collectionId, $published, $page, $itemsPerPage);
 
