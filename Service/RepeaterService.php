@@ -175,9 +175,19 @@ final class RepeaterService
     public function fetchPaginated($collectionId, $langId, $published = false, $page = null, $itemsPerPage = null)
     {
         $rows = $this->repeaterValueMapper->fetchPaginated($collectionId, $published, $page, $itemsPerPage);
+        $translations = $this->repeaterValueMapper->fetchAllTranslations($collectionId, $langId);
 
-        foreach ($rows as &$row) {
-            // Append translation here
+        // Append translations, if available
+        if ($translations) {
+            $translations = ArrayUtils::arrayList($translations, 'alias', 'value');
+
+            foreach ($rows as &$row) {
+                foreach ($translations as $alias => $value) {
+                    if (isset($row[$alias])) {
+                        $row[$alias] = $value;
+                    }
+                }
+            }
         }
 
         return $rows;
