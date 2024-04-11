@@ -12,7 +12,7 @@ final class Repeater extends AbstractController
      * 
      * @var int
      */
-    private $perPageCount = 10;
+    private $perPageCount = 10; // @TODO: Read from module config
 
     /**
      * Find repeaters depending on per page count
@@ -32,7 +32,7 @@ final class Repeater extends AbstractController
 
         if ($this->perPageCount !== null) {
             return [
-                'rows' => $repeaterService->fetchPaginated($collectionId, $langId, false, $page, $this->perPageCount),
+                'rows' => $repeaterService->fetchPaginated($collectionId, $langId, false, false, $page, $this->perPageCount),
                 'paginator' => $repeaterService->getPaginator()
             ];
         } else {

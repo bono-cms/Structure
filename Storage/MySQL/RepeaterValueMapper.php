@@ -249,12 +249,13 @@ final class RepeaterValueMapper extends AbstractMapper implements RepeaterValueM
      * Should be only used for larger data-sets
      * 
      * @param int $collectionId
+     * @param boolean $sort Whether to sort by order. If true, sorted by order, otherwise by last id
      * @param boolean $published Whether to filter only by published ones
      * @param int $page Current page number
      * @param int $itemsPerPage Items per page to be returned
      * @return array
      */
-    public function fetchPaginated($collectionId, $published, $page = null, $itemsPerPage = null)
+    public function fetchPaginated($collectionId, $sort, $published, $page = null, $itemsPerPage = null)
     {
         $count = $this->countRepeaters($collectionId);
 
@@ -298,7 +299,7 @@ final class RepeaterValueMapper extends AbstractMapper implements RepeaterValueM
          * @param array $fields
          * @return string
          */
-        $aggregateQuery = function($nestedQuery, array $fields = []){
+        $aggregateQuery = function($nestedQuery, array $fields = []) use ($sort){
             $qb = new QueryBuilder();
             $qb->select([
                 'repeater_id'
@@ -316,9 +317,14 @@ final class RepeaterValueMapper extends AbstractMapper implements RepeaterValueM
                ->append($nestedQuery)
                ->closeBracket()
                ->append('s')
-               ->groupBy(['repeater_id', 'rn'])
-               ->orderBy('repeater_id')
-               ->desc();
+               ->groupBy(['repeater_id', 'rn']);
+
+            if ($sort) {
+                $qb->orderBy(new RawSqlFragment('`order`, CASE WHEN `order` = 0 THEN `id` END DESC'));
+            } else {
+                $qb->orderBy('repeater_id')
+                   ->desc();
+            }
 
             return $qb->getQueryString();
         };
@@ -345,7 +351,9 @@ final class RepeaterValueMapper extends AbstractMapper implements RepeaterValueM
             $qb = new QueryBuilder();
             $qb->select([
                 'fv.repeater_id',
+                'fv.id',
                 'fv.value',
+                'fields.order',
                 'fields.alias',
                 sprintf('(%s) rn', $countQuery())
             ])->from(RepeaterValueMapper::getTableName())

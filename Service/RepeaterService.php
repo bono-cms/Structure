@@ -167,14 +167,15 @@ final class RepeaterService
      * 
      * @param int $collectionId
      * @param int $langId If provided, all translatable fields will return values with current language
+     * @param boolean $sort Whether to sort by order. If true, sorted by order, otherwise by last id
      * @param boolean $published Whether to filter only by published ones
      * @param int $page Current page number
      * @param int $itemsPerPage Items per page to be returned
      * @return array
      */
-    public function fetchPaginated($collectionId, $langId, $published = false, $page = null, $itemsPerPage = null)
+    public function fetchPaginated($collectionId, $langId, $sort = false, $published = false, $page = null, $itemsPerPage = null)
     {
-        $rows = $this->repeaterValueMapper->fetchPaginated($collectionId, $published, $page, $itemsPerPage);
+        $rows = $this->repeaterValueMapper->fetchPaginated($collectionId, $sort, $published, $page, $itemsPerPage);
         $translations = $this->repeaterValueMapper->fetchAllTranslations($collectionId, $langId);
 
         // Append translations, if available
