@@ -317,10 +317,10 @@ final class RepeaterValueMapper extends AbstractMapper implements RepeaterValueM
                ->append($nestedQuery)
                ->closeBracket()
                ->append('s')
-               ->groupBy(['repeater_id', 'rn']);
+               ->groupBy(['order', 'repeater_id', 'rn']);
 
             if ($sort) {
-                $qb->orderBy(new RawSqlFragment('`order`, CASE WHEN `order` = 0 THEN `id` END DESC'));
+                $qb->orderBy('order');
             } else {
                 $qb->orderBy('repeater_id')
                    ->desc();
@@ -351,7 +351,6 @@ final class RepeaterValueMapper extends AbstractMapper implements RepeaterValueM
             $qb = new QueryBuilder();
             $qb->select([
                 'fv.repeater_id',
-                'fv.id',
                 'fv.value',
                 'fields.order',
                 'fields.alias',
