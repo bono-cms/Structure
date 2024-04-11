@@ -2,6 +2,8 @@
 
 namespace Structure\Service;
 
+use Krystal\Http\RequestInterface;
+
 final class SiteService
 {
     /**
@@ -10,6 +12,13 @@ final class SiteService
      * @var \Structure\Service\RepeaterService $repeaterService
      */
     private $repeaterService;
+
+    /**
+     * Request instance
+     * 
+     * @var \Krystal\Http\RequestInterface
+     */
+    private $request;
 
     /**
      * Current language ID
@@ -22,12 +31,14 @@ final class SiteService
      * State initialization
      * 
      * @param \Structure\Service\RepeaterService $repeaterService
+     * @param \Krystal\Http\RequestInterface $request
      * @param int $langId Current language ID
      * @return void
      */
-    public function __construct(RepeaterService $repeaterService, $langId)
+    public function __construct(RepeaterService $repeaterService, RequestInterface $request, $langId)
     {
         $this->repeaterService = $repeaterService;
+        $this->request = $request;
         $this->setLangId($langId);
     }
 
@@ -57,12 +68,13 @@ final class SiteService
      * Returns paginated collection
      * 
      * @param int $id Collection ID
-     * @param int $page Current page
      * @param int $itemsPerPage
      * @return array
      */
-    public function getPaginatedCollection($id, $page, $itemsPerPage = 10)
+    public function getPaginatedCollection($id, $itemsPerPage = 10)
     {
+        $page = $this->request->getQuery('page', 1);
+
         return $this->repeaterService->fetchPaginated($id, $this->langId, true, true, $page, $itemsPerPage);
     }
 

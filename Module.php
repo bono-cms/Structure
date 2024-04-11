@@ -25,6 +25,8 @@ final class Module extends AbstractCmsModule
      */
     public function getServiceProviders()
     {
+        $request = $this->getServiceLocator()->get('request');
+
         // Build data mappers
         $collectionMapper = $this->getMapper('\Structure\Storage\MySQL\CollectionMapper');
         $fieldMapper = $this->getMapper('\Structure\Storage\MySQL\FieldMapper');
@@ -37,7 +39,7 @@ final class Module extends AbstractCmsModule
         $repeaterService = new RepeaterService($repeaterMapper, $valueMapper, $fileInput);
 
         return [
-            'siteService' => new SiteService($repeaterService, $languageManager->getCurrentId()),
+            'siteService' => new SiteService($repeaterService, $request, $languageManager->getCurrentId()),
             'collectionService' => new CollectionService($collectionMapper),
             'fieldService' => new FieldService($fieldMapper),
             'repeaterService' => $repeaterService
