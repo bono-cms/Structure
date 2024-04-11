@@ -1,7 +1,6 @@
 TODO LIST
 =========
 
-* Update documentation
 * Sidebar filters
 * Search module integration
 * Connect with FormBuilder
@@ -14,10 +13,8 @@ TODO LIST
 
 # Next version
 
-* Structure templates
 * Add limit to maximal amount of rows per collection
 * Add - Published since & till fields
-* Multiple values (support checkboxes in fields)
 * More types of custom fields (Including dynamic ones: Date & Time, Current IP, etc)
 * Add cache layer
 * Think of better naming for tables
