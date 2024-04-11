@@ -352,7 +352,7 @@ final class RepeaterValueMapper extends AbstractMapper implements RepeaterValueM
             $qb->select([
                 'fv.repeater_id',
                 'fv.value',
-                'fields.order',
+                'repeater.order',
                 'fields.alias',
                 sprintf('(%s) rn', $countQuery())
             ])->from(RepeaterValueMapper::getTableName())
