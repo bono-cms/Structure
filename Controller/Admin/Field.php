@@ -64,6 +64,8 @@ final class Field extends AbstractController
         if ($field) {
             $collection = $this->getModuleService('collectionService')->fetchById($field['collection_id']);
             return $this->renderForm($collection, $field);
+        } else {
+            return false;
         }
     }
 
