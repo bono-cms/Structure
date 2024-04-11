@@ -17,7 +17,7 @@ final class API extends AbstractController
 
         if ($id) {
             $langId = $this->request->getQuery('lang_id', $this->getService('Cms', 'languageManager')->getDefaultId());
-            $rows = $this->getModuleService('siteService')->getCollection($id, $langId);
+            $rows = $this->getModuleService('siteService')->setLangId($langId)->getCollection($id, $langId);
         } else {
             $rows = [];
         }
