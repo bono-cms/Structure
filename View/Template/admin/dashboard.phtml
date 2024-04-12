@@ -2,37 +2,35 @@
     <i class="fas fa-table"></i> <?= $this->translate('Manage structures'); ?> <small class="text-muted">(<?= count($collections); ?>)</small>
 </h4>
 
-<div class="card">
-    <div class="row">
-        <?php foreach ($collections as $collection): ?>
-        <div class="col-lg-3">
-            <div class="p-3 border text-center">
-                <span class="d-block mb-2">
-                    <i class="module-icon fas fa-edit"></i>
-                </span>
-                <h4><?= $collection['name']; ?></h4>
+<div class="row">
+    <?php foreach ($collections as $collection): ?>
+    <div class="col-lg-3">
+        <div class="p-4 border text-center mb-3 shadow-lg bg-white">
+            <span class="d-block mb-2">
+                <i class="module-icon fas fa-edit"></i>
+            </span>
+            <h4><?= $collection['name']; ?></h4>
 
-                <p>
-                    <small><strong><?= $collection['count']; ?></strong> <?= $this->translate('fields'); ?>, ID = <strong><?= $collection['id']; ?></strong></small>
-                </p>
-                <p>
-                    <a href="<?= $this->url('Structure:Admin:Repeater@indexAction', $collection['id']); ?>"><i class="fas fa-pencil-alt"></i> <?= $this->translate('Add or edit records'); ?></a>
-                </p>
-            </div>
+            <p>
+                <small><strong><?= $collection['count']; ?></strong> <?= $this->translate('fields'); ?>, ID = <strong><?= $collection['id']; ?></strong></small>
+            </p>
+            <p>
+                <a href="<?= $this->url('Structure:Admin:Repeater@indexAction', $collection['id']); ?>"><i class="fas fa-pencil-alt"></i> <?= $this->translate('Add or edit records'); ?></a>
+            </p>
         </div>
-        <?php endforeach; ?>
+    </div>
+    <?php endforeach; ?>
 
-        <!-- Add new -->
-        <div class="col-lg-3">
-            <div class="p-3 border text-center h-100 d-flex flex-column align-items-center justify-content-center">
-                <span class="d-block mb-2">
-                    <i class="module-icon fs-2 far fa-plus-square"></i>
-                </span>
+    <!-- Add new -->
+    <div class="col-lg-3">
+        <div class="p-3 border text-center h-100 d-flex flex-column align-items-center justify-content-center">
+            <span class="d-block mb-2">
+                <i class="module-icon fs-2 far fa-plus-square"></i>
+            </span>
 
-                <h5>
-                    <a href="<?= $this->url('Structure:Admin:Collection@indexAction'); ?>"><?= $this->show('Add new structure'); ?></a>
-                </h5>
-            </div>
+            <h5>
+                <a href="<?= $this->url('Structure:Admin:Collection@indexAction'); ?>"><?= $this->show('Add new structure'); ?></a>
+            </h5>
         </div>
     </div>
 </div>
