@@ -44,3 +44,6 @@ Sometimes, when having a large dataset, you might want to render it breaking it 
     
     <?= $this->widget(new PaginationWidget($structure->getPaginator())); ?>
 
+# Note
+
+In case you're exporting SQL dump, make sure that all Foreign Keys are exported as well, otherwise it will break functionality.
