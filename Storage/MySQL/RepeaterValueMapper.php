@@ -83,6 +83,7 @@ final class RepeaterValueMapper extends AbstractMapper implements RepeaterValueM
     {
         $columns = [
             FieldMapper::column('alias'),
+            RepeaterValueMapper::column('repeater_id'),
             RepeaterValueTranslationMapper::column('value')
         ];
 

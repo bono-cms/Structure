@@ -180,12 +180,10 @@ final class RepeaterService
 
         // Append translations, if available
         if ($translations) {
-            $translations = ArrayUtils::arrayList($translations, 'alias', 'value');
-
             foreach ($rows as &$row) {
-                foreach ($translations as $alias => $value) {
-                    if (isset($row[$alias])) {
-                        $row[$alias] = $value;
+                foreach ($translations as &$translation) {
+                    if ($row['repeater_id'] == $translation['repeater_id']) {
+                        $row[$translation['alias']] = $translation['value'];
                     }
                 }
             }
