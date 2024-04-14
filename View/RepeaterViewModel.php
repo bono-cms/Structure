@@ -86,6 +86,14 @@ final class RepeaterViewModel
                 };
             }
 
+            // Is this a number field?
+            if ($field['type'] == FieldTypeCollection::FIELD_NUMBER) {
+                $column['value'] = function($row) use ($field) {
+                    $value = $row[$field['alias']];
+                    return number_format($value);
+                };
+            }
+
             $output[] = $column;
         }
 
