@@ -43,6 +43,7 @@ final class Field extends AbstractController
         if ($collection) {
             $field = new VirtualEntity();
             $field->setCollectionId($id);
+            $field->setGridable(true);
 
             return $this->renderForm($collection, $field);
         } else {
