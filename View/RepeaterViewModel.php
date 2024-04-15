@@ -94,6 +94,14 @@ final class RepeaterViewModel
                 };
             }
 
+            // Is this a URL field?
+            if ($field['type'] == FieldTypeCollection::FIELD_URL) {
+                $column['value'] = function($row) use ($field) {
+                    $value = $row[$field['alias']];
+                    return Element::link($value, $value, ['target' => '_blank']);
+                };
+            }
+
             $output[] = $column;
         }
 
