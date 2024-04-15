@@ -32,6 +32,10 @@ use Structure\Collection\FieldTypeCollection;
     <?= Element::email($name, $value, $attributes); ?>
     <?php endif; ?>
 
+    <?php if ($type == FieldTypeCollection::FIELD_URL): ?>
+    <?= Element::url($name, $value, $attributes); ?>
+    <?php endif; ?>
+
     <!-- Date and time -->
     <?php if ($type == FieldTypeCollection::FIELD_DATE): ?>
     <?= Element::date($name, $value, $attributes); ?>
@@ -43,6 +47,14 @@ use Structure\Collection\FieldTypeCollection;
 
     <?php if ($type == FieldTypeCollection::FIELD_DATETIME): ?>
     <?= Element::datetime($name, $value, $attributes); ?>
+    <?php endif; ?>
+
+    <?php if ($type == FieldTypeCollection::FIELD_WEEK): ?>
+    <?= Element::week($name, $value, $attributes); ?>
+    <?php endif; ?>
+
+    <?php if ($type == FieldTypeCollection::FIELD_MONTH): ?>
+    <?= Element::month($name, $value, $attributes); ?>
     <?php endif; ?>
     <!-- End of Date and time -->
 

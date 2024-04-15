@@ -22,11 +22,14 @@ final class FieldTypeCollection extends ArrayCollection
     const FIELD_WYSIWYG = 3;
     const FIELD_NUMBER = 4;
     const FIELD_EMAIL = 5;
+    const FIELD_URL = 18;
 
     /* Date and time */
     const FIELD_DATE = 6;
     const FIELD_TIME = 7;
     const FIELD_DATETIME = 8;
+    const FIELD_WEEK = 16;
+    const FIELD_MONTH = 17;
 
     /* Lists */
     const FIELD_SELECT = 9;
@@ -50,12 +53,15 @@ final class FieldTypeCollection extends ArrayCollection
             self::FIELD_TEXTAREA => 'Textarea',
             self::FIELD_WYSIWYG => 'Rich editor (WYSIWYG)',
             self::FIELD_NUMBER => 'Number',
-            self::FIELD_EMAIL => 'E-mail'
+            self::FIELD_EMAIL => 'E-mail',
+            self::FIELD_URL => 'URL'
         ],
         'Date and time' => [
             self::FIELD_DATE => 'Date',
             self::FIELD_TIME => 'Time',
             self::FIELD_DATETIME => 'Date and time',
+            self::FIELD_WEEK => 'Week',
+            self::FIELD_MONTH => 'Month'
         ],
         'Lists' => [
             self::FIELD_SELECT => 'Select',
@@ -110,7 +116,8 @@ final class FieldTypeCollection extends ArrayCollection
             self::FIELD_TEXTAREA,
             self::FIELD_WYSIWYG,
             self::FIELD_NUMBER,
-            self::FIELD_EMAIL
+            self::FIELD_EMAIL,
+            self::FIELD_URL
         ]);
     }
 
@@ -125,7 +132,9 @@ final class FieldTypeCollection extends ArrayCollection
         return in_array($type, [
             self::FIELD_DATE,
             self::FIELD_TIME,
-            self::FIELD_DATETIME
+            self::FIELD_DATETIME,
+            self::FIELD_WEEK,
+            self::FIELD_MONTH
         ]);
     }
 
