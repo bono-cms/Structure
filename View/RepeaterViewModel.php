@@ -8,6 +8,16 @@ use Structure\Collection\FieldTypeCollection;
 final class RepeaterViewModel
 {
     /**
+     * Creates unique signature for input element
+     * 
+     * @return string
+     */
+    public static function createSignature()
+    {
+        return sprintf('uniq-%s', uniqid());
+    }
+
+    /**
      * Generate name for delete input
      * 
      * @return string
