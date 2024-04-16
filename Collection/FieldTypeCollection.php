@@ -38,6 +38,7 @@ final class FieldTypeCollection extends ArrayCollection
 
     /* Other */
     const FIELD_CHECKBOX = 12;
+    const FIELD_COLOR = 19;
 
     /* Files */
     const FIELD_FILE = 13;
@@ -70,6 +71,7 @@ final class FieldTypeCollection extends ArrayCollection
         ],
         'Other' => [
             self::FIELD_CHECKBOX => 'Checkbox',
+            self::FIELD_COLOR => 'Color'
         ],
         'Files' => [
             self::FIELD_FILE => 'File',
@@ -162,7 +164,8 @@ final class FieldTypeCollection extends ArrayCollection
     public static function isOther($type)
     {
         return in_array($type, [
-            self::FIELD_CHECKBOX
+            self::FIELD_CHECKBOX,
+            self::FIELD_COLOR
         ]);
     }
 

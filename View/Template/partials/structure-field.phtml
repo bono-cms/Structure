@@ -63,6 +63,10 @@ use Structure\Collection\FieldTypeCollection;
     <?= Element::select($name, ArrayUtils::valuefy($list), $value, $attributes); ?>
     <?php endif; ?>
 
+    <?php if ($type == FieldTypeCollection::FIELD_COLOR): ?>
+    <?= Element::color($name, $value, $attributes); ?>
+    <?php endif; ?>
+
     <!-- Checkbox -->
     <?php if ($type == FieldTypeCollection::FIELD_CHECKBOX): ?>
     <div class="form-check">
