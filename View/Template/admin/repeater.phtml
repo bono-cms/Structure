@@ -59,11 +59,13 @@ $columns = CollectionViewModel::getColumns($collection['layout'], $fields);
                 <?php if ($field['translatable'] == 1): ?>
                 <!-- Translatable field -->
                 <?php foreach ($languages as $language): ?>
+                <?php $uniq = RepeaterViewModel::createSignature(); ?>
 
                 <?= Element::hidden(RepeaterViewModel::createTranslatenNs('id', $field['id'], $language->getId()), $field['id']); ?>
                 <?= Element::hidden(RepeaterViewModel::createTranslatenNs('lang_id', $field['id'], $language->getId()), $language->getId()); ?>
 
                 <?php $this->loadPartial('structure-field', [
+                    'uniq' => $uniq,
                     'id' => $field['id'],
                     'type' => $field['type'],
                     'name' => RepeaterViewModel::createTranslatenNs('value', $field['id'], $language->getId()),
@@ -74,13 +76,16 @@ $columns = CollectionViewModel::getColumns($collection['layout'], $fields);
                     'list' => FieldTypeCollection::isList($field['type']) ? TextUtils::breakString($field['hint']) : [],
                     'attributes' => [
                         'class' => 'form-control',
-                        'placeholder' => $field['hint']
+                        'placeholder' => $field['hint'],
+                        'id' => $uniq
                     ]
                 ]); ?>
                 <?php endforeach; ?>
 
                 <?php else: ?>
+                <?php $uniq = RepeaterViewModel::createSignature(); ?>
                 <?php $this->loadPartial('structure-field', [
+                    'uniq' => $uniq,
                     'id' => $field['id'],
                     'type' => $field['type'],
                     'name' => sprintf('record[%s]', $field['id']),
@@ -91,7 +96,8 @@ $columns = CollectionViewModel::getColumns($collection['layout'], $fields);
                     'list' => FieldTypeCollection::isList($field['type']) ? TextUtils::breakString($field['hint']) : [],
                     'attributes' => [
                         'class' => 'form-control',
-                        'placeholder' => $field['hint']
+                        'placeholder' => $field['hint'],
+                        'id' => $uniq
                     ]
                 ]); ?>
                 <?php endif; ?>
