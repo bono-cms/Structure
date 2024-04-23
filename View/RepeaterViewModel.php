@@ -74,8 +74,8 @@ final class RepeaterViewModel
                 $column['value'] = function($row) use ($field, $hint){
                     if (isset($row[$field['alias']])) {
                         $value = $row[$field['alias']];
-                        // Image case
-                        if ($field['type'] == FieldTypeCollection::FIELD_IMAGE){
+                        // Is it image like?
+                        if (FieldTypeCollection::imageLike($value)) {
                             return Element::image($value, ['class' => 'img-fluid']);
                         }
 
