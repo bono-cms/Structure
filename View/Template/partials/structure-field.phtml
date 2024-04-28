@@ -71,8 +71,8 @@ use Structure\View\RepeaterViewModel;
     <!-- Checkbox -->
     <?php if ($type == FieldTypeCollection::FIELD_CHECKBOX): ?>
     <div class="form-check">
-      <?= Element::checkbox($name, $value, ['class' => 'form-check-input', 'title' => $hint, 'id' => $uniqid]); ?>
-      <label class="form-check-label" title="<?= $hint; ?>" for="<?= $uniqid; ?>">
+      <?= Element::checkbox($name, $value, ['class' => 'form-check-input', 'title' => $hint, 'id' => $uniq]); ?>
+      <label class="form-check-label" title="<?= $hint; ?>" for="<?= $uniq; ?>">
         <?= $label; ?>
       </label>
     </div>
