@@ -74,13 +74,19 @@ final class RepeaterViewModel
                 $column['value'] = function($row) use ($field, $hint){
                     if (isset($row[$field['alias']])) {
                         $value = $row[$field['alias']];
+
                         // Is it image like?
                         if (FieldTypeCollection::imageLike($value)) {
                             return Element::image($value, ['class' => 'img-fluid']);
                         }
+                        
+                        // Only show if value defined
+                        if (!empty($value)) {
+                            return Element::link($hint, $value, ['target' => '_blank']);
+                        } else {
+                            return null;
+                        }
 
-                        // By default
-                        return Element::link($hint, $value, ['target' => '_blank']);
                     } else {
                         return null;
                     }
