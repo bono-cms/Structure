@@ -2,8 +2,8 @@ TODO LIST
 =========
 
 * Ability to change icons for collections
-* BUG: if second image, it's not recognized as image type
-* Add field type - Font Icon
+* BUG: When new field gets created with new repeater entry
+* BUG: What if I change from translatable to non-translatable and vice-versa? In form everything disappers
 * Sidebar filters
 * Search module integration
 * Connect with FormBuilder
@@ -13,7 +13,6 @@ TODO LIST
 * Attach Structures to pages
 * Usage with View Widgets
 * Test files & Translations
-* What if I change from translatable to non-translatable and vice-versa?
 
 # Next version
 
