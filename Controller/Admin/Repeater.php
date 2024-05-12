@@ -86,6 +86,7 @@ final class Repeater extends AbstractController
             }
 
             return $this->view->render('repeater', array_merge($this->findRepeaters($collectionId), [
+                'count' => $repeaterService->countRepeaters($collectionId),
                 'collection' => $collection,
                 'fields' => $fields,
                 'repeater' => $repeater,
