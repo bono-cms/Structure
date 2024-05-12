@@ -2,8 +2,8 @@ TODO LIST
 =========
 
 * Ability to change icons for collections
-* BUG: When new field gets created with new repeater entry
-* BUG: What if I change from translatable to non-translatable and vice-versa? In form everything disappers
+* BUG: When new field gets created with new repeater entry, data duplication occurs
+* BUG: What if I change from translatable to non-translatable and vice-versa? In that case, form values dissapear
 * Sidebar filters
 * Search module integration
 * Connect with FormBuilder
@@ -16,6 +16,7 @@ TODO LIST
 
 # Next version
 
+* Ability to truncate all data inside collection
 * Add limit to maximal amount of rows per collection
 * Add - Published since & till fields
 * More types of custom fields (Including dynamic ones: Date & Time, Current IP, etc)
