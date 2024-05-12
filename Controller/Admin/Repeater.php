@@ -8,13 +8,6 @@ use Cms\Controller\Admin\AbstractController;
 final class Repeater extends AbstractController
 {
     /**
-     * Per page count. if NULL, then disabled
-     * 
-     * @var int
-     */
-    private $perPageCount = 10; // @TODO: Read from module config
-
-    /**
      * Find repeaters depending on per page count
      * 
      * @param int $collectionId
@@ -22,18 +15,21 @@ final class Repeater extends AbstractController
      */
     private function findRepeaters($collectionId)
     {
+        // Grab current configuration
+        $config = $this->moduleManager->getModule($this->moduleName)->getConfig();
+        $perPageCount = isset($config['perPageCount']) ? $config['perPageCount'] : null;
+
         // Current page number
         $page = (int) $this->request->getQuery('page', 1);
 
         // Get current language ID
         $langId = $this->getService('Cms', 'languageManager')->getCurrentId();
-
         $repeaterService = $this->getModuleService('repeaterService');
 
-        if ($this->perPageCount !== null) {
+        if ($perPageCount !== null) {
             return [
                 'pageNumber' => $page,
-                'rows' => $repeaterService->fetchPaginated($collectionId, $langId, false, false, $page, $this->perPageCount),
+                'rows' => $repeaterService->fetchPaginated($collectionId, $langId, false, false, $page, $perPageCount),
                 'paginator' => $repeaterService->getPaginator()
             ];
         } else {

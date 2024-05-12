@@ -5,6 +5,7 @@
  */
 
 return [
+    'perPageCount' => 10,
     'caption'  => 'Structure',
     'description' => 'Create any data structures and display them anywhere on your web-site',
     'menu' => [
