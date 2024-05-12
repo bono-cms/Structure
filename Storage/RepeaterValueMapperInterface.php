@@ -5,6 +5,14 @@ namespace Structure\Storage;
 interface RepeaterValueMapperInterface
 {
     /**
+     * Count repeaters by collection id (required for pagination)
+     * 
+     * @param int $collectionId
+     * @return int
+     */
+    public function countRepeaters($collectionId);
+
+    /**
      * Inserts empty row
      * 
      * @param int $repeaterId

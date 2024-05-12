@@ -2,6 +2,7 @@
 
 namespace Structure\Storage\MySQL;
 
+use Krystal\Cache\MemoryCache;
 use Krystal\Db\Sql\QueryBuilder;
 use Krystal\Db\Sql\RawSqlFragment;
 use Structure\Storage\RepeaterValueMapperInterface;
@@ -229,18 +230,26 @@ final class RepeaterValueMapper extends AbstractMapper implements RepeaterValueM
      * @param int $collectionId
      * @return int
      */
-    private function countRepeaters($collectionId)
+    public function countRepeaters($collectionId)
     {
-        $db = $this->db->select()
-                       ->count('DISTINCT ' . RepeaterValueMapper::column('repeater_id'), 'count')
-                       ->from(RepeaterValueMapper::getTableName())
-                       // Collection relation
-                       ->innerJoin(FieldMapper::getTableName(), [
-                            FieldMapper::column('id') => RepeaterValueMapper::getRawColumn('field_id')
-                       ])
-                       ->whereEquals(FieldMapper::column('collection_id'), $collectionId);
+        $cache = new MemoryCache();
 
-        return (int) $db->queryScalar();
+        if ($cache->has($collectionId)) {
+            return $cache->get($collectionId);
+        } else {
+            $db = $this->db->select()
+                           ->count('DISTINCT ' . RepeaterValueMapper::column('repeater_id'), 'count')
+                           ->from(RepeaterValueMapper::getTableName())
+                           // Collection relation
+                           ->innerJoin(FieldMapper::getTableName(), [
+                                FieldMapper::column('id') => RepeaterValueMapper::getRawColumn('field_id')
+                           ])
+                           ->whereEquals(FieldMapper::column('collection_id'), $collectionId);
+
+            $count = (int) $db->queryScalar();
+            $cache->set($collectionId, $count, null);
+            return $count;
+        }
     }
 
     /**
