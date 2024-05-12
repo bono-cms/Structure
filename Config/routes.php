@@ -18,7 +18,7 @@ return [
         'controller' => 'Admin:Repeater@deleteAction'
     ],
 
-    '/%s/module/structure/repeater/edit/(:var)/(:var)' => [
+    '/%s/module/structure/repeater/edit/(:var)/(:var)/' => [
         'controller' => 'Admin:Repeater@editAction'
     ],
 

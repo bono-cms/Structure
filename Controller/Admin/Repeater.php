@@ -32,11 +32,13 @@ final class Repeater extends AbstractController
 
         if ($this->perPageCount !== null) {
             return [
+                'pageNumber' => $page,
                 'rows' => $repeaterService->fetchPaginated($collectionId, $langId, false, false, $page, $this->perPageCount),
                 'paginator' => $repeaterService->getPaginator()
             ];
         } else {
             return [
+                'pageNumber' => $page,
                 'rows' => $repeaterService->fetchAll($collectionId, $langId)
             ];
         }

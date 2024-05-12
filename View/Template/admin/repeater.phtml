@@ -27,9 +27,16 @@ $columns = CollectionViewModel::getColumns($collection['layout'], $fields);
                 ],
                 'columns' => RepeaterViewModel::createColumns($fields, $rows, $this->translate('View file')),
                 'actions' => [
-                    function($row) use ($repeater){
+                    function($row) use ($repeater, $pageNumber){
+                        $url = $this->url('Structure:Admin:Repeater@editAction', $repeater['collection_id'], $row['repeater_id']);
+
+                        // Page number
+                        if ($pageNumber != 1) {
+                            $url .= '?' . http_build_query(['page' => $pageNumber]);
+                        }
+
                         return Icon::edit(
-                            $this->url('Structure:Admin:Repeater@editAction', $repeater['collection_id'], $row['repeater_id']),
+                            $url,
                             $this->translate('Edit this record')
                         );
                     },
