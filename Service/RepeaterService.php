@@ -47,6 +47,17 @@ final class RepeaterService
     }
 
     /**
+     * Count repeaters by collection id (required for pagination)
+     * 
+     * @param int $collectionId
+     * @return int
+     */
+    public function countRepeaters($collectionId)
+    {
+        return $this->repeaterValueMapper->countRepeaters($collectionId);
+    }
+
+    /**
      * Returns last id
      * 
      * @return int
