@@ -30,12 +30,16 @@ final class Repeater extends AbstractController
             return [
                 'pageNumber' => $page,
                 'rows' => $repeaterService->fetchPaginated($collectionId, $langId, false, false, $page, $perPageCount),
+                'count' => $repeaterService->countRepeaters($collectionId),
                 'paginator' => $repeaterService->getPaginator()
             ];
         } else {
+            $rows = $repeaterService->fetchAll($collectionId, $langId);
+
             return [
                 'pageNumber' => $page,
-                'rows' => $repeaterService->fetchAll($collectionId, $langId)
+                'rows' => $rows,
+                'count' => count($rows)
             ];
         }
     }
@@ -84,7 +88,6 @@ final class Repeater extends AbstractController
             }
 
             return $this->view->render('repeater', array_merge($this->findRepeaters($collectionId), [
-                'count' => $repeaterService->countRepeaters($collectionId),
                 'collection' => $collection,
                 'fields' => $fields,
                 'repeater' => $repeater,
