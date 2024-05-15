@@ -109,6 +109,15 @@ final class Repeater extends AbstractController
      */
     public function editAction($collectionId, $repeaterId)
     {
+        // Fix issue with mixed query string, if detected
+        if (!is_numeric($repeaterId)) {
+            $url = parse_url($repeaterId);
+
+            if (isset($url['path']) && is_numeric($url['path'])){
+                $repeaterId = $url['path'];
+            }
+        }
+
         return $this->indexAction($collectionId, $repeaterId);
     }
 
