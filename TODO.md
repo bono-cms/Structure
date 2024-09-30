@@ -1,6 +1,10 @@
 TODO LIST
 =========
 
+* Add buttons. In collection to fields. In fields to collection.
+* Add array type (TEXTAREA)
+* Ensure same alias can not be used twice in same collection
+* Disallow "-" and spaces in alias name
 * Ability to change icons for collections
 * BUG: When new field gets created with new repeater entry, data duplication occurs
 * BUG: What if I change from translatable to non-translatable and vice-versa? In that case, form values dissapear
@@ -16,6 +20,7 @@ TODO LIST
 
 # Next version
 
+* Search in collections
 * Ability to truncate all data inside collection
 * Add limit to maximal amount of rows per collection
 * Add - Published since & till fields
