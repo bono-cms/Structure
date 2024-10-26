@@ -8,6 +8,11 @@ $fieldTypeCollection = new FieldTypeCollection();
 
 ?>
 
+<div class="pb-3">
+    <a class="btn btn-primary" href="<?= $this->url('Structure:Admin:Repeater@indexAction', $field['collection_id']); ?>"><i class="bi bi-grid-3x3"></i> <?= $this->translate('View records of this collection'); ?></a>
+    <a class="btn btn-primary" href="<?= $this->url('Structure:Admin:Collection@editAction', $field['collection_id']); ?>"><i class="bi bi-files"></i> <?= $this->translate('Manage collection'); ?></a>
+</div>
+
 <div class="row">
     <div class="col-lg-7">
         <div class="card">
