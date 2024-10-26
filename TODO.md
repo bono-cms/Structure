@@ -3,7 +3,6 @@ TODO LIST
 
 * What if I don't want images to be optimized by default?
 * Add file type extensions: MP3, MP4, AI, CDR, PSD, ZIP, RAR, 7Z
-* Add array type (For TEXTAREA)
 * Ensure same alias can not be used twice in same collection
 * Disallow "-" and spaces in alias name
 * Ability to change icons for collections

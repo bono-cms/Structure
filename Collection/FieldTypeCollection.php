@@ -23,6 +23,7 @@ final class FieldTypeCollection extends ArrayCollection
     const FIELD_NUMBER = 4;
     const FIELD_EMAIL = 5;
     const FIELD_URL = 18;
+    const FIELD_ARRAY = 20;
 
     /* Date and time */
     const FIELD_DATE = 6;
@@ -52,6 +53,7 @@ final class FieldTypeCollection extends ArrayCollection
         'Text fields' => [
             self::FIELD_TEXT => 'Text',
             self::FIELD_TEXTAREA => 'Textarea',
+            self::FIELD_ARRAY => 'Array',
             self::FIELD_WYSIWYG => 'Rich editor (WYSIWYG)',
             self::FIELD_NUMBER => 'Number',
             self::FIELD_EMAIL => 'E-mail',
@@ -116,6 +118,7 @@ final class FieldTypeCollection extends ArrayCollection
         return in_array($type, [
             self::FIELD_TEXT,
             self::FIELD_TEXTAREA,
+            self::FIELD_ARRAY,
             self::FIELD_WYSIWYG,
             self::FIELD_NUMBER,
             self::FIELD_EMAIL,

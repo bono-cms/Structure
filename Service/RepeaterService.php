@@ -243,6 +243,11 @@ final class RepeaterService
                 $row['value'] = $this->repeaterValueMapper->fetchTranslations($row['id'], $langId);
             }
 
+            // Convert to array line by line
+            if ($row['type'] == FieldTypeCollection::FIELD_ARRAY) {
+                $row['value'] = explode("\n", $row['value']);
+            }
+
             // Dynamic keys are added here
             $output[$key] = array_merge($output[$key], [
                 $row['alias'] => $row['value']

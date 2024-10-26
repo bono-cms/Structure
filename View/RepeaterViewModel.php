@@ -93,6 +93,14 @@ final class RepeaterViewModel
                 };
             }
 
+            // Is this an array?
+            if ($field['type'] == FieldTypeCollection::FIELD_ARRAY) {
+                $column['value'] = function($row) use ($field) {
+                    $value = $row[$field['alias']];
+                    return nl2br($value); // Separate line by line
+                };
+            }
+
             // Is there a checkbox?
             if ($field['type'] == FieldTypeCollection::FIELD_CHECKBOX) {
                 $column['translateable'] = true;

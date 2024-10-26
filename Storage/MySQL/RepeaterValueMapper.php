@@ -164,7 +164,8 @@ final class RepeaterValueMapper extends AbstractMapper implements RepeaterValueM
             RepeaterValueMapper::column('value'),
             FieldMapper::column('name') => 'field',
             FieldMapper::column('alias'),
-            FieldMapper::column('translatable')
+            FieldMapper::column('translatable'),
+            FieldMapper::column('type')
         ];
 
         $db = $this->db->select($columns)

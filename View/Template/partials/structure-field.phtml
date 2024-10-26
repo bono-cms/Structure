@@ -17,7 +17,7 @@ use Structure\View\RepeaterViewModel;
     <?= Element::text($name, $value, $attributes); ?>
     <?php endif; ?>
 
-    <?php if ($type == FieldTypeCollection::FIELD_TEXTAREA): ?>
+    <?php if ($type == FieldTypeCollection::FIELD_TEXTAREA || $type == FieldTypeCollection::FIELD_ARRAY): ?>
     <?= Element::textarea($name, $value, $attributes); ?>
     <?php endif; ?>
 
