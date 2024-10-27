@@ -4,6 +4,7 @@ namespace Structure\Service;
 
 use Krystal\Stdlib\VirtualEntity;
 use Krystal\Stdlib\ArrayUtils;
+use Krystal\Text\TextUtils;
 use Structure\Collection\FieldTypeCollection;
 use Structure\Storage\RepeaterMapperInterface;
 use Structure\Storage\RepeaterValueMapperInterface;
@@ -257,6 +258,31 @@ final class RepeaterService
         // Do we need to reset array indexes?
         if ($reset === true) {
             $output = array_values($output);
+        }
+
+        return $output;
+    }
+
+    /**
+     * Filter records
+     * 
+     * @param array $rows
+     * @param array $filter
+     * @return array
+     */
+    public function filterRecords(array $rows, array $filter = [])
+    {
+        $output = [];
+
+        foreach ($filter as $alias => $value) {
+            // Do not process empty values
+            if (!empty($value)) {
+                foreach ($rows as $row) {
+                    if (isset($row[$alias]) && TextUtils::contains($row[$alias], $value)) {
+                        $output[] = $row;
+                    }
+                }
+            }
         }
 
         return $output;

@@ -82,10 +82,17 @@ final class SiteService
      * Returns collection data by its id
      * 
      * @param int $id Collection id
+     * @param array $filter (Alias => Value) filter
      * @return array
      */
-    public function getCollection($id)
+    public function getCollection($id, array $filter = [])
     {
-        return $this->repeaterService->fetchAll($id, $this->langId, true, true, true);
+        $rows = $this->repeaterService->fetchAll($id, $this->langId, true, true, true);
+
+        if ($filter) {
+            $rows = $this->repeaterService->filterRecords($rows, $filter);
+        }
+
+        return $rows;
     }
 }
