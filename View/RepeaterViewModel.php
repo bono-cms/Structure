@@ -114,7 +114,12 @@ final class RepeaterViewModel
             if ($field['type'] == FieldTypeCollection::FIELD_NUMBER) {
                 $column['value'] = function($row) use ($field) {
                     $value = $row[$field['alias']];
-                    return number_format($value);
+
+                    if (is_numeric($value)) {
+                        $value = number_format((float) $value);
+                    }
+
+                    return $value;
                 };
             }
 
