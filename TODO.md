@@ -1,6 +1,8 @@
 TODO LIST
 =========
 
+* Filtering and sorting (Collections can have different sorting methods by ID, datetime, Alphabet)
+* If there are no structures, suggest to create an empty one
 * What if I don't want images to be optimized by default?
 * Add file type extensions: MP3, MP4, AI, CDR, PSD, ZIP, RAR, 7Z
 * Disallow "-" and spaces in alias name
@@ -11,14 +13,16 @@ TODO LIST
 * Search module integration
 * Connect with FormBuilder
 * Field options
-* Filtering and sorting (Collections can have different sorting methods by ID, datetime, Alphabet)
 * Implement relations (One-to-one, One-to-many, Many-to-many)
 * Attach Structures to pages
 * Usage with View Widgets
 * Test files & Translations
+* Avoid arrays like this: Array ( [0] => ) (happens when target type is array and its string is empty)
 
 # Next version
 
+* Dynamic values from other modules
+* Warning: AVIF files do not work in Safari
 * Search in collections
 * Ability to truncate all data inside collection
 * Add limit to maximal amount of rows per collection
