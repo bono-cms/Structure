@@ -175,6 +175,24 @@ final class RepeaterService
     }
 
     /**
+     * Convers string with lines to array
+     * 
+     * @param string $string
+     * @return array
+     */
+    private function linesToArray($string)
+    {
+        // We don't want arrays like this Array ( 0 => )
+        if (empty(trim($string))) {
+            $output = [];
+        } else {
+            $output = explode("\n", $string);
+        }
+
+        return $output;
+    }
+
+    /**
      * Fetch paginated resutls
      * 
      * @param int $collectionId
@@ -246,12 +264,7 @@ final class RepeaterService
 
             // Convert to array line by line
             if ($row['type'] == FieldTypeCollection::FIELD_ARRAY) {
-                // We don't want arrays like this Array ( 0 => )
-                if (empty(trim($row['value']))) {
-                    $row['value'] = [];
-                } else {
-                    $row['value'] = explode("\n", $row['value']);
-                }
+                $row['value'] = $this->linesToArray($row['value']);
             }
 
             // Dynamic keys are added here
