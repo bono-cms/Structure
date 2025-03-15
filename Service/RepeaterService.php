@@ -246,7 +246,12 @@ final class RepeaterService
 
             // Convert to array line by line
             if ($row['type'] == FieldTypeCollection::FIELD_ARRAY) {
-                $row['value'] = explode("\n", $row['value']);
+                // We don't want arrays like this Array ( 0 => )
+                if (empty(trim($row['value']))) {
+                    $row['value'] = [];
+                } else {
+                    $row['value'] = explode("\n", $row['value']);
+                }
             }
 
             // Dynamic keys are added here
