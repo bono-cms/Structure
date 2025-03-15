@@ -202,23 +202,31 @@ final class RepeaterValueMapper extends AbstractMapper implements RepeaterValueM
      * Fetch all records with ther values by collection id
      * 
      * @param int $collectionId
-     * @param boolean $sortingMethod Whether to sort by order. If true, sorted by order, otherwise by last id
+     * @param boolean $sortingOptions Sorting options
      * @param boolean $published Whether to fetch only published ones
-     * @throws \InvalidArgumentException if invalud $sortingMethod supplied
+     * @throws \InvalidArgumentException if invalud $sortingMethod['method'] supplied
      * @return array
      */
-    public function fetchAll($collectionId, $sortingMethod, $published)
+    public function fetchAll($collectionId, array $sortingOptions, $published)
     {
         $db = $this->createSharedQuery()
+                   ->leftJoin(RepeaterValueTranslationMapper::getTableName(), [
+                        RepeaterValueTranslationMapper::column('id') => RepeaterValueMapper::getRawColumn('id')
+                   ])
                    ->whereEquals(RepeaterMapper::column('collection_id'), $collectionId);
 
         if ($published == true) {
             $db->andWhereEquals(RepeaterMapper::column('published'), '1');
         }
-        
-        d('Work here');
-        
-        switch ($sortingMethod) {
+
+        // If no sorting options provided, use default
+        if (empty($sortingOptions)) {
+            $sortingOptions = [
+                'method' => SortingCollection::SORTING_BY_ID
+            ];
+        }
+
+        switch ($sortingOptions['method']) {
             case SortingCollection::SORTING_BY_ID:
                 $db->orderBy(self::column('id'))
                    ->desc();
@@ -231,11 +239,18 @@ final class RepeaterValueMapper extends AbstractMapper implements RepeaterValueM
             break;
 
             case SortingCollection::SORTING_BY_ALPHABET:
-                $db->orderBy(self::column('value'));
+                // Pick sorting column depending if its translatable
+                if ($sortingOptions['translatable'] == '1') {
+                    $valueColumn = RepeaterValueTranslationMapper::column('value');
+                } else {
+                    $valueColumn = RepeaterValueMapper::column('value');
+                }
+
+                $db->orderBy(new RawSqlFragment(sprintf("%s, CASE WHEN %s = '%s' THEN %s END ASC", $valueColumn, FieldMapper::column('alias'), $sortingOptions['alias'], $valueColumn)));
             break;
 
             default:
-                throw new InvalidArgumentException(sprintf('Unknown sorting type supplied "%s"', $sortingMethod));
+                throw new InvalidArgumentException(sprintf('Unknown sorting type supplied "%s"', $sortingOptions['method']));
         }
 
         return $db->queryAll();
@@ -364,6 +379,7 @@ final class RepeaterValueMapper extends AbstractMapper implements RepeaterValueM
                 break;
 
                 case SortingCollection::SORTING_BY_ALPHABET:
+                    //@ TODO: Might not work if translatable
                     $qb->orderBy($sortingOptions['alias']);
                 break;
             }
