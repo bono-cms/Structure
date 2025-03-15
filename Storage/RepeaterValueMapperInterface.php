@@ -84,14 +84,15 @@ interface RepeaterValueMapperInterface
      * @return array
      */
     public function fetchValues($repeaterId);
-
+    
     /**
      * Fetch all records with ther values by collection id
      * 
      * @param int $collectionId
-     * @param boolean $sort Whether to sort by order. If true, sorted by order, otherwise by last id
+     * @param boolean $sortingMethod Whether to sort by order. If true, sorted by order, otherwise by last id
      * @param boolean $published Whether to fetch only published ones
+     * @throws \InvalidArgumentException if invalud $sortingMethod supplied
      * @return array
      */
-    public function fetchAll($collectionId, $sort, $published);
+    public function fetchAll($collectionId, $sortingMethod, $published);
 }

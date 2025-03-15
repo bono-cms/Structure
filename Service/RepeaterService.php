@@ -214,9 +214,9 @@ final class RepeaterService
      * @param boolean $published Whether to fetch only published ones
      * @return array
      */
-    public function fetchAll($collectionId, $langId = null, $reset = false, $sort = false, $published = false)
+    public function fetchAll($collectionId, $langId = null, $reset = false, $sortingMethod = false, $published = false)
     {
-        $rows = $this->repeaterValueMapper->fetchAll($collectionId, $sort, $published);
+        $rows = $this->repeaterValueMapper->fetchAll($collectionId, $sortingMethod, $published);
         $output = [];
 
         // Turn rows into one single row
