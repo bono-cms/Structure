@@ -3,9 +3,10 @@
 use Cms\View\Icon;
 use Krystal\Form\Element;
 use Krystal\Text\TextUtils;
-use Structure\Collection\FieldTypeCollection;
 use Structure\View\RepeaterViewModel;
 use Structure\View\CollectionViewModel;
+use Structure\Collection\SortingCollection;
+use Structure\Collection\FieldTypeCollection;
 
 $columns = CollectionViewModel::getColumns($collection['layout'], $fields);
 
@@ -124,10 +125,14 @@ $columns = CollectionViewModel::getColumns($collection['layout'], $fields);
                     </div>
                 </div>
 
+                <?php if (SortingCollection::SORTING_BY_ORDER == $collection['sorting_method']): ?>
                 <div class="form-group">
                     <label class="control-label"><?= $this->translate('Sorting order'); ?></label>
                     <?= Element::number('repeater[order]', isset($repeater['order']) ? $repeater['order'] : null, ['class' => 'form-control']); ?>
                 </div>
+                <?php else: ?>
+                <?= Element::hidden('repeater[order]', isset($repeater['order']) ? $repeater['order'] : null); ?>
+                <?php endif; ?>
                 <!-- ..End of static attributes -->
 
                 <?php $this->loadPartial('actions', [
