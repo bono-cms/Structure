@@ -84,7 +84,7 @@ interface RepeaterValueMapperInterface
      * @return array
      */
     public function fetchValues($repeaterId);
-    
+
     /**
      * Fetch all records with ther values by collection id
      * 
@@ -95,4 +95,19 @@ interface RepeaterValueMapperInterface
      * @return array
      */
     public function fetchAll($collectionId, $sortingMethod, $published);
+
+    /**
+     * Fetch paginated resutl-set
+     * 
+     * This method invokes nested queries and aggregate functions, which make it slow
+     * Should be only used for larger data-sets
+     * 
+     * @param int $collectionId
+     * @param boolean $sortingMethod Whether sorting constant to use
+     * @param boolean $published Whether to filter only by published ones
+     * @param int $page Current page number
+     * @param int $itemsPerPage Items per page to be returned
+     * @return array
+     */
+    public function fetchPaginated($collectionId, $sortingMethod, $published, $page = null, $itemsPerPage = null);
 }

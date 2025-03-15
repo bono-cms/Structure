@@ -87,8 +87,9 @@ final class SiteService
     public function getPaginatedCollection($id, $itemsPerPage = 10)
     {
         $page = $this->request->getQuery('page', 1);
+        $sortingMethod = $this->collectionService->fetchSortingMethod($id);
 
-        return $this->repeaterService->fetchPaginated($id, $this->langId, true, true, $page, $itemsPerPage);
+        return $this->repeaterService->fetchPaginated($id, $this->langId, $sortingMethod, true, $page, $itemsPerPage);
     }
 
     /**

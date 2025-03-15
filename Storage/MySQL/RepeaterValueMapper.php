@@ -268,19 +268,19 @@ final class RepeaterValueMapper extends AbstractMapper implements RepeaterValueM
     }
 
     /**
-     * Fetch paginated resutls
+     * Fetch paginated resutl-set
      * 
      * This method invokes nested queries and aggregate functions, which make it slow
      * Should be only used for larger data-sets
      * 
      * @param int $collectionId
-     * @param boolean $sort Whether to sort by order. If true, sorted by order, otherwise by last id
+     * @param boolean $sortingMethod Whether sorting constant to use
      * @param boolean $published Whether to filter only by published ones
      * @param int $page Current page number
      * @param int $itemsPerPage Items per page to be returned
      * @return array
      */
-    public function fetchPaginated($collectionId, $sort, $published, $page = null, $itemsPerPage = null)
+    public function fetchPaginated($collectionId, $sortingMethod, $published, $page = null, $itemsPerPage = null)
     {
         $count = $this->countRepeaters($collectionId);
 
@@ -324,7 +324,7 @@ final class RepeaterValueMapper extends AbstractMapper implements RepeaterValueM
          * @param array $fields
          * @return string
          */
-        $aggregateQuery = function($nestedQuery, array $fields = []) use ($sort){
+        $aggregateQuery = function($nestedQuery, array $fields = []) use ($sortingMethod){
             $qb = new QueryBuilder();
             $qb->select([
                 'repeater_id'
@@ -344,11 +344,19 @@ final class RepeaterValueMapper extends AbstractMapper implements RepeaterValueM
                ->append('s')
                ->groupBy(['order', 'repeater_id', 'rn']);
 
-            if ($sort) {
-                $qb->orderBy('order');
-            } else {
-                $qb->orderBy('repeater_id')
-                   ->desc();
+            switch ($sortingMethod) {
+                case SortingCollection::SORTING_BY_ID:
+                    $qb->orderBy('repeater_id')
+                       ->desc();
+                break;
+
+                case SortingCollection::SORTING_BY_ORDER:
+                    $qb->orderBy('order');
+                break;
+
+                case SortingCollection::SORTING_BY_ALPHABET:
+                    $qb->orderBy('value');
+                break;
             }
 
             return $qb->getQueryString();
@@ -399,7 +407,7 @@ final class RepeaterValueMapper extends AbstractMapper implements RepeaterValueM
             // Apply constraints
             $qb->innerJoin(RepeaterMapper::getTableName() . ' repeater', $constraints);
 
-            /* Filters by translatable go here */
+            /* @TODO: Filters by translatable go here */
 
             return $qb->getQueryString();
         };
