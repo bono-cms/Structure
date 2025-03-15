@@ -170,7 +170,7 @@ final class RepeaterValueMapper extends AbstractMapper implements RepeaterValueM
             FieldMapper::column('type')
         ];
 
-        $db = $this->db->select($columns)
+        $db = $this->db->select($columns, true)
                        ->from(RepeaterValueMapper::getTableName())
                        // Repeater relation
                        ->leftJoin(RepeaterMapper::getTableName(), [
