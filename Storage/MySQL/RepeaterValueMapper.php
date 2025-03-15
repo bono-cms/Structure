@@ -227,15 +227,15 @@ final class RepeaterValueMapper extends AbstractMapper implements RepeaterValueM
                     sprintf('%s, CASE WHEN %s = 0 THEN %s END DESC', RepeaterMapper::column('order'), RepeaterMapper::column('order'), self::column('id'))
                 ));
             break;
-
-            /**
-             * @TODO: Sort by alphabet
-             */
+            
+            case SortingCollection::SORTING_BY_ALPHABET:
+                $db->orderBy(self::column('value'));
+            break;
 
             default:
                 throw new InvalidArgumentException(sprintf('Unknown sorting type supplied "%s"', $sortingMethod));
         }
-
+        
         return $db->queryAll();
     }
 
