@@ -31,9 +31,15 @@ final class Collection extends AbstractController
             if (!$collection) {
                 return false;
             }
+
+            // Avoid fetching fields, if sorting method doesn't require them
+            if (SortingCollection::isCustomSorting($collection['sorting_method'])) {
+                $fields = $this->getModuleService('fieldService')->fetchFields($id);
+            }
         }
 
         return $this->view->render('collection', [
+            'fields' => isset($fields) ? $fields : [],
             'sortingOptions' => (new SortingCollection)->getAll(),
             'collection' => $collection,
             'collections' => $collectionService->fetchAll(false)

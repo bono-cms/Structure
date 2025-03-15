@@ -86,7 +86,14 @@ $layouts = (new LayoutCollection)->getAll();
                     <label class="control-label"><?= $this->translate('Sorting method for items'); ?></label>
                     <?= Element::select('collection[sorting_method]', $this->translateArray($sortingOptions), $collection['sorting_method'], ['class' => 'form-control']); ?>
                 </div>
-                
+
+                <?php if ($fields): ?>
+                <div class="form-group">
+                    <label class="control-label"><?= $this->translate('Sort by this field'); ?></label>
+                    <?= Element::select('collection[sorting_field_id]', $fields, $collection['sorting_field_id'], ['class' => 'form-control'], ''); ?>
+                </div>
+                <?php endif; ?>
+
                 <div class="form-group">
                     <label class="control-label"><?= $this->translate('Sorting order'); ?></label>
                     <?= Element::number('collection[order]', $collection['order'], ['class' => 'form-control', 'min' => 0]); ?>
