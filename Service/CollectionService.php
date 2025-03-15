@@ -68,6 +68,17 @@ final class CollectionService
     }
 
     /**
+     * Fetches sorting method constant by collection id
+     * 
+     * @param int $id Collection id
+     * @return string
+     */
+    public function fetchSortingMethod($id)
+    {
+        return $this->collectionMapper->fetchSortingMethod($id);
+    }
+
+    /**
      * Fetch all collections
      * 
      * @param boolean $sort Whether to sort by order. If true, sorted by order, otherwise by last id
