@@ -265,6 +265,13 @@ final class RepeaterService
             $output = array_values($output);
         }
 
+        // Esnure proper sorting
+        if (isset($sortingMethod['alias'])) {
+            usort($output, function($x, $y) use ($sortingMethod) {
+                return strcmp($x[$sortingMethod['alias']], $y[$sortingMethod['alias']]);
+            });
+        }
+
         return $output;
     }
 
