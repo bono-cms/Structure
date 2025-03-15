@@ -48,6 +48,7 @@ final class FieldTypeCollection extends ArrayCollection
     const FIELD_ARCHIVE = 21;
     const FIELD_AUDIO = 22;
     const FIELD_VIDEO = 23;
+    const FIELD_GRAPHIC = 24;
 
     /**
      * {@inheritDoc}
@@ -84,7 +85,8 @@ final class FieldTypeCollection extends ArrayCollection
             self::FIELD_PDF => 'PDF document',
             self::FIELD_ARCHIVE => 'Archive',
             self::FIELD_AUDIO => 'Audio',
-            self::FIELD_VIDEO => 'Video'
+            self::FIELD_VIDEO => 'Video',
+            self::FIELD_GRAPHIC => 'Graphic design files'
         ]
     ];
 
@@ -98,7 +100,8 @@ final class FieldTypeCollection extends ArrayCollection
         self::FIELD_PDF => '.pdf',
         self::FIELD_ARCHIVE => '.zip,.rar,.7z,.tar,.gz,.bz2,.xz,.tgz,.tbz2,.txz,.zst,.lz,.lzma,.lzo,.arj,.cab,.ace,.arc,.pak,.dmg,.cpio,.z,.sit,.sitx,.hqx,.lzh,.xxe,.rpm,.deb,.pea,.wim,.sqsh',
         self::FIELD_AUDIO => '.mp3,.wav,.flac,.aac,.ogg,.wma,.m4a,.opus,.aiff,.aif,.alac,.dsd,.dsf,.dff,.ac3,.dts,.mp2,.amr,.caf,.mid,.midi,.vqf,.ra,.rm,.ram,.gsm',
-        self::FIELD_VIDEO => '.mp4,.mkv,.mov,.avi,.wmv,.flv,.webm,.m4v,.3gp,.3g2,.ogv,.rm,.rmvb,.ts,.mts,.m2ts,.vob,.mxf,.f4v,.divx,.xvid,.asf,.mpg,.mpeg,.dv,.yuv,.vp9'
+        self::FIELD_VIDEO => '.mp4,.mkv,.mov,.avi,.wmv,.flv,.webm,.m4v,.3gp,.3g2,.ogv,.rm,.rmvb,.ts,.mts,.m2ts,.vob,.mxf,.f4v,.divx,.xvid,.asf,.mpg,.mpeg,.dv,.yuv,.vp9',
+        self::FIELD_GRAPHIC => '.ai,.cdr,.eps,.svg,.svgz,.wmf,.emf,.fxg,.odg,.xar,.psd,.psb,.xcf,.pdn,.afphoto,.clip,.kra,.indt,.indd,.idml,.qxd,.qxp'
     ];
 
     /**
@@ -195,7 +198,8 @@ final class FieldTypeCollection extends ArrayCollection
             self::FIELD_PDF,
             self::FIELD_ARCHIVE,
             self::FIELD_AUDIO,
-            self::FIELD_VIDEO
+            self::FIELD_VIDEO,
+            self::FIELD_GRAPHIC
         ]);
     }
 
