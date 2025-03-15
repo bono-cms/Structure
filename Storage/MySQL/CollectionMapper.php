@@ -24,7 +24,20 @@ final class CollectionMapper extends AbstractMapper implements CollectionMapperI
      */
     public function fetchSortingMethod($id)
     {
-        return $this->fetchOneColumn('sorting_method', 'id', $id);
+        // Columns to be selected
+        $columns = [
+            'sorting_method' => 'method',
+            'alias' => 'alias'
+        ];
+
+        $db = $this->db->select($columns)
+                       ->from(self::getTableName())
+                       ->leftJoin(FieldMapper::getTableName(), [
+                            FieldMapper::column('id') => self::getRawColumn('sorting_field_id')
+                       ])
+                       ->whereEquals(self::column('id'), $id);
+
+        return $db->query();
     }
 
     /**
