@@ -2,8 +2,9 @@
 
 namespace Structure\Controller\Admin;
 
-use Cms\Controller\Admin\AbstractController;
 use Krystal\Stdlib\VirtualEntity;
+use Cms\Controller\Admin\AbstractController;
+use Structure\Collection\SortingCollection;
 
 final class Collection extends AbstractController
 {
@@ -33,6 +34,7 @@ final class Collection extends AbstractController
         }
 
         return $this->view->render('collection', [
+            'sortingOptions' => (new SortingCollection)->getAll(),
             'collection' => $collection,
             'collections' => $collectionService->fetchAll(false)
         ]);

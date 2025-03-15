@@ -36,6 +36,7 @@ $layouts = (new LayoutCollection)->getAll();
                             $this->translate('View records of this collection')
                         );
                     },
+
                     function($row){
                         return Icon::button(
                             'fas fa-user-edit',
@@ -79,6 +80,11 @@ $layouts = (new LayoutCollection)->getAll();
                 <div class="form-group">
                     <label class="control-label"><?= $this->translate('Layout'); ?></label>
                     <?= Element::select('collection[layout]', $this->translateArray($layouts), $collection['layout'], ['class' => 'form-control']); ?>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label"><?= $this->translate('Sorting method for items'); ?></label>
+                    <?= Element::select('collection[sorting_method]', $this->translateArray($sortingOptions), $collection['sorting_method'], ['class' => 'form-control']); ?>
                 </div>
 
                 <div class="form-group">
