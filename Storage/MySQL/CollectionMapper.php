@@ -27,7 +27,8 @@ final class CollectionMapper extends AbstractMapper implements CollectionMapperI
         // Columns to be selected
         $columns = [
             'sorting_method' => 'method',
-            'alias' => 'alias'
+            'alias',
+            'translatable'
         ];
 
         $db = $this->db->select($columns)
