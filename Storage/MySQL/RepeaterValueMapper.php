@@ -2,11 +2,13 @@
 
 namespace Structure\Storage\MySQL;
 
+use InvalidArgumentException;
 use Krystal\Cache\MemoryCache;
 use Krystal\Db\Sql\QueryBuilder;
 use Krystal\Db\Sql\RawSqlFragment;
-use Structure\Storage\RepeaterValueMapperInterface;
 use Cms\Storage\MySQL\AbstractMapper;
+use Structure\Storage\RepeaterValueMapperInterface;
+use Structure\Collection\SortingCollection;
 
 final class RepeaterValueMapper extends AbstractMapper implements RepeaterValueMapperInterface
 {
@@ -200,11 +202,12 @@ final class RepeaterValueMapper extends AbstractMapper implements RepeaterValueM
      * Fetch all records with ther values by collection id
      * 
      * @param int $collectionId
-     * @param boolean $sort Whether to sort by order. If true, sorted by order, otherwise by last id
+     * @param boolean $sortingMethod Whether to sort by order. If true, sorted by order, otherwise by last id
      * @param boolean $published Whether to fetch only published ones
+     * @throws \InvalidArgumentException if invalud $sortingMethod supplied
      * @return array
      */
-    public function fetchAll($collectionId, $sort, $published)
+    public function fetchAll($collectionId, $sortingMethod, $published)
     {
         $db = $this->createSharedQuery()
                    ->whereEquals(RepeaterMapper::column('collection_id'), $collectionId);
@@ -213,13 +216,24 @@ final class RepeaterValueMapper extends AbstractMapper implements RepeaterValueM
             $db->andWhereEquals(RepeaterMapper::column('published'), '1');
         }
 
-        if ($sort == true) {
-            $db->orderBy(new RawSqlFragment(
+        switch ($sortingMethod) {
+            case SortingCollection::SORTING_BY_ID:
+                $db->orderBy(self::column('id'))
+                   ->desc();
+            break;
+
+            case SortingCollection::SORTING_BY_ORDER:
+                $db->orderBy(new RawSqlFragment(
                     sprintf('%s, CASE WHEN %s = 0 THEN %s END DESC', RepeaterMapper::column('order'), RepeaterMapper::column('order'), self::column('id'))
                 ));
-        } else {
-            $db->orderBy(self::column('id'))
-               ->desc();
+            break;
+
+            /**
+             * @TODO: Sort by alphabet
+             */
+
+            default:
+                throw new InvalidArgumentException(sprintf('Unknown sorting type supplied "%s"', $sortingMethod));
         }
 
         return $db->queryAll();
