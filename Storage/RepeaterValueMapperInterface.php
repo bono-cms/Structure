@@ -103,11 +103,11 @@ interface RepeaterValueMapperInterface
      * Should be only used for larger data-sets
      * 
      * @param int $collectionId
-     * @param boolean $sortingMethod Whether sorting constant to use
+     * @param array $sortingOptions Sorting options
      * @param boolean $published Whether to filter only by published ones
      * @param int $page Current page number
      * @param int $itemsPerPage Items per page to be returned
      * @return array
      */
-    public function fetchPaginated($collectionId, $sortingMethod, $published, $page = null, $itemsPerPage = null);
+    public function fetchPaginated($collectionId, array $sortingOptions, $published, $page = null, $itemsPerPage = null);
 }

@@ -215,7 +215,9 @@ final class RepeaterValueMapper extends AbstractMapper implements RepeaterValueM
         if ($published == true) {
             $db->andWhereEquals(RepeaterMapper::column('published'), '1');
         }
-
+        
+        d('Work here');
+        
         switch ($sortingMethod) {
             case SortingCollection::SORTING_BY_ID:
                 $db->orderBy(self::column('id'))
@@ -227,7 +229,7 @@ final class RepeaterValueMapper extends AbstractMapper implements RepeaterValueM
                     sprintf('%s, CASE WHEN %s = 0 THEN %s END DESC', RepeaterMapper::column('order'), RepeaterMapper::column('order'), self::column('id'))
                 ));
             break;
-            
+
             case SortingCollection::SORTING_BY_ALPHABET:
                 $db->orderBy(self::column('value'));
             break;
@@ -235,7 +237,7 @@ final class RepeaterValueMapper extends AbstractMapper implements RepeaterValueM
             default:
                 throw new InvalidArgumentException(sprintf('Unknown sorting type supplied "%s"', $sortingMethod));
         }
-        
+
         return $db->queryAll();
     }
 
@@ -274,13 +276,13 @@ final class RepeaterValueMapper extends AbstractMapper implements RepeaterValueM
      * Should be only used for larger data-sets
      * 
      * @param int $collectionId
-     * @param boolean $sortingMethod Whether sorting constant to use
+     * @param array $sortingOptions Sorting options
      * @param boolean $published Whether to filter only by published ones
      * @param int $page Current page number
      * @param int $itemsPerPage Items per page to be returned
      * @return array
      */
-    public function fetchPaginated($collectionId, $sortingMethod, $published, $page = null, $itemsPerPage = null)
+    public function fetchPaginated($collectionId, array $sortingOptions, $published, $page = null, $itemsPerPage = null)
     {
         $count = $this->countRepeaters($collectionId);
 
@@ -324,7 +326,7 @@ final class RepeaterValueMapper extends AbstractMapper implements RepeaterValueM
          * @param array $fields
          * @return string
          */
-        $aggregateQuery = function($nestedQuery, array $fields = []) use ($sortingMethod){
+        $aggregateQuery = function($nestedQuery, array $fields = []) use ($sortingOptions){
             $qb = new QueryBuilder();
             $qb->select([
                 'repeater_id'
@@ -344,7 +346,14 @@ final class RepeaterValueMapper extends AbstractMapper implements RepeaterValueM
                ->append('s')
                ->groupBy(['order', 'repeater_id', 'rn']);
 
-            switch ($sortingMethod) {
+            // If no sorting options provided, use default
+            if (empty($sortingOptions)) {
+                $sortingOptions = [
+                    'method' => SortingCollection::SORTING_BY_ID
+                ];
+            }
+
+            switch ($sortingOptions['method']) {
                 case SortingCollection::SORTING_BY_ID:
                     $qb->orderBy('repeater_id')
                        ->desc();
@@ -355,7 +364,7 @@ final class RepeaterValueMapper extends AbstractMapper implements RepeaterValueM
                 break;
 
                 case SortingCollection::SORTING_BY_ALPHABET:
-                    $qb->orderBy('value');
+                    $qb->orderBy($sortingOptions['alias']);
                 break;
             }
 

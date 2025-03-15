@@ -29,7 +29,7 @@ final class Repeater extends AbstractController
         if ($perPageCount !== null) {
             return [
                 'pageNumber' => $page,
-                'rows' => $repeaterService->fetchPaginated($collectionId, $langId, false, false, $page, $perPageCount),
+                'rows' => $repeaterService->fetchPaginated($collectionId, $langId, [], false, $page, $perPageCount),
                 'count' => $repeaterService->countRepeaters($collectionId),
                 'paginator' => $repeaterService->getPaginator()
             ];
