@@ -17,7 +17,7 @@ TODO LIST
 * Attach Structures to pages
 * Usage with View Widgets
 * Test files & Translations
-* Avoid arrays like this: Array ( [0] => ) (happens when target type is array and its string is empty)
+* Array types don't work in fetchPaginated()
 
 # Next version
 
