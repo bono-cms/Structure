@@ -378,12 +378,11 @@ final class RepeaterValueMapper extends AbstractMapper implements RepeaterValueM
                     $qb->orderBy('order');
                 break;
 
-                case SortingCollection::SORTING_BY_ALPHABET:
-                    //@ TODO: Might not work if translatable
+                case SortingCollection::SORTING_BY_ALPHABET && !empty($sortingOptions['alias']):
                     $qb->orderBy($sortingOptions['alias']);
                 break;
             }
-            
+
             return $qb->getQueryString();
         };
 
