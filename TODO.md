@@ -1,10 +1,9 @@
 TODO LIST
 =========
 
-* Filtering and sorting (Collections can have different sorting methods by ID, datetime, Alphabet)
+* Array types don't work in fetchPaginated()
 * If there are no structures, suggest to create an empty one
 * What if I don't want images to be optimized by default?
-* Add file type extensions: MP3, MP4, AI, CDR, PSD, ZIP, RAR, 7Z
 * Disallow "-" and spaces in alias name
 * Ability to change icons for collections
 * BUG: When new field gets created with new repeater entry, data duplication occurs
@@ -17,7 +16,6 @@ TODO LIST
 * Attach Structures to pages
 * Usage with View Widgets
 * Test files & Translations
-* Array types don't work in fetchPaginated()
 
 # Next version
 
