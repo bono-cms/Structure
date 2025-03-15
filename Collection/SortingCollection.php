@@ -19,4 +19,18 @@ final class SortingCollection extends ArrayCollection
         self::SORTING_BY_ORDER => 'Sort by sorting number',
         self::SORTING_BY_ALPHABET => 'Sort by alphabet'
     ];
+
+    /**
+     * Custom sorting - anything that is not sorted by ID or Order
+     * 
+     * @param int $sortingMethod Sorting constant
+     * @return boolean
+     */
+    public static function isCustomSorting($sortingMethod)
+    {
+        return !in_array($sortingMethod, [
+            self::SORTING_BY_ID,
+            self::SORTING_BY_ORDER
+        ]);
+    }
 }
