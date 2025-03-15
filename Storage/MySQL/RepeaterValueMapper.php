@@ -383,7 +383,7 @@ final class RepeaterValueMapper extends AbstractMapper implements RepeaterValueM
                     $qb->orderBy($sortingOptions['alias']);
                 break;
             }
-
+            
             return $qb->getQueryString();
         };
 
@@ -409,7 +409,7 @@ final class RepeaterValueMapper extends AbstractMapper implements RepeaterValueM
             $qb = new QueryBuilder();
             $qb->select([
                 'fv.repeater_id',
-                'fv.value',
+                new RawSqlFragment("CASE WHEN fields.translatable = '1' AND fvt.value IS NOT NULL THEN fvt.value ELSE fv.value END AS value"),
                 'repeater.order',
                 'fields.alias',
                 sprintf('(%s) rn', $countQuery())
@@ -430,10 +430,14 @@ final class RepeaterValueMapper extends AbstractMapper implements RepeaterValueM
             }
 
             // Apply constraints
-            $qb->innerJoin(RepeaterMapper::getTableName() . ' repeater', $constraints);
+            $qb->innerJoin(RepeaterMapper::getTableName() . ' repeater', $constraints)
+                ->leftJoin(RepeaterValueTranslationMapper::getTableName() . ' fvt', [
+                    'fvt.id' => 'fv.id',
+                    'fields.translatable' => "'1'"
+                ]
+            );
 
             /* @TODO: Filters by translatable go here */
-
             return $qb->getQueryString();
         };
 
