@@ -3,6 +3,7 @@
 namespace Structure\Service;
 
 use Structure\Storage\FieldMapperInterface;
+use Krystal\Stdlib\ArrayUtils;
 
 final class FieldService
 {
@@ -44,6 +45,24 @@ final class FieldService
     public function fetchByCollectionId($collectionId, $sort)
     {
         return $this->fieldMapper->fetchByCollectionId($collectionId, $sort);
+    }
+
+    /**
+     * Fetch fields (<Field ID> => <Field Name>) by collection id
+     * 
+     * @param int $collectionId
+     * @return array
+     */
+    public function fetchFields($collectionId)
+    {
+        $rows = $this->fetchByCollectionId($collectionId, true);
+
+        // If found non-empty
+        if ($rows) {
+            return ArrayUtils::arrayList($rows, 'id', 'name');
+        }
+
+        return [];
     }
 
     /**
