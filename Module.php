@@ -37,10 +37,11 @@ final class Module extends AbstractCmsModule
 
         $fileInput = new FileInput($this->appConfig->getRootDir());
         $repeaterService = new RepeaterService($repeaterMapper, $valueMapper, $fileInput);
+        $collectionService = new CollectionService($collectionMapper);
 
         return [
-            'siteService' => new SiteService($repeaterService, $request, $languageManager->getCurrentId()),
-            'collectionService' => new CollectionService($collectionMapper),
+            'siteService' => new SiteService($repeaterService, $collectionService, $request, $languageManager->getCurrentId()),
+            'collectionService' => $collectionService,
             'fieldService' => new FieldService($fieldMapper),
             'repeaterService' => $repeaterService
         ];

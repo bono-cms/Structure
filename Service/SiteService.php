@@ -14,6 +14,13 @@ final class SiteService
     private $repeaterService;
 
     /**
+     * Collection service instance
+     * 
+     * @var \Structure\Service\CollectionService $collectionService
+     */
+    private $collectionService;
+
+    /**
      * Request instance
      * 
      * @var \Krystal\Http\RequestInterface
@@ -31,13 +38,19 @@ final class SiteService
      * State initialization
      * 
      * @param \Structure\Service\RepeaterService $repeaterService
+     * @param \Structure\Service\CollectionService $collectionService
      * @param \Krystal\Http\RequestInterface $request
      * @param int $langId Current language ID
      * @return void
      */
-    public function __construct(RepeaterService $repeaterService, RequestInterface $request, $langId)
-    {
+    public function __construct(
+        RepeaterService $repeaterService, 
+        CollectionService $collectionService, 
+        RequestInterface $request, 
+        $langId
+    ) {
         $this->repeaterService = $repeaterService;
+        $this->collectionService = $collectionService;
         $this->request = $request;
         $this->setLangId($langId);
     }
@@ -87,7 +100,8 @@ final class SiteService
      */
     public function getCollection($id, array $filter = [])
     {
-        $rows = $this->repeaterService->fetchAll($id, $this->langId, true, true, true);
+        $sortingMethod = $this->collectionService->fetchSortingMethod($id);
+        $rows = $this->repeaterService->fetchAll($id, $this->langId, true, $sortingMethod, true);
 
         if ($filter) {
             $rows = $this->repeaterService->filterRecords($rows, $filter);
