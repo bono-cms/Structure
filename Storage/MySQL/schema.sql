@@ -6,6 +6,7 @@ CREATE TABLE `bono_module_structure_collections` (
     `name` varchar(254) NOT NULL COMMENT 'Collection name',
     `order` INT NOT NULL COMMENT 'Sorting order of the collection itself',
     `sorting_method` INT NOT NULL COMMENT 'Sorting order of data inside collection',
+    `sorting_field_id` INT COMMENT 'Field ID to be used for sorting' DEFAULT NULL,
     `layout` TINYINT NOT NULL COMMENT 'Layout constant'
 ) ENGINE = InnoDB DEFAULT CHARSET = UTF8;
 
