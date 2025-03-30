@@ -26,6 +26,5 @@ TODO LIST
 * Add limit to maximal amount of rows per collection
 * Add - Published since & till fields
 * More types of custom fields (Including dynamic ones: Date & Time, Current IP, etc)
-* Add cache layer
 * Think of better naming for tables
 * API to support CRUD
