@@ -6,6 +6,10 @@ return [
         'controller' => 'API@indexAction'
     ],
 
+    '/%s/module/structure/flush' => [
+        'controller' => 'Admin:Dashboard@flushAction'
+    ],
+    
     '/%s/module/structure' => [
         'controller' => 'Admin:Dashboard@indexAction'
     ],

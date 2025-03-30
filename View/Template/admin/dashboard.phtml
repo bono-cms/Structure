@@ -1,6 +1,16 @@
-<h4 class="mb-4 mt-4">
-    <i class="fas fa-table"></i> <?= $this->translate('Manage structures'); ?> <small class="text-muted">(<?= count($collections); ?>)</small>
-</h4>
+
+<div class="row mb-4 mt-4 align-items-center">
+    <div class="col-lg-6">
+        <h4>
+            <i class="fas fa-table"></i> <?= $this->translate('Manage structures'); ?> <small class="text-muted">(<?= count($collections); ?>)</small>
+        </h4>
+    </div>
+
+    <div class="col-lg-6 text-lg-right">
+        <a class="btn btn-danger" href="<?= $this->url('Structure:Admin:Dashboard@flushAction'); ?>"><?= $this->translate('Flush the cache'); ?></a>
+    </div>
+</div>
+
 
 <div class="row">
     <?php foreach ($collections as $collection): ?>
