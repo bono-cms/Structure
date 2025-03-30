@@ -1,7 +1,6 @@
 # Structure
 
-A powerful, yet super-simple module that lets you create dynamic data structures and use them anywhere on your website.
-
+A robust yet streamlined module designed to build dynamic data structures and seamlessly deploy them across your website.
 
 # Getting started
 
@@ -46,4 +45,4 @@ Sometimes, when having a large dataset, you might want to render it breaking it 
 
 # Note
 
-In case you're exporting SQL dump, make sure that all Foreign Keys are exported as well, otherwise it will break functionality.
+All output of `getPaginatedCollection()` and `getCollection()` are cached by default. However, the cache is reset whenever you update records.
