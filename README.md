@@ -2,7 +2,7 @@
 
 A robust yet streamlined module designed to build dynamic data structures and seamlessly deploy them across your website.
 
-# Getting started
+## Getting started
 
 Go ahead and create a new collection. Then add custom fields into it and populate with your data. Then anywhere on your website use it like this:
 
@@ -21,7 +21,7 @@ The key `$item` holds an array with data, where each key is an alias name of a f
 
 You're done! That's all you need to know.
 
-# Pagination
+## Pagination
 
 Sometimes, when having a large dataset, you might want to render it breaking it into pages. You can do it like this:
 
@@ -43,6 +43,6 @@ Sometimes, when having a large dataset, you might want to render it breaking it 
     
     <?= $this->widget(new PaginationWidget($structure->getPaginator())); ?>
 
-# Note
+## Note
 
 All output of `getPaginatedCollection()` and `getCollection()` are cached by default. However, the cache is reset whenever you update records.
