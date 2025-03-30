@@ -3,6 +3,8 @@
 namespace Structure\Service;
 
 use Krystal\Http\RequestInterface;
+use Krystal\Cache\CacheEngineInterface;
+use Krystal\Date\TimeHelper;
 
 final class SiteService
 {
@@ -35,8 +37,16 @@ final class SiteService
     private $langId;
 
     /**
+     * Cache engine instance
+     * 
+     * @var \Krystal\Cache\CacheNamespace
+     */
+    private $cache;
+
+    /**
      * State initialization
      * 
+     * @param \Krystal\Cache\CacheEngineInterface $cache
      * @param \Structure\Service\RepeaterService $repeaterService
      * @param \Structure\Service\CollectionService $collectionService
      * @param \Krystal\Http\RequestInterface $request
@@ -44,11 +54,13 @@ final class SiteService
      * @return void
      */
     public function __construct(
+        CacheEngineInterface $cache,
         RepeaterService $repeaterService, 
         CollectionService $collectionService, 
         RequestInterface $request, 
         $langId
     ) {
+        $this->cache = $cache;
         $this->repeaterService = $repeaterService;
         $this->collectionService = $collectionService;
         $this->request = $request;
@@ -86,10 +98,15 @@ final class SiteService
      */
     public function getPaginatedCollection($id, $itemsPerPage = 10)
     {
-        $page = $this->request->getQuery('page', 1);
-        $sortingMethod = $this->collectionService->fetchSortingMethod($id);
+        $callback = function() use ($id, $itemsPerPage){
+            $page = $this->request->getQuery('page', 1);
+            $sortingMethod = $this->collectionService->fetchSortingMethod($id);
+            return $this->repeaterService->fetchPaginated($id, $this->langId, $sortingMethod, true, $page, $itemsPerPage);
+        };
 
-        return $this->repeaterService->fetchPaginated($id, $this->langId, $sortingMethod, true, $page, $itemsPerPage);
+        $cacheKey = sprintf('collection.paginated.%s.%s', $id, $itemsPerPage);
+
+        return $this->cache->getOnce($cacheKey, $callback, TimeHelper::YEAR);
     }
 
     /**
@@ -101,13 +118,19 @@ final class SiteService
      */
     public function getCollection($id, array $filter = [])
     {
-        $sortingMethod = $this->collectionService->fetchSortingMethod($id);
-        $rows = $this->repeaterService->fetchAll($id, $this->langId, true, $sortingMethod, true);
+        $callback = function() use ($id, $filter){
+            $sortingMethod = $this->collectionService->fetchSortingMethod($id);
+            $rows = $this->repeaterService->fetchAll($id, $this->langId, true, $sortingMethod, true);
 
-        if ($filter) {
-            $rows = $this->repeaterService->filterRecords($rows, $filter);
-        }
+            if ($filter) {
+                $rows = $this->repeaterService->filterRecords($rows, $filter);
+            }
 
-        return $rows;
+            return $rows;
+        };
+
+        $cacheKey = sprintf('collection.%s', $id);
+
+        return $this->cache->getOnce($cacheKey, $callback, TimeHelper::YEAR);
     }
 }

@@ -26,6 +26,7 @@ final class Module extends AbstractCmsModule
     public function getServiceProviders()
     {
         $request = $this->getServiceLocator()->get('request');
+        $cache = $this->createCacheEngine('structure.cache');
 
         // Build data mappers
         $collectionMapper = $this->getMapper('\Structure\Storage\MySQL\CollectionMapper');
@@ -40,7 +41,8 @@ final class Module extends AbstractCmsModule
         $collectionService = new CollectionService($collectionMapper);
 
         return [
-            'siteService' => new SiteService($repeaterService, $collectionService, $request, $languageManager->getCurrentId()),
+            'cache' => $cache,
+            'siteService' => new SiteService($cache, $repeaterService, $collectionService, $request, $languageManager->getCurrentId()),
             'collectionService' => $collectionService,
             'fieldService' => new FieldService($fieldMapper),
             'repeaterService' => $repeaterService
