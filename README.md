@@ -46,3 +46,5 @@ Sometimes, when having a large dataset, you might want to render it breaking it 
 ## Note
 
 All output of `getPaginatedCollection()` and `getCollection()` are cached by default. However, the cache is reset whenever you update records.
+
+For SQL dump exportation, verify that all Foreign Key definitions are exported; omission will result in compromised application functionality
