@@ -77,6 +77,8 @@ final class Field extends AbstractController
      */
     public function saveAction()
     {
+        $this->getModuleService('cache')->flush();
+
         $input = $this->request->getPost('field');
         $fieldService = $this->getModuleService('fieldService');
 
@@ -135,6 +137,8 @@ final class Field extends AbstractController
      */
     public function deleteAction($id)
     {
+        $this->getModuleService('cache')->flush();
+
         // Delete filest first
         $this->getModuleService('repeaterService')->deleteFilesByFieldId($id);
 

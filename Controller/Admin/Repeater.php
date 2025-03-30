@@ -134,6 +134,8 @@ final class Repeater extends AbstractController
         $repeaterService->deleteFilesByRepeaterId($id);
         $repeaterService->deleteById($id);
 
+        $this->getModuleService('cache')->flush();
+
         $this->flashBag->set('success', 'Selected record has been deleted successfully');
         return 1;
     }
@@ -145,6 +147,8 @@ final class Repeater extends AbstractController
      */
     public function saveAction()
     {
+        $this->getModuleService('cache')->flush();
+
         // All request data
         $input = $this->request->getAll();
 
