@@ -4,7 +4,6 @@ TODO LIST
 * Array types don't work in fetchPaginated()
 * If there are no structures, suggest to create an empty one
 * What if I don't want images to be optimized by default?
-* Disallow "-" and spaces in alias name
 * Ability to change icons for collections
 * BUG: When new field gets created with new repeater entry, data duplication occurs
 * BUG: What if I change from translatable to non-translatable and vice-versa? In that case, form values dissapear

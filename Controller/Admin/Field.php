@@ -90,6 +90,9 @@ final class Field extends AbstractController
                     'name' => [
                         'required' => true,
                         'rules' => [
+                            'NotEmpty' => [
+                                'message' => 'Name can not be empty'
+                            ],
                             'Unique' => [
                                 'value' => $fieldService->nameExists($input['collection_id'], $input['name']) && !$input['id'],
                                 'message' => 'This name is already taken'
@@ -99,6 +102,9 @@ final class Field extends AbstractController
                     'alias' => [
                         'required' => true,
                         'rules' => [
+                            'NotEmpty' => [
+                                'message' => 'Alias can not be empty'
+                            ],
                             'Unique' => [
                                 'value' => $fieldService->aliasExists($input['collection_id'], $input['alias']) && !$input['id'],
                                 'message' => 'This alias is already taken'
@@ -106,6 +112,10 @@ final class Field extends AbstractController
                             'NotEquals' => [
                                 'value' => 'id',
                                 'message' => 'An alias can not contain reserved keyword `id`'
+                            ],
+                            'NoChar' => [
+                                'value' => [' ', '-'],
+                                'message' => 'Ensure that the alias does not contain spaces or dashes'
                             ]
                         ]
                     ]
