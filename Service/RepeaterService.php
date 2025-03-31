@@ -48,6 +48,17 @@ final class RepeaterService
     }
 
     /**
+     * Truncates collection (removes all related records) by its id
+     * 
+     * @param int $id Collection id
+     * @return boolean
+     */
+    public function truncateByCollectionId($id)
+    {
+        return $this->repeaterMapper->truncateByCollectionId($id);
+    }
+
+    /**
      * Count repeaters by collection id (required for pagination)
      * 
      * @param int $collectionId

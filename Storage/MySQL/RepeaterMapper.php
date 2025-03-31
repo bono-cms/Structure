@@ -16,6 +16,17 @@ final class RepeaterMapper extends AbstractMapper implements RepeaterMapperInter
     }
 
     /**
+     * Truncates collection (removes all related records) by its id
+     * 
+     * @param int $id Collection id
+     * @return boolean
+     */
+    public function truncateByCollectionId($id)
+    {
+        return $this->deleteByColumn('collection_id', $id);
+    }
+
+    /**
      * Inserts a repeater record
      * 
      * @param array $input
