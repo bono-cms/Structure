@@ -57,6 +57,15 @@ $layouts = (new LayoutCollection)->getAll();
                             $this->url('Structure:Admin:Collection@deleteAction', $row['id']),
                             $this->translate('Delete this collection')
                         );
+                    },
+
+                    function($row){
+                        return Icon::reset(
+                            $this->url('Structure:Admin:Collection@truncateAction', $row['id']),
+                            $this->translate('Truncate this collection'),
+                            $this->translate('This will remove all items inside this collection, are you sure?'),
+                            $this->url('Structure:Admin:Collection@editAction', $row['id'])
+                        );
                     }
                 ]
             ]); ?>
