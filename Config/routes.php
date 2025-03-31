@@ -52,6 +52,10 @@ return [
         'controller' => 'Admin:Collection@indexAction'
     ],
 
+    '/%s/module/structure/collection/truncate/(:var)' => [
+        'controller' => 'Admin:Collection@truncateAction'
+    ],
+
     '/%s/module/structure/collection/delete/(:var)' => [
         'controller' => 'Admin:Collection@deleteAction'
     ],

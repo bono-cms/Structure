@@ -9,6 +9,23 @@ use Structure\Collection\SortingCollection;
 final class Collection extends AbstractController
 {
     /**
+     * Truncates collection
+     * 
+     * @param mixed $id Collection id
+     * @return void
+     */
+    public function truncateAction($id)
+    {
+        $repeaterService = $this->getModuleService('repeaterService');
+
+        $repeaterService->deleteFilesByCollectionId($id);
+        $repeaterService->truncateByCollectionId($id);
+
+        $this->flashBag->set('success', 'Selected collection has been truncated successfully');
+        return 1;
+    }
+
+    /**
      * Renders main grid
      * 
      * @param mixed $id Collection id
