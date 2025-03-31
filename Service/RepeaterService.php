@@ -76,10 +76,7 @@ final class RepeaterService
      */
     public function deleteFilesByFieldId($id)
     {
-        $rows = $this->repeaterValueMapper->fetchByFieldId($id, [
-            FieldTypeCollection::FIELD_FILE
-        ]);
-
+        $rows = $this->repeaterValueMapper->fetchByFieldId($id, FieldTypeCollection::getFileTypes());
         return $this->fileInput->purgeDir($rows);
     }
 
@@ -91,10 +88,7 @@ final class RepeaterService
      */
     public function deleteFilesByCollectionId($id)
     {
-        $rows = $this->repeaterValueMapper->fetchByCollectionId($id, [
-            FieldTypeCollection::FIELD_FILE
-        ]);
-
+        $rows = $this->repeaterValueMapper->fetchByCollectionId($id, FieldTypeCollection::getFileTypes());
         return $this->fileInput->purgeDir($rows);
     }
 

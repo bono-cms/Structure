@@ -192,7 +192,17 @@ final class FieldTypeCollection extends ArrayCollection
      */
     public static function isFile($type)
     {
-        return in_array($type, [
+        return in_array($type, self::getFileTypes());
+    }
+
+    /**
+     * Fetch file type constants
+     * 
+     * @return array
+     */
+    public static function getFileTypes()
+    {
+        return [
             self::FIELD_FILE,
             self::FIELD_IMAGE,
             self::FIELD_PDF,
@@ -200,7 +210,7 @@ final class FieldTypeCollection extends ArrayCollection
             self::FIELD_AUDIO,
             self::FIELD_VIDEO,
             self::FIELD_GRAPHIC
-        ]);
+        ];
     }
 
     /**
