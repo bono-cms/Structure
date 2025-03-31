@@ -21,7 +21,6 @@ TODO LIST
 * Dynamic values from other modules
 * Warning: AVIF files do not work in Safari
 * Search in collections
-* Ability to truncate all data inside collection
 * Add limit to maximal amount of rows per collection
 * Add - Published since & till fields
 * More types of custom fields (Including dynamic ones: Date & Time, Current IP, etc)
