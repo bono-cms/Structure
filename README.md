@@ -1,4 +1,5 @@
-# Structure
+Structure
+===========
 
 A robust yet streamlined module designed to build dynamic data structures and seamlessly deploy them across your website.
 
