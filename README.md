@@ -44,6 +44,17 @@ Sometimes, when having a large dataset, you might want to render it breaking it 
     
     <?= $this->widget(new PaginationWidget($structure->getPaginator())); ?>
 
+## Accessing data via API
+
+If you need access to your collection data via API, you can retrieve it in JSON format using the built-in endpoint:
+
+`/module/structure/api/index`
+
+This endpoint accepts the following parameters:
+
+- `collection_id` -   The ID of your collection (required)
+- `lang_id` -   The language ID (optional). If not provided, the default language will be used.
+
 ## Note
 
 All output of `getPaginatedCollection()` and `getCollection()` are cached by default. However, the cache is reset whenever you update records.
