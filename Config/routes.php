@@ -2,7 +2,7 @@
 
 return [
     // API
-    '/module/structure/index' => [
+    '/module/structure/api/index' => [
         'controller' => 'API@indexAction'
     ],
 
