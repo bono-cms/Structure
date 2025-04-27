@@ -3,6 +3,24 @@ Structure
 
 A robust yet streamlined module designed to build dynamic data structures and seamlessly deploy them across your website.
 
+## Why use it?
+
+> 
+Reusable collections are extremely useful when you need to manage **repetitive blocks of data** through the administration panel.
+
+> **A Collection is a container that groups related fields together.**
+
+For example, imagine you have a **library of books** that should be easily editable by admins.  
+
+In that case, you would define the following fields:
+
+-   **Title**
+-   **Year**
+-   **Description**
+-   **Author**
+
+Then, you can easily retrieve the array representation of this collection in your template using the global `$structure->getCollection('..id..')` method.
+
 ## Getting started
 
 Go ahead and create a new collection. Then add custom fields into it and populate with your data. Then anywhere on your website use it like this:
