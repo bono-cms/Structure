@@ -6,9 +6,11 @@
         </h4>
     </div>
 
+    <?php if (!empty($collections)): ?>
     <div class="col-lg-6 text-lg-right">
         <a class="btn btn-danger" href="<?= $this->url('Structure:Admin:Dashboard@flushAction'); ?>"><?= $this->translate('Flush the cache'); ?></a>
     </div>
+    <?php endif; ?>
 </div>
 
 
