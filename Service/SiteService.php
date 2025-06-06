@@ -104,7 +104,7 @@ final class SiteService
             return $this->repeaterService->fetchPaginated($id, $this->langId, $sortingMethod, true, $page, $itemsPerPage);
         };
 
-        $cacheKey = sprintf('collection.paginated.%s.%s', $id, $itemsPerPage);
+        $cacheKey = sprintf('collection.paginated.%s.%s.%s', $id, $this->langId, $itemsPerPage);
 
         return $this->cache->getOnce($cacheKey, $callback, TimeHelper::YEAR);
     }
@@ -129,7 +129,7 @@ final class SiteService
             return $rows;
         };
 
-        $cacheKey = sprintf('collection.%s', $id);
+        $cacheKey = sprintf('collection.%s.%s', $id, $this->langId);
 
         return $this->cache->getOnce($cacheKey, $callback, TimeHelper::YEAR);
     }
