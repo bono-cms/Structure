@@ -108,6 +108,12 @@ $layouts = (new LayoutCollection)->getAll();
                     <?= Element::number('collection[order]', $collection['order'], ['class' => 'form-control', 'min' => 0]); ?>
                 </div>
 
+                <div class="form-group">
+                    <label class="control-label"><?= $this->translate('Record limit'); ?></label>
+                    <?= Element::number('collection[limit]', $collection['limit'], ['class' => 'form-control', 'min' => 0]); ?>
+                    <small class="form-text text-muted"><?= $this->translate('Maximum number of records that can be added (0 = unlimited)'); ?></small>
+                </div>
+
                 <?php $this->loadPartial('actions', [
                     'new' => !$collection['id'],
                     'add' => 'Structure:Admin:Collection@indexAction',
