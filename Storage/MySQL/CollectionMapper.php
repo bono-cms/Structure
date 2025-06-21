@@ -54,8 +54,9 @@ final class CollectionMapper extends AbstractMapper implements CollectionMapperI
             self::column($this->getPk()),
             self::column('name'),
             self::column('order'),
+            self::column('sorting_method'),
             self::column('layout'),
-            self::column('sorting_method')
+            self::column('limit')
         ];
 
         $db = $this->db->select($columns)
