@@ -2,7 +2,6 @@ TODO LIST
 =========
 
 * Array types don't work in fetchPaginated()
-* If there are no structures, suggest to create an empty one
 * What if I don't want images to be optimized by default?
 * Ability to change icons for collections
 * BUG: When new field gets created with new repeater entry, data duplication occurs
@@ -21,7 +20,6 @@ TODO LIST
 * Dynamic values from other modules
 * Warning: AVIF files do not work in Safari
 * Search in collections
-* Add limit to maximal amount of rows per collection
 * Add - Published since & till fields
 * More types of custom fields (Including dynamic ones: Date & Time, Current IP, etc)
 * Think of better naming for tables
