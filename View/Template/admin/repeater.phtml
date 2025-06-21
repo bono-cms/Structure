@@ -9,6 +9,7 @@ use Structure\Collection\SortingCollection;
 use Structure\Collection\FieldTypeCollection;
 
 $columns = CollectionViewModel::getColumns($collection['layout'], $fields);
+$exceeds = CollectionViewModel::limitExceeds($collection['limit'], $count); // Whether record limit exceeds
 
 ?>
 
@@ -56,6 +57,14 @@ $columns = CollectionViewModel::getColumns($collection['layout'], $fields);
         </div>
     </div>
 
+    <?php
+
+    // Override with zero if we faced limitation
+    if ($exceeds && !isset($repeater['id'])) {
+        $fields = [];
+    }
+
+    ?>
     <?php if (!empty($fields)): ?>
     <div class="<?= $columns['second']; ?>">
         <div class="card sticky-top">
@@ -137,7 +146,7 @@ $columns = CollectionViewModel::getColumns($collection['layout'], $fields);
 
                 <?php $this->loadPartial('actions', [
                     'new' => !isset($repeater['id']),
-                    'add' => [$this->url('Structure:Admin:Repeater@editAction', $field['collection_id'], '')],
+                    'add' => !$exceeds ? [$this->url('Structure:Admin:Repeater@editAction', $field['collection_id'], '')] : null,
                     'edit' => [$this->url('Structure:Admin:Repeater@editAction', $field['collection_id'], '')],
                     'save' => 'Structure:Admin:Repeater@saveAction',
                     'cancel' => [$this->url('Structure:Admin:Repeater@indexAction', $field['collection_id'])]
