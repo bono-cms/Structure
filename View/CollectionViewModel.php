@@ -8,6 +8,21 @@ use Structure\Collection\FieldTypeCollection;
 final class CollectionViewModel
 {
     /**
+     * Determines whether a given count exceeds a specified limit, treating 0 as "unlimited."
+     * 
+     * @param int $limit
+     * @param int $count
+     * @return boolean
+     */
+    public static function limitExceeds($limit, $count)
+    {
+        $limit = intval($limit);
+        $count = intval($count);
+
+        return $limit > 0 && ($count > $limit);
+    }
+
+    /**
      * Get column classes by layout contant
      * 
      * @param int $layout
