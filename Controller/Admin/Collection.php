@@ -5,6 +5,7 @@ namespace Structure\Controller\Admin;
 use Krystal\Stdlib\VirtualEntity;
 use Cms\Controller\Admin\AbstractController;
 use Structure\Collection\SortingCollection;
+use Structure\Collection\LayoutCollection;
 
 final class Collection extends AbstractController
 {
@@ -40,7 +41,11 @@ final class Collection extends AbstractController
                                        ->addOne('View collections');
 
         if ($id === null) {
+            // Configure defaults
             $collection = new VirtualEntity();
+            $collection->setLayout(LayoutCollection::LAYOUT_LEFT_GRID_RIGHT_FORM)
+                       ->setSortingMethod(SortingCollection::SORTING_BY_ORDER);
+
         } else {
             $collection = $collectionService->fetchById($id);
 
