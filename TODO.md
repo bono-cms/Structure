@@ -1,10 +1,10 @@
 TODO LIST
 =========
 
+* If I make translatable field (with some filled values) as non-translatable, I am still getting old translatable values in $structure->getCollection()
 * Array types don't work in fetchPaginated()
 * What if I don't want images to be optimized by default?
 * Ability to change icons for collections
-* BUG: When new field gets created with new repeater entry, data duplication occurs
 * BUG: What if I change from translatable to non-translatable and vice-versa? In that case, form values dissapear
 * Sidebar filters
 * Search module integration
