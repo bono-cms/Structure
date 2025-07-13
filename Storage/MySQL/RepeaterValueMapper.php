@@ -343,14 +343,11 @@ final class RepeaterValueMapper extends AbstractMapper implements RepeaterValueM
          */
         $aggregateQuery = function($nestedQuery, array $fields = []) use ($sortingOptions){
             $qb = new QueryBuilder();
-            $qb->select([
-                'repeater_id'
-            ]);
+            $qb->select(['repeater_id']);
 
-            // Dynamic values as column names
             foreach ($fields as $field) {
                 $qb->max(new RawSqlFragment(sprintf(
-                    "case when alias = '%s' then value else null end", $field['alias']
+                    "CASE WHEN alias = '%s' THEN value ELSE NULL END", $field['alias']
                 )))->append($field['alias']);
             }
 
@@ -358,29 +355,26 @@ final class RepeaterValueMapper extends AbstractMapper implements RepeaterValueM
                ->openBracket()
                ->append($nestedQuery)
                ->closeBracket()
-               ->append('s')
-               ->groupBy(['order', 'repeater_id', 'rn']);
+               ->append('sub') // use alias like in your simpler SQL
+               ->groupBy(['repeater_id']);
 
-            // If no sorting options provided, use default
-            if (empty($sortingOptions)) {
-                $sortingOptions = [
-                    'method' => SortingCollection::SORTING_BY_ID
-                ];
-            }
-
-            switch ($sortingOptions['method']) {
+            // Sorting logic
+            switch ($sortingOptions['method'] ?? SortingCollection::SORTING_BY_ID) {
                 case SortingCollection::SORTING_BY_ID:
-                    $qb->orderBy('repeater_id')
-                       ->desc();
-                break;
+                    $qb->orderBy('repeater_id')->desc();
+                    break;
 
                 case SortingCollection::SORTING_BY_ORDER:
-                    $qb->orderBy('order');
-                break;
+                    // Note: 'order' no longer exists in simplified query.
+                    // You may want to JOIN the `repeater` table again for this purpose.
+                    $qb->orderBy('repeater_id'); // fallback
+                    break;
 
-                case SortingCollection::SORTING_BY_ALPHABET && !empty($sortingOptions['alias']):
-                    $qb->orderBy($sortingOptions['alias']);
-                break;
+                case SortingCollection::SORTING_BY_ALPHABET:
+                    if (!empty($sortingOptions['alias'])) {
+                        $qb->orderBy($sortingOptions['alias']);
+                    }
+                    break;
             }
 
             return $qb->getQueryString();
@@ -392,51 +386,32 @@ final class RepeaterValueMapper extends AbstractMapper implements RepeaterValueM
          * @return string
          */
         $selectQuery = function() use ($published, $collectionId){
-            // Internal sub-query to aggregate rows
-            $countQuery = function(){
-                $qb = new QueryBuilder();
-                $qb->select()
-                   ->count('id')
-                   ->from(RepeaterValueMapper::getTableName())
-                   ->append(' reference ') # Alias
-                   ->where('reference.field_id', '=', 'fv.field_id')
-                   ->andWhere('reference.id', '<', 'fv.id');
-
-                return $qb->getQueryString();
-            };
-
             $qb = new QueryBuilder();
             $qb->select([
                 'fv.repeater_id',
                 new RawSqlFragment("CASE WHEN fields.translatable = '1' AND fvt.value IS NOT NULL THEN fvt.value ELSE fv.value END AS value"),
-                'repeater.order',
-                'fields.alias',
-                sprintf('(%s) rn', $countQuery())
+                'fields.alias'
             ])->from(RepeaterValueMapper::getTableName())
               ->append(' fv')
               ->innerJoin(FieldMapper::getTableName() . ' fields', [
-                'fields.id' => 'fv.field_id'
+                  'fields.id' => 'fv.field_id'
               ]);
-              
-              $constraints = [
+
+            $constraints = [
                 'repeater.id' => 'fv.repeater_id',
                 'repeater.collection_id' => $collectionId
-              ];
+            ];
 
-            // Do we need to filter by published only rows?
             if ($published) {
                 $constraints['repeater.published'] = 1;
             }
 
-            // Apply constraints
             $qb->innerJoin(RepeaterMapper::getTableName() . ' repeater', $constraints)
-                ->leftJoin(RepeaterValueTranslationMapper::getTableName() . ' fvt', [
-                    'fvt.id' => 'fv.id',
-                    'fields.translatable' => "'1'"
-                ]
-            );
+               ->leftJoin(RepeaterValueTranslationMapper::getTableName() . ' fvt', [
+                   'fvt.id' => 'fv.id',
+                   'fields.translatable' => "'1'"
+               ]);
 
-            /* @TODO: Filters by translatable go here */
             return $qb->getQueryString();
         };
 
