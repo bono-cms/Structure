@@ -9,7 +9,7 @@ return [
     'caption'  => 'Structure',
     'description' => 'Create any data structures and display them anywhere on your web-site',
     'menu' => [
-        'name'  => 'Data strucutres',
+        'name'  => 'Data structures',
         'icon' => 'fas fa-table',
         'items' => [
             [
