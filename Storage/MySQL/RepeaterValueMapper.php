@@ -348,7 +348,7 @@ final class RepeaterValueMapper extends AbstractMapper implements RepeaterValueM
             foreach ($fields as $field) {
                 $qb->max(new RawSqlFragment(sprintf(
                     "CASE WHEN alias = '%s' THEN value ELSE NULL END", $field['alias']
-                )))->append($field['alias']);
+                )))->append('`' . $field['alias'] . '`');
             }
 
             $qb->from()
