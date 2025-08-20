@@ -12,10 +12,10 @@ final class Dropper extends AbstractStorageDropper
     protected function getTables()
     {
         return [
-            CollectionMapper::getTableName()
-            FieldMapper::getTableName()
-            RepeaterMapper::getTableName()
-            RepeaterValueMapper::getTableName()
+            CollectionMapper::getTableName(),
+            FieldMapper::getTableName(),
+            RepeaterMapper::getTableName(),
+            RepeaterValueMapper::getTableName(),
             RepeaterValueTranslationMapper::getTableName()
         ];
     }
