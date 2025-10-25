@@ -207,7 +207,7 @@ final class RepeaterValueMapper extends AbstractMapper implements RepeaterValueM
      * @throws \InvalidArgumentException if invalud $sortingMethod['method'] supplied
      * @return array
      */
-    public function fetchAll($collectionId, array $sortingOptions, $published)
+    public function fetchAll($collectionId, $sortingOptions, $published)
     {
         $db = $this->createSharedQuery()
                    ->leftJoin(RepeaterValueTranslationMapper::getTableName(), [
