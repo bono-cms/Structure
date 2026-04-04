@@ -9,7 +9,7 @@ CREATE TABLE `bono_module_structure_collections` (
     `sorting_field_id` INT COMMENT 'Field ID to be used for sorting' DEFAULT NULL,
     `layout` TINYINT NOT NULL COMMENT 'Layout constant',
     `limit` INT NOT NULL COMMENT 'Maximum number of records that can be added'
-) ENGINE = InnoDB DEFAULT CHARSET = UTF8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4_unicode_ci;
 
 /* Collection fields */
 DROP TABLE IF EXISTS `bono_module_structure_collections_fields`;
@@ -26,8 +26,7 @@ CREATE TABLE `bono_module_structure_collections_fields` (
 
     /* Remove attached fields on removing a collection */
     FOREIGN KEY (`collection_id`) REFERENCES bono_module_structure_collections(`id`) ON DELETE CASCADE
-
-) ENGINE = InnoDB DEFAULT CHARSET = UTF8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4_unicode_ci;
 
 /* Field repeater (Records) */
 DROP TABLE IF EXISTS `bono_module_structure_repeater_fields`;
@@ -39,7 +38,7 @@ CREATE TABLE `bono_module_structure_repeater_fields` (
 
     /* Remove self on removing attached relations */
     FOREIGN KEY (`collection_id`) REFERENCES bono_module_structure_collections(`id`) ON DELETE CASCADE
-) ENGINE = InnoDB DEFAULT CHARSET = UTF8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4_unicode_ci;
 
 /* Field repeater (Record values) */
 DROP TABLE IF EXISTS `bono_module_structure_repeater_fields_values`;
@@ -52,7 +51,7 @@ CREATE TABLE `bono_module_structure_repeater_fields_values` (
     /* Remove self on removing attached relations */
     FOREIGN KEY (`field_id`) REFERENCES bono_module_structure_collections_fields(`id`) ON DELETE CASCADE,
     FOREIGN KEY (`repeater_id`) REFERENCES bono_module_structure_repeater_fields(`id`) ON DELETE CASCADE
-) ENGINE = InnoDB DEFAULT CHARSET = UTF8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4_unicode_ci;
 
 /* Field repeater (Record values translations) */
 DROP TABLE IF EXISTS `bono_module_structure_fields_values_translations`;
@@ -62,4 +61,4 @@ CREATE TABLE `bono_module_structure_fields_values_translations` (
     `value` TEXT NOT NULL COMMENT 'Translated value',
 
     FOREIGN KEY (id) REFERENCES bono_module_structure_repeater_fields_values(id) ON DELETE CASCADE
-) ENGINE = InnoDB DEFAULT CHARSET = UTF8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4_unicode_ci;
