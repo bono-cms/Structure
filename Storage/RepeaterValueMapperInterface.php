@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * This file is part of the Bono CMS
+ * 
+ * For the full copyright and license information, please view
+ * the license file that was distributed with this source code.
+ */
+
 namespace Structure\Storage;
 
 interface RepeaterValueMapperInterface
@@ -25,9 +32,7 @@ interface RepeaterValueMapperInterface
      * Update repeater values by their Ids
      * 
      * @param int $repeaterId
-     * @param array $values (ID => Value pair).
-     *              ID is the primary key of repeater's value.
-     *              Value is the new text
+     * @param array $rows
      * @return boolean
      */
     public function updateValues($repeaterId, array $rows);
@@ -72,7 +77,7 @@ interface RepeaterValueMapperInterface
      * Fetch primary keys by field and repeater ids
      * 
      * @param int $repeaterId
-     * @parma int $fieldId
+     * @param int $fieldId
      * @return array
      */
     public function fetchPrimaryKeys($repeaterId, $fieldId);
@@ -86,18 +91,18 @@ interface RepeaterValueMapperInterface
     public function fetchValues($repeaterId);
 
     /**
-     * Fetch all records with ther values by collection id
+     * Fetch all records with their values by collection id
      * 
      * @param int $collectionId
      * @param boolean $sortingOptions Sorting options
      * @param boolean $published Whether to fetch only published ones
-     * @throws \InvalidArgumentException if invalud $sortingMethod['method'] supplied
+     * @throws \InvalidArgumentException if invalid $sortingMethod['method'] supplied
      * @return array
      */
     public function fetchAll($collectionId, $sortingOptions, $published);
 
     /**
-     * Fetch paginated resutl-set
+     * Fetch paginated result-set
      * 
      * This method invokes nested queries and aggregate functions, which make it slow
      * Should be only used for larger data-sets

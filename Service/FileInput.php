@@ -1,7 +1,15 @@
 <?php
 
+/**
+ * This file is part of the Bono CMS
+ * 
+ * For the full copyright and license information, please view
+ * the license file that was distributed with this source code.
+ */
+
 namespace Structure\Service;
 
+use RuntimeException;
 use Krystal\Http\FileTransfer\FileUploader;
 use Krystal\Filesystem\FileManager;
 use Krystal\Image\Tool\Optimizer;
@@ -14,7 +22,7 @@ final class FileInput
     /**
      * Base path to root directory
      * 
-     * @return string
+     * @var string
      */
     private $rootDir;
 

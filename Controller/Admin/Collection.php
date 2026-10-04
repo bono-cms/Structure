@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * This file is part of the Bono CMS
+ * 
+ * For the full copyright and license information, please view
+ * the license file that was distributed with this source code.
+ */
+
 namespace Structure\Controller\Admin;
 
 use Krystal\Stdlib\VirtualEntity;
@@ -13,7 +20,7 @@ final class Collection extends AbstractController
      * Truncates collection
      * 
      * @param mixed $id Collection id
-     * @return void
+     * @return string
      */
     public function truncateAction($id)
     {
@@ -23,7 +30,10 @@ final class Collection extends AbstractController
         $repeaterService->truncateByCollectionId($id);
 
         $this->flashBag->set('success', 'Selected collection has been truncated successfully');
-        return 1;
+
+        return $this->json([
+            'refresh' => true
+        ]);
     }
 
     /**
@@ -71,21 +81,38 @@ final class Collection extends AbstractController
     /**
      * Saves a collection
      * 
-     * @return mixed
+     * @return string
      */
     public function saveAction()
     {
         $input = $this->request->getPost('collection');
+
+        $validator = $this->createValidation();
+
+        $validator->field('collection.name')
+                  ->required();
+
+        if (!$validator->isPassed()) {
+            return $this->json([
+                'errors' => $validator->getErrors()
+            ]);
+        }
 
         $collectionService = $this->getModuleService('collectionService');
         $collectionService->save($input);
 
         if ($input['id']) {
             $this->flashBag->set('success', 'The collection has been updated successfully');
-            return 1;
+
+            return $this->json([
+                'refresh' => true
+            ]);
         } else {
             $this->flashBag->set('success', 'The collection has been created successfully');
-            return $collectionService->getLastId();
+
+            return $this->json([
+                'redirect' => $this->createUrl('Structure:Admin:Collection@editAction', [$collectionService->getLastId()]),
+            ]);
         }
     }
 
@@ -104,17 +131,20 @@ final class Collection extends AbstractController
      * Deletes a collection by its id
      * 
      * @param string $id Collection id
-     * @return mixed
+     * @return string
      */
     public function deleteAction($id)
     {
-        // Delete filest first
+        // Delete files first
         $this->getModuleService('repeaterService')->deleteFilesByCollectionId($id);
 
         // Delete collection last
         $this->getModuleService('collectionService')->deleteByPk($id);
 
         $this->flashBag->set('success', 'Selected collection has been deleted successfully');
-        return 1;
+
+        return $this->json([
+            'refresh' => true
+        ]);
     }
 }

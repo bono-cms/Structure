@@ -1,8 +1,14 @@
 <?php
 
+/**
+ * This file is part of the Bono CMS
+ * 
+ * For the full copyright and license information, please view
+ * the license file that was distributed with this source code.
+ */
+
 namespace Structure\Controller\Admin;
 
-use Krystal\Validate\Pattern;
 use Krystal\Stdlib\VirtualEntity;
 use Cms\Controller\Admin\AbstractController;
 
@@ -73,7 +79,7 @@ final class Field extends AbstractController
     /**
      * Saves a field
      * 
-     * @return mixed
+     * @return string
      */
     public function saveAction()
     {
@@ -82,60 +88,54 @@ final class Field extends AbstractController
         $input = $this->request->getPost('field');
         $fieldService = $this->getModuleService('fieldService');
 
-        // Construct form validator
-        $formValidator = $this->createValidator([
-            'input' => [
-                'source' => $input,
-                'definition' => [
-                    'name' => [
-                        'required' => true,
-                        'rules' => [
-                            'NotEmpty' => [
-                                'message' => 'Name can not be empty'
-                            ],
-                            'Unique' => [
-                                'value' => $fieldService->nameExists($input['collection_id'], $input['name']) && !$input['id'],
-                                'message' => 'This name is already taken'
-                            ]
-                        ]
-                    ],
-                    'alias' => [
-                        'required' => true,
-                        'rules' => [
-                            'NotEmpty' => [
-                                'message' => 'Alias can not be empty'
-                            ],
-                            'Unique' => [
-                                'value' => $fieldService->aliasExists($input['collection_id'], $input['alias']) && !$input['id'],
-                                'message' => 'This alias is already taken'
-                            ],
-                            'NotEquals' => [
-                                'value' => 'id',
-                                'message' => 'An alias can not contain reserved keyword `id`'
-                            ],
-                            'NoChar' => [
-                                'value' => [' ', '-'],
-                                'message' => 'Ensure that the alias does not contain spaces or dashes'
-                            ]
-                        ]
-                    ]
-                ]
-            ]
-        ]);
+        $validator = $this->createValidation();
 
-        // Stop, if form invalid
-        if (!$formValidator->isValid()) {
-            return $formValidator->getErrors();
+        // Register custom uniqueness rules under non-conflicting names to avoid
+        // overriding the built-in "unique" field validation rule.
+        $validator->setFieldRule('uniqueName', function ($value, array $options, array $data) use ($input, $fieldService) {
+            if (!empty($input['id'])) {
+                return true;
+            }
+            return !$fieldService->nameExists($input['collection_id'], $value);
+        }, 'This name is already taken');
+
+        $validator->setFieldRule('uniqueAlias', function ($value, array $options, array $data) use ($input, $fieldService) {
+            if (!empty($input['id'])) {
+                return true;
+            }
+            return !$fieldService->aliasExists($input['collection_id'], $value);
+        }, 'This alias is already taken');
+
+        $validator->field('field.name')
+                  ->required('Name can not be empty')
+                  ->addRule('uniqueName');
+
+        $validator->field('field.alias')
+                  ->required('Alias can not be empty')
+                  ->addRule('uniqueAlias')
+                  ->addRule('notequals', 'An alias can not contain reserved keyword `id`', ['value' => 'id'])
+                  ->addRule('regex', 'Ensure that the alias does not contain spaces or dashes', ['pattern' => '/^[^\s\-]+$/']);
+
+        if (!$validator->isPassed()) {
+            return $this->json([
+                'errors' => $validator->getErrors()
+            ]);
         }
 
         $fieldService->save($input);
 
         if ($input['id']) {
             $this->flashBag->set('success', 'The field has been updated successfully');
-            return 1;
+
+            return $this->json([
+                'refresh' => true
+            ]);
         } else {
             $this->flashBag->set('success', 'The field has been created successfully');
-            return $fieldService->getLastId();
+
+            return $this->json([
+                'redirect' => $this->createUrl('Structure:Admin:Field@editAction', [$fieldService->getLastId()]),
+            ]);
         }
     }
 
@@ -143,18 +143,20 @@ final class Field extends AbstractController
      * Deletes a field by its id
      * 
      * @param string $id
-     * @return mixed
+     * @return string
      */
     public function deleteAction($id)
     {
         $this->getModuleService('cache')->flush();
 
-        // Delete filest first
+        // Delete files first
         $this->getModuleService('repeaterService')->deleteFilesByFieldId($id);
-
         $this->getModuleService('fieldService')->deleteById($id);
+
         $this->flashBag->set('success', 'Selected field has been deleted successfully');
 
-        return 1;
+        return $this->json([
+            'refresh' => true
+        ]);
     }
 }

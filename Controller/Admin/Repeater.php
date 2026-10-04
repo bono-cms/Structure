@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * This file is part of the Bono CMS
+ * 
+ * For the full copyright and license information, please view
+ * the license file that was distributed with this source code.
+ */
+
 namespace Structure\Controller\Admin;
 
 use Krystal\Stdlib\VirtualEntity;
@@ -137,7 +144,10 @@ final class Repeater extends AbstractController
         $this->getModuleService('cache')->flush();
 
         $this->flashBag->set('success', 'Selected record has been deleted successfully');
-        return 1;
+
+        return $this->json([
+            'refresh' => true
+        ]);
     }
 
     /**
@@ -158,17 +168,41 @@ final class Repeater extends AbstractController
         // Repeater service
         $repeaterService = $this->getModuleService('repeaterService');
 
+        $validator = $this->createValidation();
+
+        // Validate static fields only (dynamic fields are defined per-collection)
+        $validator->field('repeater.collection_id')
+                  ->required();
+
+        $validator->field('repeater.order')
+                  ->required()
+                  ->addRule('numeric');
+
+        $validator->field('repeater.published')
+                  ->addRule('boolean');
+
+        if (!$validator->isPassed()) {
+            return $this->json([
+                'errors' => $validator->getErrors()
+            ]);
+        }
+
         // Update
         if (!empty($data['repeater']['id'])) {
             $repeaterService->update($data['repeater']['id'], $data, $files);
             $this->flashBag->set('success', 'Current record has been updated successfully');
-            return 1;
+
+            return $this->json([
+                'refresh' => true
+            ]);
         } else {
             // Create
             $this->getModuleService('repeaterService')->save($data, $files);
             $this->flashBag->set('success', 'New record has been added successfully');
 
-            return $repeaterService->getLastId();
+            return $this->json([
+                'redirect' => $this->createUrl('Structure:Admin:Repeater@editAction', [$data['repeater']['collection_id'], $repeaterService->getLastId()]),
+            ]);
         }
     }
 }

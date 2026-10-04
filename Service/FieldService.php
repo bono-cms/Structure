@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * This file is part of the Bono CMS
+ * 
+ * For the full copyright and license information, please view
+ * the license file that was distributed with this source code.
+ */
+
 namespace Structure\Service;
 
 use Structure\Storage\FieldMapperInterface;
@@ -8,7 +15,7 @@ use Krystal\Stdlib\ArrayUtils;
 final class FieldService
 {
     /**
-     * Comploiant field mapper
+     * Compliant field mapper
      * 
      * @var \Structure\Storage\FieldMapperInterface
      */
@@ -17,7 +24,7 @@ final class FieldService
     /**
      * State initialization
      * 
-     * @param \Structure\Storage\FieldMapperInterface $collectionFieldMapper
+     * @param \Structure\Storage\FieldMapperInterface $fieldMapper
      * @return void
      */
     public function __construct(FieldMapperInterface $fieldMapper)

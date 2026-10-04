@@ -3,8 +3,6 @@
 /**
  * This file is part of the Bono CMS
  * 
- * Copyright (c) No Global State Lab
- * 
  * For the full copyright and license information, please view
  * the license file that was distributed with this source code.
  */
@@ -107,7 +105,7 @@ final class FieldTypeCollection extends ArrayCollection
     /**
      * Returns accept type by field constant
      * 
-     * @param int $type Filed type constant
+     * @param int $type Field type constant
      * @return mixed
      */
     public static function getAccept($type)
@@ -120,7 +118,7 @@ final class FieldTypeCollection extends ArrayCollection
     }
 
     /**
-     * Whether this is text field
+     * Whether this is a text field
      * 
      * @param int $type
      * @return boolean
@@ -139,7 +137,7 @@ final class FieldTypeCollection extends ArrayCollection
     }
 
     /**
-     * Whether this is datetime
+     * Whether this is a datetime field
      * 
      * @param int $type
      * @return boolean
@@ -156,7 +154,7 @@ final class FieldTypeCollection extends ArrayCollection
     }
 
     /**
-     * Whether this is datetime
+     * Whether this is a list field
      * 
      * @param int $type
      * @return boolean
@@ -171,7 +169,7 @@ final class FieldTypeCollection extends ArrayCollection
     }
 
     /**
-     * Whether this is other type
+     * Whether this is an "other" type
      * 
      * @param int $type
      * @return boolean
@@ -185,7 +183,7 @@ final class FieldTypeCollection extends ArrayCollection
     }
 
     /**
-     * Whether this is static field
+     * Whether this is a file field
      * 
      * @param int $type
      * @return boolean
@@ -216,7 +214,7 @@ final class FieldTypeCollection extends ArrayCollection
     /**
      * Whether a path to a file looks like an image
      * 
-     * @param string $path
+     * @param string $file
      * @return boolean
      */
     public static function imageLike($file)

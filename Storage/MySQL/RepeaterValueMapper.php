@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * This file is part of the Bono CMS
+ * 
+ * For the full copyright and license information, please view
+ * the license file that was distributed with this source code.
+ */
+
 namespace Structure\Storage\MySQL;
 
 use InvalidArgumentException;
@@ -138,7 +145,7 @@ final class RepeaterValueMapper extends AbstractMapper implements RepeaterValueM
      * Fetch primary keys by field and repeater ids
      * 
      * @param int $repeaterId
-     * @parma int $fieldId
+     * @param int $fieldId
      * @return array
      */
     public function fetchPrimaryKeys($repeaterId, $fieldId)
@@ -154,7 +161,7 @@ final class RepeaterValueMapper extends AbstractMapper implements RepeaterValueM
     /**
      * Creates instance of shared SELECT query
      * 
-     * @return \Krysta\Db\Db
+     * @return \Krystal\Db\Db
      */
     private function createSharedQuery()
     {
@@ -199,12 +206,12 @@ final class RepeaterValueMapper extends AbstractMapper implements RepeaterValueM
     }
 
     /**
-     * Fetch all records with ther values by collection id
+     * Fetch all records with their values by collection id
      * 
      * @param int $collectionId
      * @param boolean $sortingOptions Sorting options
      * @param boolean $published Whether to fetch only published ones
-     * @throws \InvalidArgumentException if invalud $sortingMethod['method'] supplied
+     * @throws \InvalidArgumentException if invalid $sortingMethod['method'] supplied
      * @return array
      */
     public function fetchAll($collectionId, $sortingOptions, $published)
@@ -239,7 +246,7 @@ final class RepeaterValueMapper extends AbstractMapper implements RepeaterValueM
             break;
 
             case SortingCollection::SORTING_BY_ALPHABET:
-                // Pick sorting column depending if its translatable
+                // Pick sorting column depending if it's translatable
                 if ($sortingOptions['translatable'] == '1') {
                     $valueColumn = RepeaterValueTranslationMapper::column('value');
                 } else {
@@ -285,7 +292,7 @@ final class RepeaterValueMapper extends AbstractMapper implements RepeaterValueM
     }
 
     /**
-     * Fetch paginated resutl-set
+     * Fetch paginated result-set
      * 
      * This method invokes nested queries and aggregate functions, which make it slow
      * Should be only used for larger data-sets
@@ -335,7 +342,7 @@ final class RepeaterValueMapper extends AbstractMapper implements RepeaterValueM
         };
 
         /**
-         * Query use to fetch dynamic column names for grouping and ordering a result-set
+         * Query used to fetch dynamic column names for grouping and ordering a result-set
          * 
          * @param string $nestedQuery Nested query to be appended
          * @param array $fields
@@ -421,7 +428,7 @@ final class RepeaterValueMapper extends AbstractMapper implements RepeaterValueM
                            ->whereEquals('collection_id', $collectionId)
                            ->queryAll();
 
-        // Stop immediatelly, if no fields
+        // Stop immediately, if no fields
         if (empty($fields)) {
             return [];
         }
@@ -475,7 +482,7 @@ final class RepeaterValueMapper extends AbstractMapper implements RepeaterValueM
             ];
         }
 
-        return $this->db->insertMany(RepeaterValueMapper::getTableName(), $columns, $values)
+        return $this->db->insertMany(RepeaterValueMapper::getTableName(), $columns, $rows)
                         ->execute();
     }
 

@@ -56,7 +56,7 @@ final class RepeaterViewModel
      * @param array $fields Available fields
      * @param array $rows Rows
      * @param string $hint
-     * @param array
+     * @return array
      */
     public static function createColumns(array $fields, array $rows, $hint)
     {

@@ -1,12 +1,19 @@
 <?php
 
+/**
+ * This file is part of the Bono CMS
+ * 
+ * For the full copyright and license information, please view
+ * the license file that was distributed with this source code.
+ */
+
 namespace Structure\Collection;
 
 use Krystal\Stdlib\ArrayCollection;
 
 final class SortingCollection extends ArrayCollection
 {
-    /* Layout constants */
+    /* Sorting constants */
     const SORTING_BY_ID = 1;
     const SORTING_BY_ORDER = 2;
     const SORTING_BY_ALPHABET = 3;

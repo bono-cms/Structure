@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * This file is part of the Bono CMS
+ * 
+ * For the full copyright and license information, please view
+ * the license file that was distributed with this source code.
+ */
+
 namespace Structure\Service;
 
 use Krystal\Stdlib\VirtualEntity;
@@ -115,7 +122,7 @@ final class RepeaterService
     }
 
     /**
-     * Deletes a record with its all relations
+     * Deletes a record with all its relations
      * 
      * @param int $id Repeater id
      * @return boolean
@@ -180,7 +187,7 @@ final class RepeaterService
     }
 
     /**
-     * Convers string with lines to array
+     * Converts string with lines to array
      * 
      * @param string $string
      * @return array
@@ -198,7 +205,7 @@ final class RepeaterService
     }
 
     /**
-     * Fetch paginated resutls
+     * Fetch paginated results
      * 
      * @param int $collectionId
      * @param int $langId If provided, all translatable fields will return values with current language
@@ -257,12 +264,12 @@ final class RepeaterService
                 }
             }
 
-            // If we have translatable field
+            // If we have a translatable field
             if ($langId !== null && $row['translatable'] == 1) {
                 /**
-                 * @TODO: This can be optimized, if we fetch all translations at once outside of this iteration
-                 * And then here we compare against available translation data.
-                 * So that we'll avoid quering a database each time a match occurs.
+                 * @TODO: This can be optimized if we fetch all translations at once outside of this iteration
+                 * and then here we compare against available translation data.
+                 * So that we'll avoid querying a database each time a match occurs.
                  */
                 $row['value'] = $this->repeaterValueMapper->fetchTranslations($row['id'], $langId);
             }
@@ -283,7 +290,7 @@ final class RepeaterService
             $output = array_values($output);
         }
 
-        // Esnure proper sorting
+        // Ensure proper sorting
         if (isset($sortingMethod['alias'])) {
             usort($output, function($x, $y) use ($sortingMethod) {
                 return strcmp($x[$sortingMethod['alias']], $y[$sortingMethod['alias']]);
@@ -347,9 +354,9 @@ final class RepeaterService
             if ($row['translatable'] == 1) {
                 $ids = $this->repeaterValueMapper->fetchPrimaryKeys($row['repeater_id'], $row['field_id']);
                 /**
-                 * Scenario: When a new translatable field has been added, but this repeater has not yet a relation with that field.
-                 * In this case, no value exists and it will result with disability to update a value.
-                 * To workaround this, we'll create an empty row and get its last id and then append to a stack
+                 * Scenario: When a new translatable field has been added, but this repeater has no relation with that field yet.
+                 * In this case, no value exists and it will result in the inability to update a value.
+                 * To work around this, we'll create an empty row and get its last id, and then append to a stack
                  */
                 if (!$ids) {
                     $this->repeaterValueMapper->insertEmpty($repeaterId, $row['field_id']);
@@ -429,7 +436,8 @@ final class RepeaterService
      * @param int $repeaterId Target repeater field
      * @param array $data Raw input data coming from request
      * @param array $files An array of file instances
-     * @return arary Updated data input
+     * @param boolean $purge Whether to purge previous files
+     * @return array Updated data input
      */
     private function processUploads($repeaterId, array $data, array $files, $purge)
     {
