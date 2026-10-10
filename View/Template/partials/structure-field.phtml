@@ -7,9 +7,9 @@ use Structure\View\RepeaterViewModel;
 
 ?>
 
-<div class="form-group">
+<div class="mb-3">
     <?php if ($type != FieldTypeCollection::FIELD_CHECKBOX): ?>
-    <label class="control-label" for="<?= $uniq; ?>"><?= $label; ?></label>
+    <label class="form-label" for="<?= $uniq; ?>"><?= $label; ?></label>
     <?php endif; ?>
 
     <!-- Text -->
@@ -84,10 +84,7 @@ use Structure\View\RepeaterViewModel;
     <?php foreach ($list as $item): ?>
     <div class="form-check">
       <?php $uniqid = RepeaterViewModel::createSignature(); ?>
-      <!-- Radio -->
-      <?php if ($type == FieldTypeCollection::FIELD_RADIO): ?>
       <?= Element::radio($name, $item, $item == $value, ['class' => 'form-check-input', 'id' => $uniqid, 'value' => $item]); ?>
-      <?php endif; ?>
 
       <label class="form-check-label" for="<?= $uniqid; ?>">
         <?= $item; ?>
@@ -123,7 +120,7 @@ use Structure\View\RepeaterViewModel;
     <div class="form-check mt-2">
       <?= Element::checkbox($delete, false, ['class' => 'form-check-input', 'value' => $id, 'id' => $uniq], false); ?>
       <label class="form-check-label" for="<?= $uniq; ?>">
-        <?= $this->show('Delete this file'); ?>
+        <?= $this->translate('Delete this file'); ?>
       </label>
     </div>
     <?php endif; ?>

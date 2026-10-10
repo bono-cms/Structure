@@ -19,7 +19,7 @@ $exceeds = CollectionViewModel::limitExceeds($collection['limit'], $count); // W
 
 <div class="row">
     <div class="<?= $columns['first']; ?>">
-        <div class="card sticky-top">
+        <div class="card card-body sticky-top">
             <h3 class="mb-4">
                 <i class="fas fa-table"></i> <?= $collection['name']; ?> <small class="text-muted">(<?= $count; ?>)</small>
             </h3>
@@ -67,8 +67,8 @@ $exceeds = CollectionViewModel::limitExceeds($collection['limit'], $count); // W
     ?>
     <?php if (!empty($fields)): ?>
     <div class="<?= $columns['second']; ?>">
-        <div class="card sticky-top">
-            <form data-group="collection" autocomplete="off" novalidate>
+        <div class="card card-body sticky-top">
+            <form autocomplete="off" novalidate>
                 <h3 class="mb-4">
                     <i class="fas fa-pencil-alt"></i> <?= $this->translate(!isset($repeater['id']) ? 'Add new record' : 'Update the record'); ?>
                 </h3>
@@ -125,7 +125,7 @@ $exceeds = CollectionViewModel::limitExceeds($collection['limit'], $count); // W
                 <?php endforeach; ?>
 
                 <!-- Static attributes -->
-                <div class="form-group">
+                <div class="mb-3">
                     <div class="form-check">
                         <?= Element::checkbox('repeater[published]', isset($repeater['published']) ? $repeater['published'] : true, ['class' => 'form-check-input', 'id' => 'input-published']); ?>
                         <label class="form-check-label" for="input-published">
@@ -135,8 +135,8 @@ $exceeds = CollectionViewModel::limitExceeds($collection['limit'], $count); // W
                 </div>
 
                 <?php if (SortingCollection::SORTING_BY_ORDER == $collection['sorting_method']): ?>
-                <div class="form-group">
-                    <label class="control-label"><?= $this->translate('Sorting order'); ?></label>
+                <div class="mb-3">
+                    <label class="form-label"><?= $this->translate('Sorting order'); ?></label>
                     <?= Element::number('repeater[order]', isset($repeater['order']) ? $repeater['order'] : null, ['class' => 'form-control']); ?>
                 </div>
                 <?php else: ?>

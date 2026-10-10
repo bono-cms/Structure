@@ -10,7 +10,7 @@ $layouts = (new LayoutCollection)->getAll();
 
 <div class="row">
     <div class="col-lg-7">
-        <div class="card">
+        <div class="card card-body">
             <h3 class="mb-4">
                 <i class="fas fa-sticky-note"></i> <?= $this->translate('Collections'); ?> <small class="text-muted">(<?= count($collections); ?>)</small>
             </h3>
@@ -73,45 +73,45 @@ $layouts = (new LayoutCollection)->getAll();
     </div>
 
     <div class="col-lg-5">
-        <div class="card">
-            <form data-group="collection" autocomplete="off">
+        <div class="card card-body">
+            <form autocomplete="off">
                 <h3 class="mb-4">
                     <i class="fas fa-pencil-alt"></i> <?= $this->translate(!empty($collection['id']) ? 'Edit collection' : 'Add new collection'); ?>
                 </h3>
 
                 <?= Element::hidden('collection[id]', $collection['id']); ?>
 
-                <div class="form-group">
-                    <label class="control-label"><?= $this->translate('Name'); ?></label>
+                <div class="mb-3">
+                    <label class="form-label"><?= $this->translate('Name'); ?></label>
                     <?= Element::text('collection[name]', $collection['name'], ['class' => 'form-control']); ?>
                 </div>
 
-                <div class="form-group">
-                    <label class="control-label"><?= $this->translate('Layout'); ?></label>
-                    <?= Element::select('collection[layout]', $this->translateArray($layouts), $collection['layout'], ['class' => 'form-control']); ?>
+                <div class="mb-3">
+                    <label class="form-label"><?= $this->translate('Layout'); ?></label>
+                    <?= Element::select('collection[layout]', $this->translateArray($layouts), $collection['layout'], ['class' => 'form-select']); ?>
                 </div>
 
-                <div class="form-group">
-                    <label class="control-label"><?= $this->translate('Sorting method for items'); ?></label>
-                    <?= Element::select('collection[sorting_method]', $this->translateArray($sortingOptions), $collection['sorting_method'], ['class' => 'form-control']); ?>
+                <div class="mb-3">
+                    <label class="form-label"><?= $this->translate('Sorting method for items'); ?></label>
+                    <?= Element::select('collection[sorting_method]', $this->translateArray($sortingOptions), $collection['sorting_method'], ['class' => 'form-select']); ?>
                 </div>
 
                 <?php if ($fields): ?>
-                <div class="form-group">
-                    <label class="control-label"><?= $this->translate('Sort by this field'); ?></label>
-                    <?= Element::select('collection[sorting_field_id]', $fields, $collection['sorting_field_id'], ['class' => 'form-control'], ''); ?>
+                <div class="mb-3">
+                    <label class="form-label"><?= $this->translate('Sort by this field'); ?></label>
+                    <?= Element::select('collection[sorting_field_id]', $fields, $collection['sorting_field_id'], ['class' => 'form-select'], ''); ?>
                 </div>
                 <?php endif; ?>
 
-                <div class="form-group">
-                    <label class="control-label"><?= $this->translate('Sorting order'); ?></label>
+                <div class="mb-3">
+                    <label class="form-label"><?= $this->translate('Sorting order'); ?></label>
                     <?= Element::number('collection[order]', $collection['order'], ['class' => 'form-control', 'min' => 0]); ?>
                 </div>
 
-                <div class="form-group">
-                    <label class="control-label"><?= $this->translate('Record limit'); ?></label>
+                <div class="mb-3">
+                    <label class="form-label"><?= $this->translate('Record limit'); ?></label>
                     <?= Element::number('collection[limit]', $collection['limit'], ['class' => 'form-control', 'min' => 0]); ?>
-                    <small class="form-text text-muted"><?= $this->translate('Maximum number of records that can be added (0 = unlimited)'); ?></small>
+                    <div class="form-text"><?= $this->translate('Maximum number of records that can be added (0 = unlimited)'); ?></div>
                 </div>
 
                 <?php $this->loadPartial('actions', [
