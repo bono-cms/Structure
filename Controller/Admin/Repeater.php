@@ -175,7 +175,6 @@ final class Repeater extends AbstractController
                   ->required();
 
         $validator->field('repeater.order')
-                  ->required()
                   ->addRule('numeric');
 
         $validator->field('repeater.published')
